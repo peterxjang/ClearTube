@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */; };
 		AC0588F52C94C3B1001C2C6F /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0588F42C94C3B1001C2C6F /* RootView.swift */; };
-		AC0588F72C94C3B1001C2C6F /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0588F62C94C3B1001C2C6F /* Item.swift */; };
 		AC0588F92C94C3B2001C2C6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0588F82C94C3B2001C2C6F /* Assets.xcassets */; };
 		AC0588FC2C94C3B2001C2C6F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC0588FB2C94C3B2001C2C6F /* Preview Assets.xcassets */; };
 		AC0589052C952087001C2C6F /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589042C952087001C2C6F /* FeedView.swift */; };
@@ -45,7 +44,6 @@
 		AC0588EF2C94C3B1001C2C6F /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		AC0588F42C94C3B1001C2C6F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		AC0588F62C94C3B1001C2C6F /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		AC0588F82C94C3B2001C2C6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AC0588FB2C94C3B2001C2C6F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AC0589042C952087001C2C6F /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 		AC0589032C9511AC001C2C6F /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				AC0588F62C94C3B1001C2C6F /* Item.swift */,
 				AC0589062C95251D001C2C6F /* VideoObject.swift */,
 				AC0589082C95270B001C2C6F /* ChannelObject.swift */,
 				AC05890A2C952872001C2C6F /* ImageObject.swift */,
@@ -263,7 +260,6 @@
 				AC0588F52C94C3B1001C2C6F /* RootView.swift in Sources */,
 				AC05892A2C95CEE3001C2C6F /* SearchObject.swift in Sources */,
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
-				AC0588F72C94C3B1001C2C6F /* Item.swift in Sources */,
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
 				AC0589242C95CC9E001C2C6F /* FollowedChannel.swift in Sources */,
 				AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */,
