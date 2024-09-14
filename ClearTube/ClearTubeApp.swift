@@ -1,10 +1,3 @@
-//
-//  ClearTubeApp.swift
-//  ClearTube
-//
-//  Created by Peter Jang on 9/13/24.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -25,7 +18,9 @@ struct ClearTubeApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                RootView()
+            }
         }
         .modelContainer(sharedModelContainer)
     }
