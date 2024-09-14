@@ -8,10 +8,15 @@ struct VideoCard: View {
         let height = width / 1.8
 
         VStack(alignment: .leading) {
-            ZStack(alignment: .bottomLeading) {
-                VideoThumbnail(width: width, height: height, radius: 8.0, thumbnails: video.videoThumbnails)
-                VideoThumbnailTag(lengthSeconds: video.lengthSeconds)
-            }.frame(width: width, height: height)
+            NavigationLink(destination: VideoPlayer(video: video)) {
+                ZStack(alignment: .bottomLeading) {
+                    VideoThumbnail(width: width, height: height, radius: 8.0, thumbnails: video.videoThumbnails)
+                    VideoThumbnailTag(lengthSeconds: video.lengthSeconds)
+                }.frame(width: width, height: height)
+            }
+            .buttonStyle(.card)
+            .frame(width: width)
+
             Text(video.title).lineLimit(2, reservesSpace: true).font(.headline)
             Text(video.author).lineLimit(1).foregroundStyle(.secondary).font(.caption)
             if let viewCountTextValue = video.viewCountText {
