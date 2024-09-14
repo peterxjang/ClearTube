@@ -85,8 +85,7 @@
 			children = (
 				AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */,
 				AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */,
-				AC0589022C95119E001C2C6F /* Pages */,
-				AC0589102C952D69001C2C6F /* Components */,
+				AC0589022C95119E001C2C6F /* Views */,
 				AC0589032C9511AC001C2C6F /* Model */,
 				AC0588F82C94C3B2001C2C6F /* Assets.xcassets */,
 				AC0588FA2C94C3B2001C2C6F /* Preview Content */,
@@ -102,15 +101,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		AC0589022C95119E001C2C6F /* Pages */ = {
+		AC0589022C95119E001C2C6F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AC0589102C952D69001C2C6F /* Components */,
 				AC0588F42C94C3B1001C2C6F /* RootView.swift */,
 				AC0589042C952087001C2C6F /* FeedView.swift */,
 				AC05891D2C95C605001C2C6F /* OnboardingView.swift */,
 				AC0589212C95C9E8001C2C6F /* SettingsView.swift */,
 			);
-			path = Pages;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		AC0589032C9511AC001C2C6F /* Model */ = {
