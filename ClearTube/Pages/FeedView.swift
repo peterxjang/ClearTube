@@ -28,7 +28,7 @@ struct FeedView: View {
     private func fetchVideos() async {
         let decoder = JSONDecoder()
         do {
-            let url = URL(string: "/api/v1/channels/UCBJycsmduvYEL83R_U4JriQ", relativeTo: URL(string: "https://iv.ggtyler.dev"))!
+            let url = URL(string: "/api/v1/channels/UCBJycsmduvYEL83R_U4JriQ", relativeTo: URL(string: "https://inv.nadeko.net"))!
             let request = URLRequest(url: url)
             let (data, _) = try await URLSession.shared.data(for: request)
             let channel = try decoder.decode(ChannelObject.self, from: data)

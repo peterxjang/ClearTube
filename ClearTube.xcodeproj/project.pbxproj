@@ -21,6 +21,7 @@
 		AC0589122C952D84001C2C6F /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */; };
 		AC0589142C9532DA001C2C6F /* VideoThumbnailTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589132C9532DA001C2C6F /* VideoThumbnailTag.swift */; };
 		AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589152C954901001C2C6F /* VideoPlayer.swift */; };
+		AC0589182C954F23001C2C6F /* SponsorBlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheAsyncImage.swift; sourceTree = "<group>"; };
 		AC0589132C9532DA001C2C6F /* VideoThumbnailTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoThumbnailTag.swift; sourceTree = "<group>"; };
 		AC0589152C954901001C2C6F /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
+		AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorBlockObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 				AC0589062C95251D001C2C6F /* VideoObject.swift */,
 				AC0589082C95270B001C2C6F /* ChannelObject.swift */,
 				AC05890A2C952872001C2C6F /* ImageObject.swift */,
+				AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
 				AC0588F72C94C3B1001C2C6F /* Item.swift in Sources */,
 				AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */,
+				AC0589182C954F23001C2C6F /* SponsorBlockObject.swift in Sources */,
 				AC0589072C95251D001C2C6F /* VideoObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
