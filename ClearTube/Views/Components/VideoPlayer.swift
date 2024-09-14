@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import AVKit
 import MediaPlayer
 import Combine
@@ -130,6 +131,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     var skippableSegments: [[Float]]
     @Environment(\.modelContext) private var databaseContext
     @Environment(\.presentationMode) var presentationMode
+    @Query var historyVideos: [HistoryVideo]
 
     typealias NSViewControllerType = AVPlayerViewController
 
@@ -229,6 +231,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 player.removeTimeObserver(timeObserverToken)
             }
             timeObserverToken = nil
+            parent.saveVideoToHistory(video: video, watchedSeconds: watchedSeconds)
         }
     }
 
@@ -284,5 +287,40 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         item.value = value as? NSCopying & NSObjectProtocol
         item.extendedLanguageTag = "und"
         return item.copy() as! AVMetadataItem
+    }
+
+    private func saveVideoToHistory(video: VideoObject, watchedSeconds: Double) {
+        let context = databaseContext
+        if let foundVideo = historyVideos.first(where: { $0.videoId == video.videoId }) {
+            context.delete(foundVideo)
+        }
+        let historyVideo = HistoryVideo(
+            videoId: video.videoId,
+            title: video.title,
+            author: video.author ?? "(no author)",
+            authorId: video.authorId ?? "(no author id)",
+            published: video.published ?? 0,
+            lengthSeconds: video.lengthSeconds,
+            viewCountText: video.viewCountText ?? "0",
+            thumbnailQuality: video.videoThumbnails.first?.quality ?? "",
+            thumbnailUrl: video.videoThumbnails.first?.url ?? "N/A",
+            thumbnailWidth: video.videoThumbnails.first?.width ?? 0,
+            thumbnailHeight: video.videoThumbnails.first?.height ?? 0,
+            watchedSeconds: watchedSeconds
+        )
+        context.insert(historyVideo)
+        let maxHistorySize = 100
+        let numRemove = historyVideos.count - maxHistorySize
+        if numRemove > 0 {
+            let videosToRemove = historyVideos.prefix(numRemove)
+            for video in videosToRemove {
+                context.delete(video)
+            }
+        }
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save video to history: \(error)")
+        }
     }
 }
