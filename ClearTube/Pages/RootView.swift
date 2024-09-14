@@ -22,7 +22,7 @@ struct RootView: View {
                 .tabItem {
                     Text("Search")
                 }
-            Text("Placeholder settings")
+            SettingsView()
                 .tabItem {
                     Text("Settings")
                 }

@@ -73,16 +73,11 @@ struct VideoPlayer: View {
     }
 
     private func playVideo(withId id: String, startTime: Int? = nil) async throws {
-        let segments = try await getSponsorSegments(id: id)
+        async let videoTask = ClearTubeApp.client.video(for: id)
+        async let sponsorSegmentsTask = getSponsorSegments(id: id)
+        let (video, segments) = try await (videoTask, sponsorSegmentsTask)
         skippableSegments = segments
-
-        let decoder = JSONDecoder()
-        let url = URL(string: "/api/v1/videos/\(id)", relativeTo: URL(string: "https://inv.nadeko.net"))!
-        let request = URLRequest(url: url)
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let videoData = try decoder.decode(VideoObject.self, from: data)
-
-        let playerItem = try await createPlayerItem(for: videoData)
+        let playerItem = try await createPlayerItem(for: video)
         player = AVPlayer(playerItem: playerItem)
         player?.allowsExternalPlayback = true
         statusObserver = playerItem.publisher(for: \.status)

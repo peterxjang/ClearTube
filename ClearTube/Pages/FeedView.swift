@@ -26,13 +26,9 @@ struct FeedView: View {
     }
     
     private func fetchVideos() async {
-        let decoder = JSONDecoder()
         do {
-            let url = URL(string: "/api/v1/channels/UCBJycsmduvYEL83R_U4JriQ", relativeTo: URL(string: "https://inv.nadeko.net"))!
-            let request = URLRequest(url: url)
-            let (data, _) = try await URLSession.shared.data(for: request)
-            let channel = try decoder.decode(ChannelObject.self, from: data)
-            videos = channel.latestVideos
+            let channel = try await ClearTubeApp.client.videos(for: "UCBJycsmduvYEL83R_U4JriQ", continuation: nil)
+            videos = channel.videos
             isLoading = false
         } catch {
             print("Error fetching videos: \(error)")
