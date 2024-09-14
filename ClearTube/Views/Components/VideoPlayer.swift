@@ -47,7 +47,9 @@ struct VideoPlayer: View {
                         close()
                     }
             } else {
-                Text("error")
+                Text("Error: could not load the video")
+                    .font(.headline)
+                    .fontWeight(.medium)
             }
         }
     }
@@ -75,27 +77,32 @@ struct VideoPlayer: View {
     private func playVideo(withId id: String, startTime: Int? = nil) async throws {
         async let videoTask = ClearTubeApp.client.video(for: id)
         async let sponsorSegmentsTask = getSponsorSegments(id: id)
-        let (video, segments) = try await (videoTask, sponsorSegmentsTask)
-        skippableSegments = segments
-        let playerItem = try await createPlayerItem(for: video)
-        player = AVPlayer(playerItem: playerItem)
-        player?.allowsExternalPlayback = true
-        statusObserver = playerItem.publisher(for: \.status)
-            .sink { [self] status in
-                switch status {
-                case .readyToPlay:
-                    if let startTime = startTime {
-                        let newStartTime = Int(video.lengthSeconds) - startTime > 5 ? Double(startTime) : 0.0
-                        self.player?.seek(to: CMTime(seconds: newStartTime, preferredTimescale: 600))
+        do {
+            let (video, segments) = try await (videoTask, sponsorSegmentsTask)
+            skippableSegments = segments
+            let playerItem = try await createPlayerItem(for: video)
+            player = AVPlayer(playerItem: playerItem)
+            player?.allowsExternalPlayback = true
+            statusObserver = playerItem.publisher(for: \.status)
+                .sink { [self] status in
+                    switch status {
+                    case .readyToPlay:
+                        if let startTime = startTime {
+                            let newStartTime = Int(video.lengthSeconds) - startTime > 5 ? Double(startTime) : 0.0
+                            self.player?.seek(to: CMTime(seconds: newStartTime, preferredTimescale: 600))
+                        }
+                        self.player?.play()
+                        self.isLoading = false
+                    case .failed:
+                        self.isLoading = false
+                    default:
+                        break
                     }
-                    self.player?.play()
-                    self.isLoading = false
-                case .failed:
-                    self.isLoading = false
-                default:
-                    break
                 }
-            }
+        } catch {
+            isLoading = false
+            return
+        }
     }
 
     private func createPlayerItem(for video: VideoObject) async throws -> AVPlayerItem {

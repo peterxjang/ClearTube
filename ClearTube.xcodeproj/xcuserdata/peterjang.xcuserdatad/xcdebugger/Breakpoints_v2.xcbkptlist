@@ -3,4 +3,52 @@
    uuid = "2CB5BCD1-8901-44CF-BE49-8E88AC4BAD91"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A31E091-FAD3-4F83-8450-1313CFC542BD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ClearTube/Views/SubscriptionsView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "5"
+            endingLineNumber = "5"
+            landmarkName = "SubscriptionsView"
+            landmarkType = "14">
+            <Locations>
+               <Location
+                  uuid = "7A31E091-FAD3-4F83-8450-1313CFC542BD - 91e916f2de06cde1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "property wrapper backing initializer of ClearTube.SubscriptionsView.selectedChannel : Swift.Optional&lt;ClearTube.FollowedChannel&gt;"
+                  moduleName = "ClearTube"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/peterjang/Documents/Code/ClearTube/ClearTube/Views/SubscriptionsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0">
+               </Location>
+               <Location
+                  uuid = "7A31E091-FAD3-4F83-8450-1313CFC542BD - cdd334e038783a58"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ClearTube.SubscriptionsView.init(_channels: _SwiftData_SwiftUI.Query&lt;ClearTube.FollowedChannel, Swift.Array&lt;ClearTube.FollowedChannel&gt;&gt;, resetView: Swift.Bool) -&gt; ClearTube.SubscriptionsView"
+                  moduleName = "ClearTube"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/peterjang/Documents/Code/ClearTube/ClearTube/Views/SubscriptionsView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "6"
+                  endingLineNumber = "6">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
