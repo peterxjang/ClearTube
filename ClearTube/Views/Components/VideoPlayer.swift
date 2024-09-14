@@ -151,7 +151,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         updateNowPlayingInfo(with: video)
         var metadata: [AVMetadataItem] = []
         metadata.append(makeMetadataItem(.commonIdentifierTitle, value: video.title))
-        metadata.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: video.author))
+        metadata.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: video.author ?? "(no author)"))
         if let item = videoView.player?.currentItem {
             item.externalMetadata = metadata
             item.navigationMarkerGroups = makeNavigationMarkerGroups(video: video)
@@ -229,7 +229,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         let center = MPNowPlayingInfoCenter.default()
         center.nowPlayingInfo = [
             MPMediaItemPropertyTitle: video.title,
-            MPMediaItemPropertyArtist: video.author,
+            MPMediaItemPropertyArtist: video.author ?? "(no author)",
         ]
     }
 

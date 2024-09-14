@@ -7,19 +7,6 @@ struct ClearTubeApp: App {
     var settings = Settings()
     @State var hasValidInstance: Bool? = nil
 
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
-
     var body: some Scene {
         WindowGroup {
             ZStack {
@@ -38,6 +25,11 @@ struct ClearTubeApp: App {
                 }
             }
         }
+        .modelContainer(
+            for: [
+                FollowedChannel.self
+            ]
+        )
         .environment(settings)
         .onChange(of: settings.invidiousInstance) {
             Task {

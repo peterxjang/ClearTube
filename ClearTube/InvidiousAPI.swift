@@ -76,6 +76,14 @@ public final class InvidiousAPI {
         }
     }
 
+    func search(query: String, page: Int32) async throws -> [SearchObject.Result] {
+        let (data, _) = try await request(for: "/api/v1/search", with: [
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "page", value: page.description)
+        ])
+        return try Self.decoder.decode([SearchObject.Result].self, from: data)
+    }
+
     func channel(for id: String) async throws -> ChannelObject {
         guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
@@ -118,5 +126,13 @@ public final class InvidiousAPI {
         }
         let (data, _) = try await request(for: "/api/v1/channels/\(idPath)/playlists")
         return try Self.decoder.decode(ChannelObject.PlaylistResponse.self, from: data)
+    }
+
+    func playlist(for id: String) async throws -> PlaylistObject {
+        guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let (data, _) = try await request(for: "/api/v1/playlists/\(idPath)")
+        return try Self.decoder.decode(PlaylistObject.self, from: data)
     }
 }

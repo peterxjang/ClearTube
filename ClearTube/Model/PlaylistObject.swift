@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PlaylistObject: Hashable, Decodable {
+public struct PlaylistObject: Equatable, Decodable {
     public var type = ResultType.playlist
     public var title: String
     public var playlistId: String
@@ -8,21 +8,9 @@ public struct PlaylistObject: Hashable, Decodable {
     public var author: String
     public var authorId: String
     public var videoCount: Int
-    public var videos: [PlaylistVideo]
+    public var videos: [VideoObject]
 
     public static func == (lhs: PlaylistObject, rhs: PlaylistObject) -> Bool {
         lhs.playlistId == rhs.playlistId
-    }
-
-    public struct PlaylistVideo: Hashable, Decodable {
-        public var title: String
-        public var videoId: String
-        public var lengthSeconds: Int
-        public var videoThumbnails: [ImageObject]
-        public var author: String?
-
-        public static func == (lhs: PlaylistObject.PlaylistVideo, rhs: PlaylistObject.PlaylistVideo) -> Bool {
-            lhs.videoId == rhs.videoId
-        }
     }
 }

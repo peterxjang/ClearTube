@@ -1,10 +1,14 @@
 import SwiftUI
 
 struct VideoThumbnailTag: View {
-    var lengthSeconds: Int
+    var content: String
 
-    private var formattedDuration: String {
-        (Date() ..< Date().advanced(by: TimeInterval(lengthSeconds))).formatted(.timeDuration)
+    init(_ content: String) {
+        self.content = content
+    }
+
+    init(_ seconds: Int) {
+        self.content = (Date() ..< Date().advanced(by: TimeInterval(seconds))).formatted(.timeDuration)
     }
 
     var body: some View {
@@ -13,7 +17,7 @@ struct VideoThumbnailTag: View {
             HStack {
                 Spacer()
                 Group {
-                    Text(formattedDuration)
+                    Text(content)
                         .padding(.horizontal, 6.0)
                         .padding(.vertical, 2.0)
                         .font(.caption2)

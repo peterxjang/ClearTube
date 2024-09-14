@@ -1,19 +1,18 @@
 import Foundation
 
-public struct VideoObject: Decodable {
-    public var type: String
+public struct VideoObject: Equatable, Decodable {
     public var title: String
     public var videoId: String
-    public var videoThumbnails: [ImageObject]
-    public var description: String
-    public var published: Int64
-    public var publishedText: String
     public var lengthSeconds: Int
-    public var viewCount: Int64
+    public var videoThumbnails: [ImageObject]
+    public var description: String?
+    public var published: Int64?
+    public var publishedText: String?
+    public var viewCount: Int64?
     public var viewCountText: String?
-    public var author: String
-    public var authorId: String
-    public var authorUrl: String
+    public var author: String?
+    public var authorId: String?
+    public var authorUrl: String?
     public var hlsUrl: String?
     public var adaptiveFormats: [AdaptiveFormatObject]?
     public var formatStreams: [FormatStreamObject]?
@@ -63,5 +62,9 @@ public struct VideoObject: Decodable {
         public var lengthSeconds: Int32
         public var viewCount: Int
         public var viewCountText: String
+    }
+
+    public static func == (lhs: VideoObject, rhs: VideoObject) -> Bool {
+        lhs.videoId == rhs.videoId
     }
 }

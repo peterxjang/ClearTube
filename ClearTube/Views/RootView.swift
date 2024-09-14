@@ -14,11 +14,11 @@ struct RootView: View {
                 .tabItem {
                     Text("Saved")
                 }
-            Text("Placeholder subscriptions")
+            SubscriptionsView()
                 .tabItem {
                     Text("Subscriptions")
                 }
-            Text("Placeholder search")
+            SearchView()
                 .tabItem {
                     Text("Search")
                 }

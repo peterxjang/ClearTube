@@ -11,16 +11,16 @@ struct VideoCard: View {
             NavigationLink(destination: VideoPlayer(video: video)) {
                 ZStack(alignment: .bottomLeading) {
                     VideoThumbnail(width: width, height: height, radius: 8.0, thumbnails: video.videoThumbnails)
-                    VideoThumbnailTag(lengthSeconds: video.lengthSeconds)
+                    VideoThumbnailTag(video.lengthSeconds)
                 }.frame(width: width, height: height)
             }
             .buttonStyle(.card)
             .frame(width: width)
 
             Text(video.title).lineLimit(2, reservesSpace: true).font(.headline)
-            Text(video.author).lineLimit(1).foregroundStyle(.secondary).font(.caption)
-            if let viewCountTextValue = video.viewCountText {
-                Text("\(video.publishedText)  |  \(viewCountTextValue)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
+            Text(video.author ?? "(no author)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
+            if let publishedText = video.publishedText, let viewCountText = video.viewCountText {
+                Text("\(publishedText)  |  \(viewCountText)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
             }
         }.frame(width: width)
     }
