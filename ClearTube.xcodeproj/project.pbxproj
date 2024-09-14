@@ -38,6 +38,9 @@
 		AC0589362C95D1DF001C2C6F /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589352C95D1DF001C2C6F /* PlaylistView.swift */; };
 		AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */; };
 		AC05893A2C95DF76001C2C6F /* SubscriptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */; };
+		AC05893C2C962D3D001C2C6F /* WatchLaterVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */; };
+		AC05893E2C962EC0001C2C6F /* VideoContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893D2C962EC0001C2C6F /* VideoContextMenu.swift */; };
+		AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893F2C963423001C2C6F /* SavedVideosView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +76,9 @@
 		AC0589352C95D1DF001C2C6F /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOverlayView.swift; sourceTree = "<group>"; };
 		AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsView.swift; sourceTree = "<group>"; };
+		AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLaterVideo.swift; sourceTree = "<group>"; };
+		AC05893D2C962EC0001C2C6F /* VideoContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContextMenu.swift; sourceTree = "<group>"; };
+		AC05893F2C963423001C2C6F /* SavedVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideosView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +135,7 @@
 				AC0589102C952D69001C2C6F /* Components */,
 				AC0588F42C94C3B1001C2C6F /* RootView.swift */,
 				AC0589042C952087001C2C6F /* FeedView.swift */,
+				AC05893F2C963423001C2C6F /* SavedVideosView.swift */,
 				AC0589272C95CE53001C2C6F /* SearchView.swift */,
 				AC05892F2C95D07C001C2C6F /* ChannelView.swift */,
 				AC0589352C95D1DF001C2C6F /* PlaylistView.swift */,
@@ -149,6 +156,7 @@
 				AC05891F2C95C7CA001C2C6F /* PlaylistObject.swift */,
 				AC0589292C95CEE3001C2C6F /* SearchObject.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
+				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
 				AC0589192C95C3D4001C2C6F /* Settings.swift */,
 			);
 			path = Model;
@@ -158,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				AC05890C2C952B9E001C2C6F /* VideoCard.swift */,
+				AC05893D2C962EC0001C2C6F /* VideoContextMenu.swift */,
 				AC05890E2C952C31001C2C6F /* VideoThumbnail.swift */,
 				AC0589132C9532DA001C2C6F /* VideoThumbnailTag.swift */,
 				AC0589152C954901001C2C6F /* VideoPlayer.swift */,
@@ -250,10 +259,13 @@
 				AC0589222C95C9E8001C2C6F /* SettingsView.swift in Sources */,
 				AC0589092C95270B001C2C6F /* ChannelObject.swift in Sources */,
 				AC05892C2C95CFAB001C2C6F /* ChannelCard.swift in Sources */,
+				AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */,
 				AC0589262C95CDB6001C2C6F /* MessageBlock.swift in Sources */,
 				AC05891A2C95C3D4001C2C6F /* Settings.swift in Sources */,
 				AC0589142C9532DA001C2C6F /* VideoThumbnailTag.swift in Sources */,
 				AC05892E2C95D03D001C2C6F /* PreferredImage.swift in Sources */,
+				AC05893C2C962D3D001C2C6F /* WatchLaterVideo.swift in Sources */,
+				AC05893E2C962EC0001C2C6F /* VideoContextMenu.swift in Sources */,
 				AC05890D2C952B9E001C2C6F /* VideoCard.swift in Sources */,
 				AC05890F2C952C31001C2C6F /* VideoThumbnail.swift in Sources */,
 				AC0589282C95CE53001C2C6F /* SearchView.swift in Sources */,

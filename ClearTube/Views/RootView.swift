@@ -10,7 +10,7 @@ struct RootView: View {
                 .tabItem {
                     Text("Feed")
                 }
-            Text("Placeholder saved")
+            SavedVideosView()
                 .tabItem {
                     Text("Saved")
                 }

@@ -27,7 +27,8 @@ struct ClearTubeApp: App {
         }
         .modelContainer(
             for: [
-                FollowedChannel.self
+                FollowedChannel.self,
+                WatchLaterVideo.self
             ]
         )
         .environment(settings)

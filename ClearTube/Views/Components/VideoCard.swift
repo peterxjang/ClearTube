@@ -16,6 +16,9 @@ struct VideoCard: View {
             }
             .buttonStyle(.card)
             .frame(width: width)
+            .contextMenu {
+                VideoContextMenu(video: video)
+            }
 
             Text(video.title).lineLimit(2, reservesSpace: true).font(.headline)
             Text(video.author ?? "(no author)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
