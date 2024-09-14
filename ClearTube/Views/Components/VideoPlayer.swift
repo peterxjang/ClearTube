@@ -16,19 +16,21 @@ struct Chapter {
 }
 
 struct VideoPlayer: View {
-    var video: VideoObject
+    var videoId: String
+    @State var currentVideo: VideoObject? = nil
     @State var isLoading: Bool = true
     @State var player: AVPlayer? = nil
     @State var statusObserver: AnyCancellable?
     @State var skippableSegments: [[Float]] = []
+    @Query var historyVideos: [HistoryVideo]
 
     var body: some View {
         if isLoading {
             ProgressView()
                 .onAppear {
                     Task {
-                        let startTime = 0 // historyVideos.first(where: { $0.id == videoId })?.watchedSeconds
-                        try? await playVideo(withId: video.videoId, startTime: startTime)
+                        let startTime = historyVideos.first(where: { $0.videoId == videoId })?.watchedSeconds
+                        try? await playVideo(withId: videoId, startTime: startTime)
                     }
                 }
                 .onDisappear {
@@ -37,7 +39,7 @@ struct VideoPlayer: View {
                     }
                 }
         } else {
-            if let player = player {
+            if let player = player, let video = currentVideo {
                 VideoPlayerView(
                     video: video,
                     player: player,
@@ -67,7 +69,6 @@ struct VideoPlayer: View {
         let request = URLRequest(url: url)
         let (data, _) = try await URLSession.shared.data(for: request)
         if let videoInfo = try? JSONDecoder().decode([SponsorBlockObject].self, from: data) {
-            print(videoInfo)
             return videoInfo.map { $0.segment }
         } else {
             print("SponsorBlock Invalid Response")
@@ -75,7 +76,7 @@ struct VideoPlayer: View {
         }
     }
 
-    private func playVideo(withId id: String, startTime: Int? = nil) async throws {
+    private func playVideo(withId id: String, startTime: Double? = nil) async throws {
         async let videoTask = ClearTubeApp.client.video(for: id)
         async let sponsorSegmentsTask = getSponsorSegments(id: id)
         do {
@@ -89,11 +90,12 @@ struct VideoPlayer: View {
                     switch status {
                     case .readyToPlay:
                         if let startTime = startTime {
-                            let newStartTime = Int(video.lengthSeconds) - startTime > 5 ? Double(startTime) : 0.0
+                            let newStartTime = Double(video.lengthSeconds) - startTime > 5 ? startTime : 0.0
                             self.player?.seek(to: CMTime(seconds: newStartTime, preferredTimescale: 600))
                         }
                         self.player?.play()
                         self.isLoading = false
+                        self.currentVideo = video
                     case .failed:
                         self.isLoading = false
                     default:
@@ -112,12 +114,9 @@ struct VideoPlayer: View {
             let bQuality = Int($1.quality.trimmingCharacters(in: .letters)) ?? -1
             return aQuality > bQuality
         }
-        print(video.videoId)
         if let hlsUrlStr = video.hlsUrl, let hlsUrl = URL(string: hlsUrlStr) {
-            print("hlsUrl")
             return AVPlayerItem(url: hlsUrl)
         } else if let stream = sortedStreams?.first, let streamUrl = URL(string: stream.url) {
-            print(stream.resolution)
             return AVPlayerItem(url: streamUrl)
         } else {
             throw VideoPlaybackError.missingUrl
@@ -132,6 +131,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     @Environment(\.modelContext) private var databaseContext
     @Environment(\.presentationMode) var presentationMode
     @Query var historyVideos: [HistoryVideo]
+    @Query var recommendedVideos: [RecommendedVideo]
 
     typealias NSViewControllerType = AVPlayerViewController
 
@@ -232,6 +232,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
             }
             timeObserverToken = nil
             parent.saveVideoToHistory(video: video, watchedSeconds: watchedSeconds)
+            parent.saveRecommendedVideos(video: video)
         }
     }
 
@@ -321,6 +322,43 @@ struct VideoPlayerView: UIViewControllerRepresentable {
             try context.save()
         } catch {
             print("Failed to save video to history: \(error)")
+        }
+    }
+
+    private func saveRecommendedVideos(video: VideoObject) {
+        guard let currentRecommendedVideos = video.recommendedVideos else { return }
+        let context = databaseContext
+        for recommendedVideo in currentRecommendedVideos.prefix(3) {
+            if recommendedVideos.first(where: { $0.videoId == recommendedVideo.videoId }) == nil {
+                let item = RecommendedVideo(
+                    videoId: recommendedVideo.videoId,
+                    title: recommendedVideo.title,
+                    author: recommendedVideo.author,
+                    authorId: recommendedVideo.authorId,
+                    published: 0,
+                    lengthSeconds: Int(recommendedVideo.lengthSeconds),
+                    viewCountText: recommendedVideo.viewCountText,
+                    thumbnailQuality: recommendedVideo.videoThumbnails.first?.quality ?? "",
+                    thumbnailUrl: recommendedVideo.videoThumbnails.first?.url ?? "N/A",
+                    thumbnailWidth: recommendedVideo.videoThumbnails.first?.width ?? 0,
+                    thumbnailHeight: recommendedVideo.videoThumbnails.first?.height ?? 0
+                )
+                context.insert(item)
+                do {
+                    try context.save()
+                } catch {
+                    print("Failed to save recommended video: \(error)")
+                }
+            }
+        }
+
+        let maxSize = 100
+        let numRemove = recommendedVideos.count - maxSize
+        if numRemove > 0 {
+            let videosToRemove = recommendedVideos.prefix(numRemove)
+            for video in videosToRemove {
+                context.delete(video)
+            }
         }
     }
 }

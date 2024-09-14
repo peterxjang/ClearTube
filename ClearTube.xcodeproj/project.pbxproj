@@ -39,6 +39,7 @@
 		AC05893C2C962D3D001C2C6F /* WatchLaterVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */; };
 		AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893F2C963423001C2C6F /* SavedVideosView.swift */; };
 		AC0589422C9641AE001C2C6F /* HistoryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589412C9641AE001C2C6F /* HistoryVideo.swift */; };
+		AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589432C96480F001C2C6F /* RecommendedVideo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +76,7 @@
 		AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchLaterVideo.swift; sourceTree = "<group>"; };
 		AC05893F2C963423001C2C6F /* SavedVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideosView.swift; sourceTree = "<group>"; };
 		AC0589412C9641AE001C2C6F /* HistoryVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVideo.swift; sourceTree = "<group>"; };
+		AC0589432C96480F001C2C6F /* RecommendedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedVideo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,8 +155,9 @@
 				AC0589292C95CEE3001C2C6F /* SearchObject.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
 				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
-				AC0589192C95C3D4001C2C6F /* Settings.swift */,
 				AC0589412C9641AE001C2C6F /* HistoryVideo.swift */,
+				AC0589192C95C3D4001C2C6F /* Settings.swift */,
+				AC0589432C96480F001C2C6F /* RecommendedVideo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				AC0588F52C94C3B1001C2C6F /* RootView.swift in Sources */,
 				AC05892A2C95CEE3001C2C6F /* SearchObject.swift in Sources */,
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
+				AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */,
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
 				AC0589242C95CC9E001C2C6F /* FollowedChannel.swift in Sources */,
 				AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */,

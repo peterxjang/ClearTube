@@ -29,6 +29,7 @@ struct ClearTubeApp: App {
             for: [
                 FollowedChannel.self,
                 WatchLaterVideo.self,
+                RecommendedVideo.self,
                 HistoryVideo.self
             ]
         )

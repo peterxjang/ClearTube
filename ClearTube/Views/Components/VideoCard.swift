@@ -9,7 +9,7 @@ struct VideoCard: View {
         let height = width / 1.8
 
         VStack(alignment: .leading) {
-            NavigationLink(destination: VideoPlayer(video: video)) {
+            NavigationLink(destination: VideoPlayer(videoId: video.videoId)) {
                 ZStack(alignment: .bottomLeading) {
                     VideoThumbnail(width: width, height: height, radius: 8.0, thumbnails: video.videoThumbnails)
                     VideoThumbnailTag(video.lengthSeconds)

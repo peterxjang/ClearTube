@@ -4,6 +4,7 @@ import SwiftData
 struct SavedVideosView: View {
     @Environment(\.modelContext) private var context
     @Query var watchLaterVideos: [WatchLaterVideo]
+    @Query var recommendedVideos: [RecommendedVideo]
     @Query var historyVideos: [HistoryVideo]
     var settings = Settings()
 
@@ -32,6 +33,34 @@ struct SavedVideosView: View {
                                     viewCountText: watchLaterVideo.viewCountText,
                                     author: watchLaterVideo.author,
                                     authorId: watchLaterVideo.authorId
+                                )
+                            )
+                        }
+                    }.padding(20)
+                }
+
+                Text("Recommended")
+                    .font(.subheadline)
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
+                        ForEach(recommendedVideos.reversed()) { recommendedVideo in
+                            VideoCard(video:
+                                VideoObject(
+                                    title: recommendedVideo.title,
+                                    videoId: recommendedVideo.videoId,
+                                    lengthSeconds: recommendedVideo.lengthSeconds,
+                                    videoThumbnails: [
+                                        ImageObject(
+                                            quality: recommendedVideo.thumbnailQuality,
+                                            url: recommendedVideo.thumbnailUrl,
+                                            width: recommendedVideo.thumbnailWidth,
+                                            height: recommendedVideo.thumbnailHeight
+                                        )
+                                    ],
+                                    published: recommendedVideo.published,
+                                    viewCountText: recommendedVideo.viewCountText,
+                                    author: recommendedVideo.author,
+                                    authorId: recommendedVideo.authorId
                                 )
                             )
                         }

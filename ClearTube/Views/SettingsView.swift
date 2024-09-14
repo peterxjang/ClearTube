@@ -24,10 +24,12 @@ struct SettingsView: View {
             Section {
                 Button("Unfollow All Channels", action: unfollowAllChannels).tint(.red)
                 Button("Delete all Watch Later", action: deleteAllWatchLater).tint(.red)
+                Button("Delete all Recommended", action: deleteAllRecommended).tint(.red)
                 Button("Delete all History", action: deleteAllHistory).tint(.red)
                 Button("Erase All Content & Settings") {
                     unfollowAllChannels()
                     deleteAllWatchLater()
+                    deleteAllRecommended()
                     deleteAllHistory()
                     settings.reset()
                 }.tint(.red)
@@ -51,6 +53,14 @@ struct SettingsView: View {
             try modelContext.delete(model: WatchLaterVideo.self)
         } catch {
             print("Failed to delete watch later videos")
+        }
+    }
+
+    func deleteAllRecommended() {
+        do {
+            try modelContext.delete(model: RecommendedVideo.self)
+        } catch {
+            print("Failed to delete recommended videos")
         }
     }
 
