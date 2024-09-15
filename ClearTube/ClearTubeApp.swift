@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct ClearTubeApp: App {
     static var client = InvidiousAPI()
+    static var innerTubeClient = InnerTubeAPI()
     var settings = Settings()
     @State var hasValidInstance: Bool? = nil
 

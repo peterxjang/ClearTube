@@ -65,7 +65,7 @@ struct VideoPlayer: View {
     }
 
     private func playVideo(withId id: String, startTime: Double? = nil) async throws {
-        async let videoTask = ClearTubeApp.client.video(for: id)
+        async let videoTask = ClearTubeApp.innerTubeClient.video(for: id)
         async let sponsorSegmentsTask = SponsorBlockAPI.sponsorSegments(id: id)
         do {
             let (video, segments) = try await (videoTask, sponsorSegmentsTask)

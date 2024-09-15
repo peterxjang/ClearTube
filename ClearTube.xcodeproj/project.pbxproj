@@ -40,6 +40,7 @@
 		AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893F2C963423001C2C6F /* SavedVideosView.swift */; };
 		AC0589422C9641AE001C2C6F /* HistoryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589412C9641AE001C2C6F /* HistoryVideo.swift */; };
 		AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589432C96480F001C2C6F /* RecommendedVideo.swift */; };
+		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		AC05893F2C963423001C2C6F /* SavedVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideosView.swift; sourceTree = "<group>"; };
 		AC0589412C9641AE001C2C6F /* HistoryVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVideo.swift; sourceTree = "<group>"; };
 		AC0589432C96480F001C2C6F /* RecommendedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedVideo.swift; sourceTree = "<group>"; };
+		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			children = (
 				AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */,
 				AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */,
+				AC695F992C9758370029FC4E /* InnerTubeAPI.swift */,
 				AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */,
 				AC0589022C95119E001C2C6F /* Views */,
 				AC0589032C9511AC001C2C6F /* Model */,
@@ -267,6 +270,7 @@
 				AC0588F52C94C3B1001C2C6F /* RootView.swift in Sources */,
 				AC05892A2C95CEE3001C2C6F /* SearchObject.swift in Sources */,
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
+				AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */,
 				AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */,
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
 				AC0589242C95CC9E001C2C6F /* FollowedChannel.swift in Sources */,
