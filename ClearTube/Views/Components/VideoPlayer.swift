@@ -64,21 +64,9 @@ struct VideoPlayer: View {
         statusObserver = nil
     }
 
-    private func getSponsorSegments(id: String) async throws -> [[Float]] {
-        let url = URL(string: "https://sponsor.ajay.app/api/skipSegments?videoID=\(id)")!
-        let request = URLRequest(url: url)
-        let (data, _) = try await URLSession.shared.data(for: request)
-        if let videoInfo = try? JSONDecoder().decode([SponsorBlockObject].self, from: data) {
-            return videoInfo.map { $0.segment }
-        } else {
-            print("SponsorBlock Invalid Response")
-            return []
-        }
-    }
-
     private func playVideo(withId id: String, startTime: Double? = nil) async throws {
         async let videoTask = ClearTubeApp.client.video(for: id)
-        async let sponsorSegmentsTask = getSponsorSegments(id: id)
+        async let sponsorSegmentsTask = SponsorBlockAPI.sponsorSegments(id: id)
         do {
             let (video, segments) = try await (videoTask, sponsorSegmentsTask)
             skippableSegments = segments

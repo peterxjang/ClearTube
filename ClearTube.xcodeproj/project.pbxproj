@@ -18,7 +18,7 @@
 		AC05890D2C952B9E001C2C6F /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05890C2C952B9E001C2C6F /* VideoCard.swift */; };
 		AC0589122C952D84001C2C6F /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */; };
 		AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589152C954901001C2C6F /* VideoPlayer.swift */; };
-		AC0589182C954F23001C2C6F /* SponsorBlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */; };
+		AC0589182C954F23001C2C6F /* SponsorBlockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */; };
 		AC05891A2C95C3D4001C2C6F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589192C95C3D4001C2C6F /* Settings.swift */; };
 		AC05891C2C95C525001C2C6F /* InvidiousAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */; };
 		AC05891E2C95C605001C2C6F /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891D2C95C605001C2C6F /* OnboardingView.swift */; };
@@ -55,7 +55,7 @@
 		AC05890C2C952B9E001C2C6F /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
 		AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheAsyncImage.swift; sourceTree = "<group>"; };
 		AC0589152C954901001C2C6F /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
-		AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorBlockObject.swift; sourceTree = "<group>"; };
+		AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SponsorBlockAPI.swift; sourceTree = "<group>"; };
 		AC0589192C95C3D4001C2C6F /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvidiousAPI.swift; sourceTree = "<group>"; };
 		AC05891D2C95C605001C2C6F /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -111,6 +111,7 @@
 			children = (
 				AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */,
 				AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */,
+				AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */,
 				AC0589022C95119E001C2C6F /* Views */,
 				AC0589032C9511AC001C2C6F /* Model */,
 				AC0588F82C94C3B2001C2C6F /* Assets.xcassets */,
@@ -150,7 +151,6 @@
 				AC0589062C95251D001C2C6F /* VideoObject.swift */,
 				AC0589082C95270B001C2C6F /* ChannelObject.swift */,
 				AC05890A2C952872001C2C6F /* ImageObject.swift */,
-				AC0589172C954F23001C2C6F /* SponsorBlockObject.swift */,
 				AC05891F2C95C7CA001C2C6F /* PlaylistObject.swift */,
 				AC0589292C95CEE3001C2C6F /* SearchObject.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
@@ -271,7 +271,7 @@
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
 				AC0589242C95CC9E001C2C6F /* FollowedChannel.swift in Sources */,
 				AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */,
-				AC0589182C954F23001C2C6F /* SponsorBlockObject.swift in Sources */,
+				AC0589182C954F23001C2C6F /* SponsorBlockAPI.swift in Sources */,
 				AC05891E2C95C605001C2C6F /* OnboardingView.swift in Sources */,
 				AC0589362C95D1DF001C2C6F /* PlaylistView.swift in Sources */,
 				AC0589072C95251D001C2C6F /* VideoObject.swift in Sources */,
