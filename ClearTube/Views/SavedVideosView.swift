@@ -41,6 +41,7 @@ struct SavedVideosView: View {
 
                 Text("Recommended")
                     .font(.subheadline)
+                    .padding(.top, 50)
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                         ForEach(recommendedVideos.reversed()) { recommendedVideo in

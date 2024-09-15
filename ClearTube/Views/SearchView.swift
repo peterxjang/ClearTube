@@ -40,7 +40,7 @@ class SearchResultsViewModel {
 
 struct SearchView: View {
     @State var search: String = ""
-    @Query(sort: \FollowedChannel.name) var channels: [FollowedChannel]
+    @Query(sort: \FollowedChannel.author) var channels: [FollowedChannel]
 
     var body: some View {
         VStack {

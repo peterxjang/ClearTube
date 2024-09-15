@@ -98,7 +98,7 @@ struct ChannelHeaderView: View {
                     Text("\(channel.subCount.formatted()) Subscribers").foregroundStyle(.secondary)
                 }
                 Spacer()
-                FollowButton(channelId: channel.authorId, channelName: channel.author)
+                FollowButton(channel: channel)
             }
 
             GeometryReader { proxy in

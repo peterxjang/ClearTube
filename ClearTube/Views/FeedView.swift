@@ -6,7 +6,7 @@ struct FeedView: View {
     @State private var videos: [VideoObject] = []
     @State private var loadedChannelsCount: Int = 0
     @State private var hasLoadedOnce: Bool = false
-    @Query(sort: \FollowedChannel.name) var channels: [FollowedChannel]
+    @Query(sort: \FollowedChannel.author) var channels: [FollowedChannel]
     
     var body: some View {
         ScrollView {
@@ -58,7 +58,7 @@ struct FeedView: View {
             try await withThrowingTaskGroup(of: [VideoObject].self) { group in
                 for channel in channels {
                     group.addTask {
-                        let result = try await ClearTubeApp.client.videos(for: channel.id, continuation: nil)
+                        let result = try await ClearTubeApp.client.videos(for: channel.authorId, continuation: nil)
                         let recentVideos = result.videos.filter { video in
                             let publishedDate = Date(timeIntervalSince1970: TimeInterval(video.published ?? 0))
                             return publishedDate >= oneMonthAgo

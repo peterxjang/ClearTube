@@ -2,8 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct FollowButton: View {
-    var channelId: String
-    var channelName: String
+    var channel: ChannelObject
     @Environment(\.modelContext) private var context
     @State var isFollowed: Bool = false
     @State var loading = true
@@ -13,14 +12,26 @@ struct FollowButton: View {
             if isFollowed {
                 // FIXME: handle failure
                 do {
+                    let authorId = channel.authorId
                     try context.delete(
                         model: FollowedChannel.self,
-                        where: #Predicate { $0.id == channelId }
+                        where: #Predicate { $0.authorId == authorId }
                     )
                     self.isFollowed = false
                 } catch {}
             } else {
-                context.insert(FollowedChannel(id: channelId, name: channelName, dateFollowed: Date()))
+                context.insert(
+                    FollowedChannel(
+                        authorId: channel.authorId,
+                        author: channel.author,
+                        authorUrl: channel.authorUrl,
+                        thumbnailUrl: channel.authorThumbnails
+                            .sorted { $0.width <= $1.width }
+                            .first { $0.width >= 100 }?.url ?? "",
+                        subCount: channel.subCount,
+                        dateFollowed: Date()
+                    )
+                )
                 self.isFollowed = true
             }
         } label: {
@@ -32,7 +43,8 @@ struct FollowButton: View {
         }.disabled(loading).onAppear {
             do {
                 loading = true
-                let request = FetchDescriptor<FollowedChannel>(predicate: #Predicate { $0.id == channelId })
+                let authorId = channel.authorId
+                let request = FetchDescriptor<FollowedChannel>(predicate: #Predicate { $0.authorId == authorId })
                 let count = try context.fetchCount(request)
                 isFollowed = count > 0
             } catch {

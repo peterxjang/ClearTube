@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 struct SubscriptionsView: View {
-    @Query(sort: \FollowedChannel.name) var channels: [FollowedChannel]
+    @Query(sort: \FollowedChannel.author) var channels: [FollowedChannel]
     @State private var selectedChannel: FollowedChannel? = nil
     var resetView: Bool = false
 
@@ -17,9 +17,14 @@ struct SubscriptionsView: View {
                 } else {
                     VStack(alignment: .leading) {
                         ForEach(channels) { channel in
-                            NavigationLink(destination: ChannelView(model: ChannelViewModel(channelId: channel.id))) {
+                            NavigationLink(destination: ChannelView(model: ChannelViewModel(channelId: channel.authorId))) {
                                 HStack {
-                                    Text(channel.name)
+                                    PreferredImage(
+                                        width: 100,
+                                        height: 100,
+                                        images: [ImageObject(url: channel.thumbnailUrl, width: 100, height: 100)]
+                                    )
+                                    Text(channel.author)
                                         .padding()
                                     Spacer()
                                     Image(systemName: "chevron.right")
