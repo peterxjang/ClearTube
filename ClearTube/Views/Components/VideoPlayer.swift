@@ -279,9 +279,6 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     }
 
     private func saveVideoToHistory(video: VideoObject, watchedSeconds: Double) {
-        print("saveVideoToHistory")
-        print(video)
-        print(video.authorId)
         let context = databaseContext
         if let foundVideo = historyVideos.first(where: { $0.videoId == video.videoId }) {
             context.delete(foundVideo)
