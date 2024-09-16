@@ -5,85 +5,68 @@ public final class InnerTubeAPI {
     var session: URLSession
     static var decoder = JSONDecoder()
 
-    public struct PlayerResponseObject: Decodable {
-        public var streamingData: StreamingDataObject
-        public var videoDetails: VideoDetailsObject
-
-        public struct StreamingDataObject: Decodable {
-            public var hlsManifestUrl: String
-            public var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
-
-            public struct StreamingDataAdaptiveFormatObject: Decodable {
-                public var url: String
-                public var mimeType: String
-                public var bitrate: Int
-                public var width: Int?
-                public var height: Int?
+    struct PlayerResponseObject: Decodable {
+        var streamingData: StreamingDataObject
+        var videoDetails: VideoDetailsObject
+        struct StreamingDataObject: Decodable {
+            var hlsManifestUrl: String
+            var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
+            struct StreamingDataAdaptiveFormatObject: Decodable {
+                var url: String
+                var mimeType: String
+                var bitrate: Int
+                var width: Int?
+                var height: Int?
             }
         }
-
-        public struct VideoDetailsObject: Decodable {
-            public var videoId: String
-            public var title: String
-            public var lengthSeconds: String
-            public var viewCount: String
-            public var author: String
-            public var channelId: String
-            public var thumbnail: ThumbnailsObject
-
-            public struct ThumbnailsObject: Decodable {
-                public var thumbnails: [ImageObject]
+        struct VideoDetailsObject: Decodable {
+            var videoId: String
+            var title: String
+            var lengthSeconds: String
+            var viewCount: String
+            var author: String
+            var channelId: String
+            var thumbnail: ThumbnailsObject
+            struct ThumbnailsObject: Decodable {
+                var thumbnails: [ImageObject]
             }
         }
     }
 
-    public struct NextResponseObject: Decodable {
-        public var contents: ContentsObject
-
-        public struct ContentsObject: Decodable {
-            public var singleColumnWatchNextResults: SingleColumnWatchNextResultsObject
-
-            public struct SingleColumnWatchNextResultsObject: Decodable {
-                public var results: ResultsObject
-
-                public struct ResultsObject: Decodable {
-                    public var results: SubResultsObject
-
-                    public struct SubResultsObject: Decodable {
-                        public var contents: [ContentObject]
-
-                        public struct ContentObject: Decodable {
-                            public var shelfRenderer: ShelfRendererObject?
-
-                            public struct ShelfRendererObject: Decodable {
-                                public var content: ShelfRendererContentObject
-
-                                public struct ShelfRendererContentObject: Decodable {
-                                    public var horizontalListRenderer: HorizontalListRendererObject
-
-                                    public struct HorizontalListRendererObject: Decodable {
-                                        public var items: [HorizontalListRendererItemObject]
-
-                                        public struct HorizontalListRendererItemObject: Decodable {
-                                            public var gridVideoRenderer: GridVideoRendererObject?
-
-                                            public struct GridVideoRendererObject: Decodable {
-                                                public var videoId: String
-                                                public var thumbnail: GridVideoRendererThumbnailObject
-                                                public var title: RunsTextObject
-                                                public var publishedTimeText: RunsTextObject
-                                                public var viewCountText: RunsTextObject
-                                                public var lengthText: RunsTextObject
-
-                                                public struct GridVideoRendererThumbnailObject: Decodable {
-                                                    public var thumbnails: [ImageObject]
+    struct NextResponseObject: Decodable {
+        var contents: ContentsObject
+        struct ContentsObject: Decodable {
+            var singleColumnWatchNextResults: SingleColumnWatchNextResultsObject
+            struct SingleColumnWatchNextResultsObject: Decodable {
+                var results: ResultsObject
+                struct ResultsObject: Decodable {
+                    var results: SubResultsObject
+                    struct SubResultsObject: Decodable {
+                        var contents: [ContentObject]
+                        struct ContentObject: Decodable {
+                            var shelfRenderer: ShelfRendererObject?
+                            struct ShelfRendererObject: Decodable {
+                                var content: ShelfRendererContentObject
+                                struct ShelfRendererContentObject: Decodable {
+                                    var horizontalListRenderer: HorizontalListRendererObject
+                                    struct HorizontalListRendererObject: Decodable {
+                                        var items: [HorizontalListRendererItemObject]
+                                        struct HorizontalListRendererItemObject: Decodable {
+                                            var gridVideoRenderer: GridVideoRendererObject?
+                                            struct GridVideoRendererObject: Decodable {
+                                                var videoId: String
+                                                var thumbnail: GridVideoRendererThumbnailObject
+                                                var title: RunsTextObject
+                                                var publishedTimeText: RunsTextObject
+                                                var viewCountText: RunsTextObject
+                                                var lengthText: RunsTextObject
+                                                struct GridVideoRendererThumbnailObject: Decodable {
+                                                    var thumbnails: [ImageObject]
                                                 }
-
-                                                public struct RunsTextObject: Decodable {
-                                                    public var runs: [RunsObject]
-
-                                                    public struct RunsObject: Decodable {
-                                                        public var text: String
+                                                struct RunsTextObject: Decodable {
+                                                    var runs: [RunsObject]
+                                                    struct RunsObject: Decodable {
+                                                        var text: String
                                                     }
                                                 }
                                             }
