@@ -10,3 +10,12 @@ public struct ImageObject: Hashable, Decodable {
         lhs.url == rhs.url
     }
 }
+
+extension Array where Element == ImageObject {
+    func preferredThumbnail(for width: CGFloat = 400) -> ImageObject? {
+        self
+            .sorted { $0.width <= $1.width }
+            .first { $0.width >= Int(width) }
+            ?? self.max { $0.width < $1.width }
+    }
+}

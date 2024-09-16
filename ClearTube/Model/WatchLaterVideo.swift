@@ -5,27 +5,30 @@ import SwiftData
 class WatchLaterVideo {
     @Attribute(.unique) var videoId: String
     var title: String
+    var lengthSeconds: Int
+    var thumbnailUrl: String?
+    var thumbnailWidth: Int?
+    var thumbnailHeight: Int?
     var author: String?
     var authorId: String?
-    var published: Int64
-    var lengthSeconds: Int
-    var thumbnailQuality: String
-    var thumbnailUrl: String
-    var thumbnailWidth: Int
-    var thumbnailHeight: Int
-    var viewCountText: String
+    var published: Int64?
+    var publishedText: String?
+    var viewCount: Int64?
+    var viewCountText: String?
 
-    init(videoId: String, title: String, author: String?, authorId: String?, published: Int64, lengthSeconds: Int, viewCountText: String, thumbnailQuality: String, thumbnailUrl: String, thumbnailWidth: Int, thumbnailHeight: Int) {
-        self.videoId = videoId
-        self.title = title
-        self.author = author
-        self.authorId = authorId
-        self.published = published
-        self.lengthSeconds = lengthSeconds
-        self.viewCountText = viewCountText
-        self.thumbnailQuality = thumbnailQuality
-        self.thumbnailUrl = thumbnailUrl
-        self.thumbnailWidth = thumbnailWidth
-        self.thumbnailHeight = thumbnailHeight
+    init(video: VideoObject) {
+        let thumbnail = video.videoThumbnails.preferredThumbnail()
+        self.videoId = video.videoId
+        self.title = video.title
+        self.lengthSeconds = video.lengthSeconds
+        self.thumbnailUrl = thumbnail?.url
+        self.thumbnailWidth = thumbnail?.width
+        self.thumbnailHeight = thumbnail?.height
+        self.author = video.author
+        self.authorId = video.authorId
+        self.published = video.published
+        self.publishedText = video.publishedText
+        self.viewCount = video.viewCount
+        self.viewCountText = video.viewCountText
     }
 }

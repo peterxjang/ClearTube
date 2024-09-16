@@ -11,7 +11,7 @@ struct VideoCard: View {
         VStack(alignment: .leading) {
             NavigationLink(destination: VideoPlayer(videoId: video.videoId)) {
                 ZStack(alignment: .bottomLeading) {
-                    VideoThumbnail(width: width, height: height, radius: 8.0, thumbnails: video.videoThumbnails)
+                    VideoThumbnail(width: width, height: height, radius: 8.0, thumbnail: video.videoThumbnails.preferredThumbnail(for: width))
                     VideoThumbnailTag(video.lengthSeconds)
                     VideoThumbnailWatchProgress(video: video, width: width)
                 }.frame(width: width, height: height)
@@ -35,14 +35,7 @@ struct VideoThumbnail: View {
     let width: CGFloat
     let height: CGFloat
     let radius: CGFloat
-    var thumbnails: [ImageObject]
-
-    var preferredThumbnail: ImageObject? {
-        thumbnails
-            .sorted { $0.width <= $1.width }
-            .first { $0.width >= Int(width) }
-            ?? thumbnails.max { $0.width < $1.width }
-    }
+    var thumbnail: ImageObject?
 
     var body: some View {
         Rectangle().foregroundStyle(.background)
@@ -50,7 +43,7 @@ struct VideoThumbnail: View {
             .aspectRatio(16 / 9, contentMode: .fill)
             .background(Rectangle().foregroundStyle(.background))
             .overlay {
-                if let thumbnailUrl = preferredThumbnail?.url, let url = URL(string: thumbnailUrl) {
+                if let thumbnailUrl = thumbnail?.url, let url = URL(string: thumbnailUrl) {
                     CacheAsyncImage(url: url) { image in
                         image.resizable().scaledToFill()
                             .frame(maxWidth: width, maxHeight: height)
@@ -148,19 +141,7 @@ struct VideoContextMenu: View {
     }
 
     private func addToWatchLater() {
-        let savedVideo = WatchLaterVideo(
-            videoId: video.videoId,
-            title: video.title,
-            author: video.author,
-            authorId: video.authorId,
-            published: video.published ?? 0,
-            lengthSeconds: video.lengthSeconds,
-            viewCountText: video.viewCountText ?? "0",
-            thumbnailQuality: video.videoThumbnails[0].quality ?? "none",
-            thumbnailUrl: video.videoThumbnails[0].url,
-            thumbnailWidth: video.videoThumbnails[0].width,
-            thumbnailHeight: video.videoThumbnails[0].height
-        )
+        let savedVideo = WatchLaterVideo(video: video)
         context.insert(savedVideo)
     }
 }

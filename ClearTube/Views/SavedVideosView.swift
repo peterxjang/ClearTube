@@ -23,10 +23,9 @@ struct SavedVideosView: View {
                                     lengthSeconds: watchLaterVideo.lengthSeconds,
                                     videoThumbnails: [
                                         ImageObject(
-                                            quality: watchLaterVideo.thumbnailQuality,
-                                            url: watchLaterVideo.thumbnailUrl,
-                                            width: watchLaterVideo.thumbnailWidth,
-                                            height: watchLaterVideo.thumbnailHeight
+                                            url: watchLaterVideo.thumbnailUrl ?? "",
+                                            width: watchLaterVideo.thumbnailWidth ?? 0,
+                                            height: watchLaterVideo.thumbnailHeight ?? 0
                                         )
                                     ],
                                     published: watchLaterVideo.published,
@@ -52,10 +51,9 @@ struct SavedVideosView: View {
                                     lengthSeconds: recommendedVideo.lengthSeconds,
                                     videoThumbnails: [
                                         ImageObject(
-                                            quality: recommendedVideo.thumbnailQuality,
-                                            url: recommendedVideo.thumbnailUrl,
-                                            width: recommendedVideo.thumbnailWidth,
-                                            height: recommendedVideo.thumbnailHeight
+                                            url: recommendedVideo.thumbnailUrl ?? "",
+                                            width: recommendedVideo.thumbnailWidth ?? 0,
+                                            height: recommendedVideo.thumbnailHeight ?? 0
                                         )
                                     ],
                                     published: recommendedVideo.published,
@@ -81,10 +79,9 @@ struct SavedVideosView: View {
                                     lengthSeconds: historyVideo.lengthSeconds,
                                     videoThumbnails: [
                                         ImageObject(
-                                            quality: historyVideo.thumbnailQuality,
-                                            url: historyVideo.thumbnailUrl,
-                                            width: historyVideo.thumbnailWidth,
-                                            height: historyVideo.thumbnailHeight
+                                            url: historyVideo.thumbnailUrl ?? "",
+                                            width: historyVideo.thumbnailWidth ?? 0,
+                                            height: historyVideo.thumbnailHeight ?? 0
                                         )
                                     ],
                                     published: historyVideo.published,

@@ -25,9 +25,7 @@ struct FollowButton: View {
                         authorId: channel.authorId,
                         author: channel.author,
                         authorUrl: channel.authorUrl,
-                        thumbnailUrl: channel.authorThumbnails
-                            .sorted { $0.width <= $1.width }
-                            .first { $0.width >= 100 }?.url ?? "",
+                        thumbnailUrl: channel.authorThumbnails.preferredThumbnail()?.url ?? "",
                         subCount: channel.subCount,
                         dateFollowed: Date()
                     )

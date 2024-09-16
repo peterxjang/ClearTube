@@ -207,7 +207,7 @@ public final class InnerTubeAPI {
                 if content.shelfRenderer != nil {
                     for item in content.shelfRenderer!.content.horizontalListRenderer.items {
                         if let gridVideoRenderer = item.gridVideoRenderer {
-                            var lengthSeconds: Int32 = 0
+                            var lengthSeconds: Int = 0
                             if let lengthString = gridVideoRenderer.lengthText.runs.first?.text {
                                 lengthSeconds = timeStringToSeconds(lengthString) ?? 0
                             }
@@ -252,7 +252,7 @@ public final class InnerTubeAPI {
         return try Self.decoder.decode([SearchObject.Result].self, from: data)
     }
 
-    func timeStringToSeconds(_ timeString: String) -> Int32? {
+    func timeStringToSeconds(_ timeString: String) -> Int? {
         let components = timeString.split(separator: ":").map { Int($0) }
         guard components.allSatisfy({ $0 != nil }) else {
             return nil
@@ -262,12 +262,12 @@ public final class InnerTubeAPI {
         case 2: // Format is "MM:SS"
             let minutes = timeComponents[0]
             let seconds = timeComponents[1]
-            return Int32((minutes * 60) + seconds)
+            return (minutes * 60) + seconds
         case 3: // Format is "HH:MM:SS"
             let hours = timeComponents[0]
             let minutes = timeComponents[1]
             let seconds = timeComponents[2]
-            return Int32((hours * 3600) + (minutes * 60) + seconds)
+            return (hours * 3600) + (minutes * 60) + seconds
         default: // Invalid format
             return nil
         }

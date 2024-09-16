@@ -158,9 +158,9 @@
 				AC0589292C95CEE3001C2C6F /* SearchObject.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
 				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
+				AC0589432C96480F001C2C6F /* RecommendedVideo.swift */,
 				AC0589412C9641AE001C2C6F /* HistoryVideo.swift */,
 				AC0589192C95C3D4001C2C6F /* Settings.swift */,
-				AC0589432C96480F001C2C6F /* RecommendedVideo.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

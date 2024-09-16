@@ -5,27 +5,28 @@ import SwiftData
 class RecommendedVideo {
     @Attribute(.unique) var videoId: String
     var title: String
+    var lengthSeconds: Int
+    var thumbnailUrl: String?
+    var thumbnailWidth: Int?
+    var thumbnailHeight: Int?
     var author: String?
     var authorId: String?
-    var published: Int64
-    var lengthSeconds: Int
-    var thumbnailQuality: String
-    var thumbnailUrl: String
-    var thumbnailWidth: Int
-    var thumbnailHeight: Int
-    var viewCountText: String
+    var published: Int64?
+    var publishedText: String?
+    var viewCount: Int64?
+    var viewCountText: String?
 
-    init(videoId: String, title: String, author: String?, authorId: String?, published: Int64, lengthSeconds: Int, viewCountText: String, thumbnailQuality: String, thumbnailUrl: String, thumbnailWidth: Int, thumbnailHeight: Int) {
-        self.videoId = videoId
-        self.title = title
-        self.author = author
-        self.authorId = authorId
-        self.published = published
-        self.lengthSeconds = lengthSeconds
-        self.viewCountText = viewCountText
-        self.thumbnailQuality = thumbnailQuality
-        self.thumbnailUrl = thumbnailUrl
-        self.thumbnailWidth = thumbnailWidth
-        self.thumbnailHeight = thumbnailHeight
+    init(recommendedVideo: VideoObject.RecommendedVideoObject) {
+        let thumbnail = recommendedVideo.videoThumbnails.preferredThumbnail()
+        self.videoId = recommendedVideo.videoId
+        self.title = recommendedVideo.title
+        self.lengthSeconds = recommendedVideo.lengthSeconds
+        self.thumbnailUrl = thumbnail?.url
+        self.thumbnailWidth = thumbnail?.width
+        self.thumbnailHeight = thumbnail?.height
+        self.author = recommendedVideo.author
+        self.authorId = recommendedVideo.authorId
+        self.viewCount = recommendedVideo.viewCount
+        self.viewCountText = recommendedVideo.viewCountText
     }
 }

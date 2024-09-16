@@ -283,20 +283,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         if let foundVideo = historyVideos.first(where: { $0.videoId == video.videoId }) {
             context.delete(foundVideo)
         }
-        let historyVideo = HistoryVideo(
-            videoId: video.videoId,
-            title: video.title,
-            author: video.author,
-            authorId: video.authorId,
-            published: video.published ?? 0,
-            lengthSeconds: video.lengthSeconds,
-            viewCountText: video.viewCountText ?? "0",
-            thumbnailQuality: video.videoThumbnails.first?.quality ?? "",
-            thumbnailUrl: video.videoThumbnails.first?.url ?? "N/A",
-            thumbnailWidth: video.videoThumbnails.first?.width ?? 0,
-            thumbnailHeight: video.videoThumbnails.first?.height ?? 0,
-            watchedSeconds: watchedSeconds
-        )
+        let historyVideo = HistoryVideo(video: video, watchedSeconds: watchedSeconds)
         context.insert(historyVideo)
         let maxHistorySize = 100
         let numRemove = historyVideos.count - maxHistorySize
@@ -318,19 +305,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         let context = databaseContext
         for recommendedVideo in currentRecommendedVideos.prefix(3) {
             if recommendedVideos.first(where: { $0.videoId == recommendedVideo.videoId }) == nil {
-                let item = RecommendedVideo(
-                    videoId: recommendedVideo.videoId,
-                    title: recommendedVideo.title,
-                    author: recommendedVideo.author,
-                    authorId: recommendedVideo.authorId,
-                    published: 0,
-                    lengthSeconds: Int(recommendedVideo.lengthSeconds),
-                    viewCountText: recommendedVideo.viewCountText ?? "",
-                    thumbnailQuality: recommendedVideo.videoThumbnails.first?.quality ?? "",
-                    thumbnailUrl: recommendedVideo.videoThumbnails.first?.url ?? "N/A",
-                    thumbnailWidth: recommendedVideo.videoThumbnails.first?.width ?? 0,
-                    thumbnailHeight: recommendedVideo.videoThumbnails.first?.height ?? 0
-                )
+                let item = RecommendedVideo(recommendedVideo: recommendedVideo)
                 context.insert(item)
                 do {
                     try context.save()
