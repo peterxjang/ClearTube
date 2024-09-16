@@ -64,7 +64,7 @@ public final class InnerTubeAPI {
                                         public var items: [HorizontalListRendererItemObject]
 
                                         public struct HorizontalListRendererItemObject: Decodable {
-                                            public var gridVideoRenderer: GridVideoRendererObject
+                                            public var gridVideoRenderer: GridVideoRendererObject?
 
                                             public struct GridVideoRendererObject: Decodable {
                                                 public var videoId: String
@@ -196,32 +196,33 @@ public final class InnerTubeAPI {
             )
             let json = try Self.decoder.decode(PlayerResponseObject.self, from: data)
 
+            var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
             let (nextData, _) = try await request(
                 for: "/youtubei/v1/next",
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
             let nextJson = try Self.decoder.decode(NextResponseObject.self, from: nextData)
-            var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
             for content in nextJson.contents.singleColumnWatchNextResults.results.results.contents {
                 if content.shelfRenderer != nil {
                     for item in content.shelfRenderer!.content.horizontalListRenderer.items {
-                        print("RECOMMENDED VIDEO")
-                        print(item.gridVideoRenderer)
-                        print(" ")
-                        var lengthSeconds: Int32 = 0
-                        if let lengthString = item.gridVideoRenderer.lengthText.runs.first?.text {
-                            lengthSeconds = timeStringToSeconds(lengthString) ?? 0
-                        }
-                        recommendedVideos.append(
-                            VideoObject.RecommendedVideoObject(
-                                videoId: item.gridVideoRenderer.videoId,
-                                title: item.gridVideoRenderer.title.runs.first?.text ?? "",
-                                videoThumbnails: item.gridVideoRenderer.thumbnail.thumbnails,
-                                author: "",
-                                authorId: "",
-                                lengthSeconds: lengthSeconds
+                        if let gridVideoRenderer = item.gridVideoRenderer {
+                            var lengthSeconds: Int32 = 0
+                            if let lengthString = gridVideoRenderer.lengthText.runs.first?.text {
+                                lengthSeconds = timeStringToSeconds(lengthString) ?? 0
+                            }
+                            recommendedVideos.append(
+                                VideoObject.RecommendedVideoObject(
+                                    videoId: gridVideoRenderer.videoId,
+                                    title: gridVideoRenderer.title.runs.first?.text ?? "",
+                                    videoThumbnails: gridVideoRenderer.thumbnail.thumbnails,
+                                    author: "",
+                                    authorId: "",
+                                    lengthSeconds: lengthSeconds
+                                )
                             )
-                        )
+                        } else {
+                            print("Missing gridVideoRenderer for video \(id)")
+                        }
                     }
                 }
             }
