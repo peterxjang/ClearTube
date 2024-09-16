@@ -43,7 +43,7 @@ struct SavedVideosView: View {
                     .padding(.top, 50)
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
-                        ForEach(recommendedVideos.reversed()) { recommendedVideo in
+                        ForEach(recommendedVideos.shuffled()) { recommendedVideo in
                             VideoCard(video:
                                 VideoObject(
                                     title: recommendedVideo.title,

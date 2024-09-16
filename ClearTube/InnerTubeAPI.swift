@@ -46,8 +46,8 @@ public final class InnerTubeAPI {
                         struct ContentResponse: Decodable {
                             var shelfRenderer: ShelfRendererResponse?
                             struct ShelfRendererResponse: Decodable {
-                                var content: ShelfRendererContentResponse
-                                struct ShelfRendererContentResponse: Decodable {
+                                var content: ContentResponse
+                                struct ContentResponse: Decodable {
                                     var horizontalListRenderer: HorizontalListRendererResponse
                                     struct HorizontalListRendererResponse: Decodable {
                                         var items: [ItemResponse]
