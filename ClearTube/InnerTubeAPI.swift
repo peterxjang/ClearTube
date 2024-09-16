@@ -258,9 +258,10 @@ public final class InnerTubeAPI {
     }
 
     func video(for id: String) async throws -> VideoObject {
+        async let playerTask = player(for: id)
+        async let nextTask = next(for: id)
         do {
-            let json = try await player(for: id)
-            let nextJson = try await next(for: id)
+            let (json, nextJson) = try await(playerTask, nextTask)
             let recommendedVideos = extractRecommendedVideos(json: nextJson)
             return VideoObject(
                 title: json.videoDetails.title,
