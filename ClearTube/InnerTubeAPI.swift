@@ -28,6 +28,7 @@ public final class InnerTubeAPI {
             public var lengthSeconds: String
             public var viewCount: String
             public var author: String
+            public var channelId: String
             public var thumbnail: ThumbnailsObject
 
             public struct ThumbnailsObject: Decodable {
@@ -214,10 +215,8 @@ public final class InnerTubeAPI {
                                 VideoObject.RecommendedVideoObject(
                                     videoId: gridVideoRenderer.videoId,
                                     title: gridVideoRenderer.title.runs.first?.text ?? "",
-                                    videoThumbnails: gridVideoRenderer.thumbnail.thumbnails,
-                                    author: "",
-                                    authorId: "",
-                                    lengthSeconds: lengthSeconds
+                                    lengthSeconds: lengthSeconds,
+                                    videoThumbnails: gridVideoRenderer.thumbnail.thumbnails
                                 )
                             )
                         } else {
@@ -232,7 +231,9 @@ public final class InnerTubeAPI {
                 videoId: json.videoDetails.videoId,
                 lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
                 videoThumbnails: json.videoDetails.thumbnail.thumbnails,
+                viewCount: Int64(json.videoDetails.viewCount),
                 author: json.videoDetails.author,
+                authorId: json.videoDetails.channelId,
                 hlsUrl: json.streamingData.hlsManifestUrl,
                 recommendedVideos: recommendedVideos
             )

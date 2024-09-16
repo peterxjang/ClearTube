@@ -56,10 +56,10 @@ public struct VideoObject: Equatable, Decodable {
     public struct RecommendedVideoObject: Decodable {
         public var videoId: String
         public var title: String
-        public var videoThumbnails: [ImageObject]
-        public var author: String
-        public var authorId: String
         public var lengthSeconds: Int32
+        public var videoThumbnails: [ImageObject]
+        public var author: String?
+        public var authorId: String?
         public var viewCount: Int?
         public var viewCountText: String?
     }

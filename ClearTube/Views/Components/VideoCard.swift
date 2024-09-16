@@ -23,7 +23,7 @@ struct VideoCard: View {
             }
 
             Text(video.title).lineLimit(2, reservesSpace: true).font(.headline)
-            Text(video.author ?? "(no author)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
+            Text(video.author ?? "").lineLimit(1).foregroundStyle(.secondary).font(.caption)
             if let publishedText = video.publishedText, let viewCountText = video.viewCountText {
                 Text("\(publishedText)  |  \(viewCountText)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
             }
@@ -151,8 +151,8 @@ struct VideoContextMenu: View {
         let savedVideo = WatchLaterVideo(
             videoId: video.videoId,
             title: video.title,
-            author: video.author ?? "(no author)",
-            authorId: video.authorId ?? "(no author id)",
+            author: video.author,
+            authorId: video.authorId,
             published: video.published ?? 0,
             lengthSeconds: video.lengthSeconds,
             viewCountText: video.viewCountText ?? "0",

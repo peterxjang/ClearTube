@@ -5,8 +5,8 @@ import SwiftData
 class HistoryVideo {
     @Attribute(.unique) var videoId: String
     var title: String
-    var author: String
-    var authorId: String
+    var author: String?
+    var authorId: String?
     var published: Int64
     var lengthSeconds: Int
     var thumbnailQuality: String
@@ -16,7 +16,7 @@ class HistoryVideo {
     var viewCountText: String
     var watchedSeconds: Double
 
-    init(videoId: String, title: String, author: String, authorId: String, published: Int64, lengthSeconds: Int, viewCountText: String, thumbnailQuality: String, thumbnailUrl: String, thumbnailWidth: Int, thumbnailHeight: Int, watchedSeconds: Double) {
+    init(videoId: String, title: String, author: String?, authorId: String?, published: Int64, lengthSeconds: Int, viewCountText: String, thumbnailQuality: String, thumbnailUrl: String, thumbnailWidth: Int, thumbnailHeight: Int, watchedSeconds: Double) {
         self.videoId = videoId
         self.title = title
         self.author = author
