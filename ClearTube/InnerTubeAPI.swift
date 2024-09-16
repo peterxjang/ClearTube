@@ -167,7 +167,7 @@ public final class InnerTubeAPI {
         return try await session.data(for: request)
     }
 
-    func video(for id: String) async throws -> VideoObject {
+    func player(for id: String) async throws -> PlayerResponse {
         guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
         }
@@ -176,48 +176,7 @@ public final class InnerTubeAPI {
                 for: "/youtubei/v1/player",
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
-            let json = try Self.decoder.decode(PlayerResponse.self, from: data)
-
-            var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
-            let (nextData, _) = try await request(
-                for: "/youtubei/v1/next",
-                with: [URLQueryItem(name: "videoId", value: idPath)]
-            )
-            let nextJson = try Self.decoder.decode(NextResponse.self, from: nextData)
-            for content in nextJson.contents.singleColumnWatchNextResults.results.results.contents {
-                if content.shelfRenderer != nil {
-                    for item in content.shelfRenderer!.content.horizontalListRenderer.items {
-                        if let gridVideoRenderer = item.gridVideoRenderer {
-                            var lengthSeconds: Int = 0
-                            if let lengthString = gridVideoRenderer.lengthText.runs.first?.text {
-                                lengthSeconds = timeStringToSeconds(lengthString) ?? 0
-                            }
-                            recommendedVideos.append(
-                                VideoObject.RecommendedVideoObject(
-                                    videoId: gridVideoRenderer.videoId,
-                                    title: gridVideoRenderer.title.runs.first?.text ?? "",
-                                    lengthSeconds: lengthSeconds,
-                                    videoThumbnails: gridVideoRenderer.thumbnail.thumbnails
-                                )
-                            )
-                        } else {
-                            print("Missing gridVideoRenderer for video \(id)")
-                        }
-                    }
-                }
-            }
-
-            return VideoObject(
-                title: json.videoDetails.title,
-                videoId: json.videoDetails.videoId,
-                lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
-                videoThumbnails: json.videoDetails.thumbnail.thumbnails,
-                viewCount: Int64(json.videoDetails.viewCount),
-                author: json.videoDetails.author,
-                authorId: json.videoDetails.channelId,
-                hlsUrl: json.streamingData.hlsManifestUrl,
-                recommendedVideos: recommendedVideos
-            )
+            return try Self.decoder.decode(PlayerResponse.self, from: data)
         } catch {
             print("An error occurred: \(error.localizedDescription)")
             print("Error details: \(error)")
@@ -231,6 +190,50 @@ public final class InnerTubeAPI {
             with: [URLQueryItem(name: "query", value: query)]
         )
         return try Self.decoder.decode([SearchObject.Result].self, from: data)
+    }
+
+    func next(for id: String) async throws -> NextResponse {
+        guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        do {
+            let (data, _) = try await request(
+                for: "/youtubei/v1/next",
+                with: [URLQueryItem(name: "videoId", value: idPath)]
+            )
+            return try Self.decoder.decode(NextResponse.self, from: data)
+        } catch {
+            print("An error occurred: \(error.localizedDescription)")
+            print("Error details: \(error)")
+            throw error
+        }
+    }
+
+    func extractRecommendedVideos(json: NextResponse) -> [VideoObject.RecommendedVideoObject] {
+        var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
+        for content in json.contents.singleColumnWatchNextResults.results.results.contents {
+            if content.shelfRenderer != nil {
+                for item in content.shelfRenderer!.content.horizontalListRenderer.items {
+                    if let gridVideoRenderer = item.gridVideoRenderer {
+                        var lengthSeconds: Int = 0
+                        if let lengthString = gridVideoRenderer.lengthText.runs.first?.text {
+                            lengthSeconds = timeStringToSeconds(lengthString) ?? 0
+                        }
+                        recommendedVideos.append(
+                            VideoObject.RecommendedVideoObject(
+                                videoId: gridVideoRenderer.videoId,
+                                title: gridVideoRenderer.title.runs.first?.text ?? "",
+                                lengthSeconds: lengthSeconds,
+                                videoThumbnails: gridVideoRenderer.thumbnail.thumbnails
+                            )
+                        )
+                    } else {
+                        print("Missing gridVideoRenderer")
+                    }
+                }
+            }
+        }
+        return recommendedVideos
     }
 
     func timeStringToSeconds(_ timeString: String) -> Int? {
@@ -251,6 +254,29 @@ public final class InnerTubeAPI {
             return (hours * 3600) + (minutes * 60) + seconds
         default: // Invalid format
             return nil
+        }
+    }
+
+    func video(for id: String) async throws -> VideoObject {
+        do {
+            let json = try await player(for: id)
+            let nextJson = try await next(for: id)
+            let recommendedVideos = extractRecommendedVideos(json: nextJson)
+            return VideoObject(
+                title: json.videoDetails.title,
+                videoId: json.videoDetails.videoId,
+                lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
+                videoThumbnails: json.videoDetails.thumbnail.thumbnails,
+                viewCount: Int64(json.videoDetails.viewCount),
+                author: json.videoDetails.author,
+                authorId: json.videoDetails.channelId,
+                hlsUrl: json.streamingData.hlsManifestUrl,
+                recommendedVideos: recommendedVideos
+            )
+        } catch {
+            print("An error occurred: \(error.localizedDescription)")
+            print("Error details: \(error)")
+            throw error
         }
     }
 }
