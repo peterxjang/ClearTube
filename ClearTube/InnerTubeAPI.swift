@@ -5,9 +5,9 @@ public final class InnerTubeAPI {
     var session: URLSession
     static var decoder = JSONDecoder()
 
-    struct PlayerResponseObject: Decodable {
-        var streamingData: StreamingDataObject
-        struct StreamingDataObject: Decodable {
+    struct PlayerResponse: Decodable {
+        var streamingData: StreamingDataResponse
+        struct StreamingDataResponse: Decodable {
             var hlsManifestUrl: String
             var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
             struct StreamingDataAdaptiveFormatObject: Decodable {
@@ -18,57 +18,57 @@ public final class InnerTubeAPI {
                 var height: Int?
             }
         }
-        var videoDetails: VideoDetailsObject
-        struct VideoDetailsObject: Decodable {
+        var videoDetails: VideoDetailsResponse
+        struct VideoDetailsResponse: Decodable {
             var videoId: String
             var title: String
             var lengthSeconds: String
             var viewCount: String
             var author: String
             var channelId: String
-            var thumbnail: ThumbnailsObject
-            struct ThumbnailsObject: Decodable {
+            var thumbnail: ThumbnailsResponse
+            struct ThumbnailsResponse: Decodable {
                 var thumbnails: [ImageObject]
             }
         }
     }
 
-    struct NextResponseObject: Decodable {
-        var contents: ContentsObject
-        struct ContentsObject: Decodable {
-            var singleColumnWatchNextResults: SingleColumnWatchNextResultsObject
-            struct SingleColumnWatchNextResultsObject: Decodable {
-                var results: ResultsObject
-                struct ResultsObject: Decodable {
-                    var results: SubResultsObject
-                    struct SubResultsObject: Decodable {
-                        var contents: [ContentObject]
-                        struct ContentObject: Decodable {
-                            var shelfRenderer: ShelfRendererObject?
-                            struct ShelfRendererObject: Decodable {
-                                var content: ShelfRendererContentObject
-                                struct ShelfRendererContentObject: Decodable {
-                                    var horizontalListRenderer: HorizontalListRendererObject
-                                    struct HorizontalListRendererObject: Decodable {
-                                        var items: [HorizontalListRendererItemObject]
-                                        struct HorizontalListRendererItemObject: Decodable {
-                                            var gridVideoRenderer: GridVideoRendererObject?
-                                            struct GridVideoRendererObject: Decodable {
+    struct NextResponse: Decodable {
+        var contents: ContentsResponse
+        struct ContentsResponse: Decodable {
+            var singleColumnWatchNextResults: SingleColumnWatchNextResultsResponse
+            struct SingleColumnWatchNextResultsResponse: Decodable {
+                var results: ResultsResponse
+                struct ResultsResponse: Decodable {
+                    var results: ResultsResponse
+                    struct ResultsResponse: Decodable {
+                        var contents: [ContentResponse]
+                        struct ContentResponse: Decodable {
+                            var shelfRenderer: ShelfRendererResponse?
+                            struct ShelfRendererResponse: Decodable {
+                                var content: ShelfRendererContentResponse
+                                struct ShelfRendererContentResponse: Decodable {
+                                    var horizontalListRenderer: HorizontalListRendererResponse
+                                    struct HorizontalListRendererResponse: Decodable {
+                                        var items: [ItemResponse]
+                                        struct ItemResponse: Decodable {
+                                            var gridVideoRenderer: GridVideoRendererResponse?
+                                            struct GridVideoRendererResponse: Decodable {
                                                 var videoId: String
-                                                var thumbnail: GridVideoRendererThumbnailObject
-                                                struct GridVideoRendererThumbnailObject: Decodable {
+                                                var thumbnail: ThumbnailResponse
+                                                struct ThumbnailResponse: Decodable {
                                                     var thumbnails: [ImageObject]
                                                 }
-                                                var title: RunsTextObject
-                                                struct RunsTextObject: Decodable {
-                                                    var runs: [RunsObject]
-                                                    struct RunsObject: Decodable {
+                                                var title: RunsTextResponse
+                                                struct RunsTextResponse: Decodable {
+                                                    var runs: [RunsResponse]
+                                                    struct RunsResponse: Decodable {
                                                         var text: String
                                                     }
                                                 }
-                                                var publishedTimeText: RunsTextObject
-                                                var viewCountText: RunsTextObject
-                                                var lengthText: RunsTextObject
+                                                var publishedTimeText: RunsTextResponse
+                                                var viewCountText: RunsTextResponse
+                                                var lengthText: RunsTextResponse
                                             }
                                         }
                                     }
@@ -83,33 +83,29 @@ public final class InnerTubeAPI {
 
     struct RequestBody: Codable {
         let context: Context
-    }
-
-    struct Context: Codable {
-        let client: Client
-        let user: User
-        let request: RequestContext
-    }
-
-    struct Client: Codable {
-        let clientName: String
-        let clientVersion: String
-        let hl: String
-        let gl: String
-        let deviceMake: String?
-        let deviceModel: String?
-        let experimentIds: [String]
-        let utcOffsetMinutes: Int
-    }
-
-    struct User: Codable {
-        let lockedSafetyMode: Bool
-    }
-
-    struct RequestContext: Codable {
-        let useSsl: Bool
-        let internalExperimentFlags: [String]
-        let consistencyTokenJars: [String]
+        struct Context: Codable {
+            let client: Client
+            struct Client: Codable {
+                let clientName: String
+                let clientVersion: String
+                let hl: String
+                let gl: String
+                let deviceMake: String?
+                let deviceModel: String?
+                let experimentIds: [String]
+                let utcOffsetMinutes: Int
+            }
+            let user: User
+            struct User: Codable {
+                let lockedSafetyMode: Bool
+            }
+            let request: RequestContext
+            struct RequestContext: Codable {
+                let useSsl: Bool
+                let internalExperimentFlags: [String]
+                let consistencyTokenJars: [String]
+            }
+        }
     }
 
     public init(session: URLSession = .shared) {
@@ -146,8 +142,8 @@ public final class InnerTubeAPI {
         request.addValue("2.20230728.00.00", forHTTPHeaderField: "X-YouTube-Client-Version")
         request.httpBody = try JSONEncoder().encode(
             RequestBody(
-                context: Context(
-                    client: Client(
+                context: RequestBody.Context(
+                    client: RequestBody.Context.Client(
                         clientName: "IOS",
                         clientVersion: "19.16.3",
                         hl: "en",
@@ -157,8 +153,10 @@ public final class InnerTubeAPI {
                         experimentIds: [],
                         utcOffsetMinutes: 0
                     ),
-                    user: User(lockedSafetyMode: false),
-                    request: RequestContext(
+                    user: RequestBody.Context.User(
+                        lockedSafetyMode: false
+                    ),
+                    request: RequestBody.Context.RequestContext(
                         useSsl: true,
                         internalExperimentFlags: [],
                         consistencyTokenJars: []
@@ -178,14 +176,14 @@ public final class InnerTubeAPI {
                 for: "/youtubei/v1/player",
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
-            let json = try Self.decoder.decode(PlayerResponseObject.self, from: data)
+            let json = try Self.decoder.decode(PlayerResponse.self, from: data)
 
             var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
             let (nextData, _) = try await request(
                 for: "/youtubei/v1/next",
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
-            let nextJson = try Self.decoder.decode(NextResponseObject.self, from: nextData)
+            let nextJson = try Self.decoder.decode(NextResponse.self, from: nextData)
             for content in nextJson.contents.singleColumnWatchNextResults.results.results.contents {
                 if content.shelfRenderer != nil {
                     for item in content.shelfRenderer!.content.horizontalListRenderer.items {
