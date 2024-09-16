@@ -7,7 +7,6 @@ public final class InnerTubeAPI {
 
     struct PlayerResponseObject: Decodable {
         var streamingData: StreamingDataObject
-        var videoDetails: VideoDetailsObject
         struct StreamingDataObject: Decodable {
             var hlsManifestUrl: String
             var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
@@ -19,6 +18,7 @@ public final class InnerTubeAPI {
                 var height: Int?
             }
         }
+        var videoDetails: VideoDetailsObject
         struct VideoDetailsObject: Decodable {
             var videoId: String
             var title: String
@@ -56,19 +56,19 @@ public final class InnerTubeAPI {
                                             struct GridVideoRendererObject: Decodable {
                                                 var videoId: String
                                                 var thumbnail: GridVideoRendererThumbnailObject
-                                                var title: RunsTextObject
-                                                var publishedTimeText: RunsTextObject
-                                                var viewCountText: RunsTextObject
-                                                var lengthText: RunsTextObject
                                                 struct GridVideoRendererThumbnailObject: Decodable {
                                                     var thumbnails: [ImageObject]
                                                 }
+                                                var title: RunsTextObject
                                                 struct RunsTextObject: Decodable {
                                                     var runs: [RunsObject]
                                                     struct RunsObject: Decodable {
                                                         var text: String
                                                     }
                                                 }
+                                                var publishedTimeText: RunsTextObject
+                                                var viewCountText: RunsTextObject
+                                                var lengthText: RunsTextObject
                                             }
                                         }
                                     }
