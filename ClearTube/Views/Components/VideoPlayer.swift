@@ -325,7 +325,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                     authorId: recommendedVideo.authorId,
                     published: 0,
                     lengthSeconds: Int(recommendedVideo.lengthSeconds),
-                    viewCountText: recommendedVideo.viewCountText,
+                    viewCountText: recommendedVideo.viewCountText ?? "",
                     thumbnailQuality: recommendedVideo.videoThumbnails.first?.quality ?? "",
                     thumbnailUrl: recommendedVideo.videoThumbnails.first?.url ?? "N/A",
                     thumbnailWidth: recommendedVideo.videoThumbnails.first?.width ?? 0,

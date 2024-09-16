@@ -9,6 +9,7 @@ struct PreferredImage: View {
         let image = images
             .sorted { $0.width <= $1.width }
             .first { $0.width >= Int(width) }
+            ?? images.max { $0.width < $1.width }
         guard var image else { return nil }
         if !image.url.starts(with: "http") {
             image.url = "https:\(image.url)"

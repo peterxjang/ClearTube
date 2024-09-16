@@ -60,8 +60,8 @@ public struct VideoObject: Equatable, Decodable {
         public var author: String
         public var authorId: String
         public var lengthSeconds: Int32
-        public var viewCount: Int
-        public var viewCountText: String
+        public var viewCount: Int?
+        public var viewCountText: String?
     }
 
     public static func == (lhs: VideoObject, rhs: VideoObject) -> Bool {

@@ -41,6 +41,7 @@ struct VideoThumbnail: View {
         thumbnails
             .sorted { $0.width <= $1.width }
             .first { $0.width >= Int(width) }
+            ?? thumbnails.max { $0.width < $1.width }
     }
 
     var body: some View {

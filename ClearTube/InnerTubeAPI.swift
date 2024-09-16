@@ -8,32 +8,93 @@ public final class InnerTubeAPI {
     public struct PlayerResponseObject: Decodable {
         public var streamingData: StreamingDataObject
         public var videoDetails: VideoDetailsObject
+
+        public struct StreamingDataObject: Decodable {
+            public var hlsManifestUrl: String
+            public var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
+
+            public struct StreamingDataAdaptiveFormatObject: Decodable {
+                public var url: String
+                public var mimeType: String
+                public var bitrate: Int
+                public var width: Int?
+                public var height: Int?
+            }
+        }
+
+        public struct VideoDetailsObject: Decodable {
+            public var videoId: String
+            public var title: String
+            public var lengthSeconds: String
+            public var viewCount: String
+            public var author: String
+            public var thumbnail: ThumbnailsObject
+
+            public struct ThumbnailsObject: Decodable {
+                public var thumbnails: [ImageObject]
+            }
+        }
     }
 
-    public struct StreamingDataObject: Decodable {
-        public var hlsManifestUrl: String
-        public var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
-    }
+    public struct NextResponseObject: Decodable {
+        public var contents: ContentsObject
 
-    public struct StreamingDataAdaptiveFormatObject: Decodable {
-        public var url: String
-        public var mimeType: String
-        public var bitrate: Int
-        public var width: Int?
-        public var height: Int?
-    }
+        public struct ContentsObject: Decodable {
+            public var singleColumnWatchNextResults: SingleColumnWatchNextResultsObject
 
-    public struct VideoDetailsObject: Decodable {
-        public var videoId: String
-        public var title: String
-        public var lengthSeconds: String
-        public var viewCount: String
-        public var author: String
-        public var thumbnail: ThumbnailsObject
-    }
+            public struct SingleColumnWatchNextResultsObject: Decodable {
+                public var results: ResultsObject
 
-    public struct ThumbnailsObject: Decodable {
-        public var thumbnails: [ImageObject]
+                public struct ResultsObject: Decodable {
+                    public var results: SubResultsObject
+
+                    public struct SubResultsObject: Decodable {
+                        public var contents: [ContentObject]
+
+                        public struct ContentObject: Decodable {
+                            public var shelfRenderer: ShelfRendererObject?
+
+                            public struct ShelfRendererObject: Decodable {
+                                public var content: ShelfRendererContentObject
+
+                                public struct ShelfRendererContentObject: Decodable {
+                                    public var horizontalListRenderer: HorizontalListRendererObject
+
+                                    public struct HorizontalListRendererObject: Decodable {
+                                        public var items: [HorizontalListRendererItemObject]
+
+                                        public struct HorizontalListRendererItemObject: Decodable {
+                                            public var gridVideoRenderer: GridVideoRendererObject
+
+                                            public struct GridVideoRendererObject: Decodable {
+                                                public var videoId: String
+                                                public var thumbnail: GridVideoRendererThumbnailObject
+                                                public var title: RunsTextObject
+                                                public var publishedTimeText: RunsTextObject
+                                                public var viewCountText: RunsTextObject
+                                                public var lengthText: RunsTextObject
+
+                                                public struct GridVideoRendererThumbnailObject: Decodable {
+                                                    public var thumbnails: [ImageObject]
+                                                }
+
+                                                public struct RunsTextObject: Decodable {
+                                                    public var runs: [RunsObject]
+
+                                                    public struct RunsObject: Decodable {
+                                                        public var text: String
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     struct RequestBody: Codable {
@@ -134,14 +195,45 @@ public final class InnerTubeAPI {
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
             let json = try Self.decoder.decode(PlayerResponseObject.self, from: data)
-            print(json)
+
+            let (nextData, _) = try await request(
+                for: "/youtubei/v1/next",
+                with: [URLQueryItem(name: "videoId", value: idPath)]
+            )
+            let nextJson = try Self.decoder.decode(NextResponseObject.self, from: nextData)
+            var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
+            for content in nextJson.contents.singleColumnWatchNextResults.results.results.contents {
+                if content.shelfRenderer != nil {
+                    for item in content.shelfRenderer!.content.horizontalListRenderer.items {
+                        print("RECOMMENDED VIDEO")
+                        print(item.gridVideoRenderer)
+                        print(" ")
+                        var lengthSeconds: Int32 = 0
+                        if let lengthString = item.gridVideoRenderer.lengthText.runs.first?.text {
+                            lengthSeconds = timeStringToSeconds(lengthString) ?? 0
+                        }
+                        recommendedVideos.append(
+                            VideoObject.RecommendedVideoObject(
+                                videoId: item.gridVideoRenderer.videoId,
+                                title: item.gridVideoRenderer.title.runs.first?.text ?? "",
+                                videoThumbnails: item.gridVideoRenderer.thumbnail.thumbnails,
+                                author: "",
+                                authorId: "",
+                                lengthSeconds: lengthSeconds
+                            )
+                        )
+                    }
+                }
+            }
+
             return VideoObject(
                 title: json.videoDetails.title,
                 videoId: json.videoDetails.videoId,
                 lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
                 videoThumbnails: json.videoDetails.thumbnail.thumbnails,
                 author: json.videoDetails.author,
-                hlsUrl: json.streamingData.hlsManifestUrl
+                hlsUrl: json.streamingData.hlsManifestUrl,
+                recommendedVideos: recommendedVideos
             )
         } catch {
             print("An error occurred: \(error.localizedDescription)")
@@ -156,5 +248,26 @@ public final class InnerTubeAPI {
             with: [URLQueryItem(name: "query", value: query)]
         )
         return try Self.decoder.decode([SearchObject.Result].self, from: data)
+    }
+
+    func timeStringToSeconds(_ timeString: String) -> Int32? {
+        let components = timeString.split(separator: ":").map { Int($0) }
+        guard components.allSatisfy({ $0 != nil }) else {
+            return nil
+        }
+        let timeComponents = components.compactMap { $0 }
+        switch timeComponents.count {
+        case 2: // Format is "MM:SS"
+            let minutes = timeComponents[0]
+            let seconds = timeComponents[1]
+            return Int32((minutes * 60) + seconds)
+        case 3: // Format is "HH:MM:SS"
+            let hours = timeComponents[0]
+            let minutes = timeComponents[1]
+            let seconds = timeComponents[2]
+            return Int32((hours * 3600) + (minutes * 60) + seconds)
+        default: // Invalid format
+            return nil
+        }
     }
 }
