@@ -81,6 +81,138 @@ public final class InnerTubeAPI {
         }
     }
 
+    struct SearchResponse: Decodable {
+        var estimatedResults: String
+        var contents: ContentsResponse
+        struct ContentsResponse: Decodable {
+            var sectionListRenderer: SectionListRendererResponse
+            struct SectionListRendererResponse: Decodable {
+                var contents: [ContentResponse]
+                struct ContentResponse: Decodable {
+                    // CHANNEL
+                    var shelfRenderer: ShelfRendererResponse?
+                    struct ShelfRendererResponse: Decodable {
+                        var content: ContentResponse
+                        struct ContentResponse: Decodable {
+                            var verticalListRenderer: VerticalListRendererResponse
+                            struct VerticalListRendererResponse: Decodable {
+                                var items: [ItemResponse]
+                                struct ItemResponse: Decodable {
+                                    var elementRenderer: ElementRendererResponse
+                                    struct ElementRendererResponse: Decodable {
+                                        var newElement: NewElementResponse
+                                        struct NewElementResponse: Decodable {
+                                            var type: TypeResponse
+                                            struct TypeResponse: Decodable {
+                                                var componentType: ComponentTypeResponse
+                                                struct ComponentTypeResponse: Decodable {
+                                                    var model: ModelResponse
+                                                    struct ModelResponse: Decodable {
+                                                        var compactChannelModel: CompactChannelModelResponse?
+                                                        struct CompactChannelModelResponse: Decodable {
+                                                            var compactChannelData: CompactChannelDataResponse
+                                                            struct CompactChannelDataResponse: Decodable {
+                                                                var avatar: AvatarResponse
+                                                                struct AvatarResponse: Decodable {
+                                                                    var image: ImageResponse
+                                                                    struct ImageResponse: Decodable {
+                                                                        var sources: [ImageObject]
+                                                                    }
+                                                                }
+                                                                var title: String
+                                                                var subscriberCount: String
+                                                                var videoCount: String
+                                                                var onTap: OnTapResponse
+                                                                struct OnTapResponse: Decodable {
+                                                                    var innertubeCommand: InnertubeCommandResponse
+                                                                    struct InnertubeCommandResponse: Decodable {
+                                                                        var browseEndpoint: BrowseEndpointResponse
+                                                                        struct BrowseEndpointResponse: Decodable {
+                                                                            var browseId: String
+                                                                            var canonicalBaseUrl: String
+                                                                        }
+                                                                    }
+                                                                }
+                                                                var handle: String
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // VIDEO
+                    var itemSectionRenderer: ItemSectionRendererResponse?
+                    struct ItemSectionRendererResponse: Decodable {
+                        var contents: [ContentResponse]
+                        struct ContentResponse: Decodable {
+                            var elementRenderer: ElementRendererResponse?
+                            struct ElementRendererResponse: Decodable {
+                                var newElement: NewElementResponse
+                                struct NewElementResponse: Decodable {
+                                    var type: TypeResponse
+                                    struct TypeResponse: Decodable {
+                                        var componentType: ComponentTypeResponse?
+                                        struct ComponentTypeResponse: Decodable {
+                                            var model: ModelResponse
+                                            struct ModelResponse: Decodable {
+                                                var compactVideoModel: CompactVideoModelResponse?
+                                                struct CompactVideoModelResponse: Decodable {
+                                                    var compactVideoData: CompactVideoDataResponse
+                                                    struct CompactVideoDataResponse: Decodable {
+                                                        var videoData: VideoDataResponse
+                                                        struct VideoDataResponse: Decodable {
+                                                            var thumbnail: ThumbnailResponse
+                                                            struct ThumbnailResponse: Decodable {
+                                                                var image: ImageResponse
+                                                                struct ImageResponse: Decodable {
+                                                                    var sources: [ImageObject]
+                                                                }
+                                                                var timestampText: String?
+                                                            }
+                                                            var metadata: MetadataResponse
+                                                            struct MetadataResponse: Decodable {
+                                                                var title: String
+                                                                var byline: String
+                                                                var metadataDetails: String
+                                                            }
+                                                        }
+                                                        var onTap: OnTapResponse
+                                                        struct OnTapResponse: Decodable {
+                                                            var innertubeCommand: InnertubeCommandResponse
+                                                            struct InnertubeCommandResponse: Decodable {
+                                                                var coWatchWatchEndpointWrapperCommand: CoWatchWatchEndpointWrapperCommandResponse
+                                                                struct CoWatchWatchEndpointWrapperCommandResponse: Decodable {
+                                                                    var watchEndpoint: WatchEndpoint
+                                                                    struct WatchEndpoint: Decodable {
+                                                                        var watchEndpoint: WatchEndpoint
+                                                                        struct WatchEndpoint: Decodable {
+                                                                            var videoId: String
+                                                                        }
+                                                                    }
+                                                                    var videoTitle: String
+                                                                    var ownerDisplayName: String
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     struct RequestBody: Codable {
         let context: Context
         struct Context: Codable {
@@ -167,7 +299,7 @@ public final class InnerTubeAPI {
         return try await session.data(for: request)
     }
 
-    func player(for id: String) async throws -> PlayerResponse {
+    func playerEndpoint(for id: String) async throws -> PlayerResponse {
         guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
         }
@@ -184,15 +316,15 @@ public final class InnerTubeAPI {
         }
     }
 
-    func search(query: String, page: Int32) async throws -> [SearchObject.Result] {
+    func searchEndpoint(query: String) async throws -> SearchResponse {
         let (data, _) = try await request(
             for: "/youtubei/v1/search",
             with: [URLQueryItem(name: "query", value: query)]
         )
-        return try Self.decoder.decode([SearchObject.Result].self, from: data)
+        return try Self.decoder.decode(SearchResponse.self.self, from: data)
     }
 
-    func next(for id: String) async throws -> NextResponse {
+    func nextEndpoint(for id: String) async throws -> NextResponse {
         guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
         }
@@ -258,8 +390,8 @@ public final class InnerTubeAPI {
     }
 
     func video(for id: String) async throws -> VideoObject {
-        async let playerTask = player(for: id)
-        async let nextTask = next(for: id)
+        async let playerTask = playerEndpoint(for: id)
+        async let nextTask = nextEndpoint(for: id)
         do {
             let (json, nextJson) = try await(playerTask, nextTask)
             let recommendedVideos = extractRecommendedVideos(json: nextJson)
@@ -279,5 +411,55 @@ public final class InnerTubeAPI {
             print("Error details: \(error)")
             throw error
         }
+    }
+
+    func search(query: String, page: Int32) async throws -> [SearchObject.Result] {
+        let json = try await ClearTubeApp.innerTubeClient.searchEndpoint(query: query)
+        var results: [SearchObject.Result] = []
+        for contentJson in json.contents.sectionListRenderer.contents {
+            // CHANNEL
+            if let shelfRenderer = contentJson.shelfRenderer {
+                for item in shelfRenderer.content.verticalListRenderer.items {
+                    if let compactChannelModel = item.elementRenderer.newElement.type.componentType.model.compactChannelModel {
+                        let author = compactChannelModel.compactChannelData.title
+                        let authorId = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.browseId
+                        let authorUrl = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.canonicalBaseUrl
+                        let authorThumbnails = compactChannelModel.compactChannelData.avatar.image.sources
+                        let subCountText = compactChannelModel.compactChannelData.subscriberCount
+                        results.append(
+                            SearchObject.Result(from: ChannelObject(
+                                author: author,
+                                authorId: authorId,
+                                authorUrl: authorUrl,
+                                authorThumbnails: authorThumbnails,
+                                subCountText: subCountText
+                            ))
+                        )
+                    }
+                }
+            }
+            // VIDEO
+            if let itemSectionRenderer = contentJson.itemSectionRenderer {
+                for content in itemSectionRenderer.contents {
+                    if let model = content.elementRenderer?.newElement.type.componentType?.model, let compactVideoModel = model.compactVideoModel {
+                        let title = compactVideoModel.compactVideoData.videoData.metadata.title
+                        let videoId = compactVideoModel.compactVideoData.onTap.innertubeCommand.coWatchWatchEndpointWrapperCommand.watchEndpoint.watchEndpoint.videoId
+                        let timestampText = compactVideoModel.compactVideoData.videoData.thumbnail.timestampText ?? "0:0"
+                        let videoThumbnails = compactVideoModel.compactVideoData.videoData.thumbnail.image.sources
+                        let author = compactVideoModel.compactVideoData.videoData.metadata.byline
+                        results.append(
+                            SearchObject.Result(from: VideoObject(
+                                title: title,
+                                videoId: videoId,
+                                lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
+                                videoThumbnails: videoThumbnails,
+                                author: author
+                            ))
+                        )
+                    }
+                }
+            }
+        }
+        return results
     }
 }

@@ -14,7 +14,8 @@ class SearchResultsViewModel {
         isSearching = true // Set to true when the search begins
         task = Task {
             do {
-                let response = try await ClearTubeApp.client.search(query: query, page: page)
+                let response = try await ClearTubeApp.innerTubeClient.search(query: query, page: page)
+//                let response = try await ClearTubeApp.client.search(query: query, page: page)
                 await MainActor.run {
                     done = response.count == 0
                     if appending {

@@ -11,11 +11,11 @@ public struct ChannelObject: Decodable {
     public var author: String
     public var authorId: String
     public var authorUrl: String
-    public var authorVerified: Bool
     public var authorThumbnails: [ImageObject]
-    public var subCount: Int
-    public var description: String
-    public var descriptionHtml: String
+    public var subCount: Int?
+    public var subCountText: String?
+    public var description: String?
+    public var descriptionHtml: String?
     public var totalViews: Int?
     public var joined: Int?
     public var isFamilyFriendly: Bool?
@@ -26,6 +26,10 @@ public struct ChannelObject: Decodable {
     
     public static func == (lhs: ChannelObject, rhs: ChannelObject) -> Bool {
         lhs.authorId == rhs.authorId
+    }
+
+    func subCountTextDisplay() -> String {
+        return self.subCountText ?? "\((self.subCount ?? 0).formatted()) subscribers"
     }
 
     public struct PlaylistResponse: Decodable {

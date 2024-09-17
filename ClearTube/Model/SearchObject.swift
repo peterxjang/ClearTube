@@ -34,5 +34,13 @@ public struct SearchObject {
                 throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot initialize Result")
             }
         }
+
+        public init(from video: VideoObject) {
+            self = .video(video)
+        }
+
+        public init(from channel: ChannelObject) {
+            self = .channel(channel)
+        }
     }
 }

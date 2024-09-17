@@ -89,13 +89,9 @@ struct ChannelHeaderView: View {
                 PreferredImage(width: 64, height: 64, images: channel.authorThumbnails)
                 VStack(alignment: .leading) {
                     Group {
-                        if channel.authorVerified {
-                            Text(channel.author) + Text(" ") + Text(Image(systemName: "checkmark.seal.fill")).foregroundStyle(.tint)
-                        } else {
-                            Text(channel.author)
-                        }
+                        Text(channel.author)
                     }.fontWeight(.medium)
-                    Text("\(channel.subCount.formatted()) Subscribers").foregroundStyle(.secondary)
+                    Text(channel.subCountTextDisplay()).foregroundStyle(.secondary)
                 }
                 Spacer()
                 FollowButton(channel: channel)

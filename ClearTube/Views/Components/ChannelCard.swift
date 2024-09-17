@@ -9,7 +9,7 @@ struct ChannelCard: View {
             VStack {
                 PreferredImage(width: 200, height: 200, images: channel.authorThumbnails)
                 Text(channel.author)
-                Text("\(channel.subCount.formatted()) subscribers")
+                Text(channel.subCountTextDisplay())
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
