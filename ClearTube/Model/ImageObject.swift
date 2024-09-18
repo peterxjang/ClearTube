@@ -9,6 +9,12 @@ public struct ImageObject: Hashable, Decodable {
     public static func == (lhs: ImageObject, rhs: ImageObject) -> Bool {
         lhs.url == rhs.url
     }
+
+    func getURL() -> URL {
+        var components = URLComponents(string: url)!
+        components.query = nil
+        return components.url!
+    }
 }
 
 extension Array where Element == ImageObject {

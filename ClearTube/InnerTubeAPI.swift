@@ -50,6 +50,22 @@ public final class InnerTubeAPI {
             throw error
         }
     }
+
+    func browseEndpoint(browseId: String, params: String? = nil) async throws -> BrowseResponse {
+        var queryParams: [URLQueryItem]
+        if let params = params {
+            queryParams = [URLQueryItem(name: "browseId", value: browseId), URLQueryItem(name: "params", value: params)]
+        } else {
+            queryParams = [URLQueryItem(name: "browseId", value: browseId)]
+        }
+        let (data, _) = try await request(
+            clientName: "WEB",
+            clientVersion: "2.20230728.00.00",
+            for: "/youtubei/v1/browse",
+            with: queryParams
+        )
+        return try Self.decoder.decode(BrowseResponse.self.self, from: data)
+    }
     
     func video(for id: String) async throws -> VideoObject {
         async let playerTask = playerEndpoint(for: id)
@@ -80,6 +96,51 @@ public final class InnerTubeAPI {
         return extractSearchResults(json: json)
     }
 
+    func videos(for channelId: String, continuation: String?, channelName: String? = nil) async throws -> ChannelObject.VideosResponse {
+        guard let browseId = channelId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: browseId)
+        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer else {
+            throw APIError.urlCreation
+        }
+        let author = videosTabRenderer.endpoint.browseEndpoint.canonicalBaseUrl
+        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
+        var videos: [VideoObject] = []
+        for tab in json2.contents.twoColumnBrowseResultsRenderer.tabs {
+            if let tabRenderer = tab.tabRenderer {
+                if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
+                    for content in richGridRenderer.contents {
+                        if let richItemRenderer = content.richItemRenderer {
+                            let videoRenderer = richItemRenderer.content.videoRenderer
+                            let videoId = videoRenderer.videoId
+                            let title = videoRenderer.title.runs[0].text
+                            let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
+                            let videoThumbnails = videoRenderer.thumbnail.thumbnails
+                            let publishedText = videoRenderer.publishedTimeText.simpleText
+                            let viewCountText = videoRenderer.viewCountText.simpleText
+                            videos.append(
+                                VideoObject(
+                                    title: title,
+                                    videoId: videoId,
+                                    lengthSeconds: lengthSeconds,
+                                    videoThumbnails: videoThumbnails,
+                                    published: timeAgoStringToUnix(publishedText),
+                                    publishedText: publishedText,
+                                    viewCountText: viewCountText,
+                                    author: channelName ?? author,
+                                    authorId: browseId
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        return ChannelObject.VideosResponse(from: videos)
+    }
+
     private func requestUrl(for string: String, with queryItems: [URLQueryItem]? = nil) -> URL? {
         guard var url = URL(string: string, relativeTo: baseUrl) else {
             return nil
@@ -98,7 +159,12 @@ public final class InnerTubeAPI {
         return url
     }
 
-    private func request(for string: String, with queryItems: [URLQueryItem]? = nil) async throws -> (Data, URLResponse) {
+    private func request(
+        clientName: String = "IOS",
+        clientVersion: String = "19.16.3",
+        for string: String,
+        with queryItems: [URLQueryItem]? = nil
+    ) async throws -> (Data, URLResponse) {
         guard let url = requestUrl(for: string, with: queryItems) else {
             throw APIError.urlCreation
         }
@@ -112,8 +178,8 @@ public final class InnerTubeAPI {
             RequestBody(
                 context: RequestBody.Context(
                     client: RequestBody.Context.Client(
-                        clientName: "IOS",
-                        clientVersion: "19.16.3",
+                        clientName: clientName,
+                        clientVersion: clientVersion,
                         hl: "en",
                         gl: "US",
                         deviceMake: "Apple",
@@ -230,5 +296,45 @@ public final class InnerTubeAPI {
         default: // Invalid format
             return nil
         }
+    }
+
+    private func timeAgoStringToUnix(_ timeAgo: String) -> Int64? {
+        let now = Date()
+        let calendar = Calendar.current
+        let regex = try! NSRegularExpression(pattern: #"(\d+)\s(\w+)\sago"#, options: [])
+        let nsRange = NSRange(timeAgo.startIndex..<timeAgo.endIndex, in: timeAgo)
+        if let match = regex.firstMatch(in: timeAgo, options: [], range: nsRange) {
+            let numberRange = Range(match.range(at: 1), in: timeAgo)
+            let unitRange = Range(match.range(at: 2), in: timeAgo)
+            guard let numberRange = numberRange, let unitRange = unitRange,
+                  let number = Int(timeAgo[numberRange]) else {
+                return nil
+            }
+            let unit = String(timeAgo[unitRange]).lowercased()
+            var dateComponent = DateComponents()
+            switch unit {
+            case "second", "seconds":
+                dateComponent.second = -number
+            case "minute", "minutes":
+                dateComponent.minute = -number
+            case "hour", "hours":
+                dateComponent.hour = -number
+            case "day", "days":
+                dateComponent.day = -number
+            case "week", "weeks":
+                dateComponent.day = -number * 7
+            case "month", "months":
+                dateComponent.month = -number
+            case "year", "years":
+                dateComponent.year = -number
+            default:
+                return nil
+            }
+            if let pastDate = calendar.date(byAdding: dateComponent, to: now) {
+                let unixTime = Int(pastDate.timeIntervalSince1970)
+                return Int64(unixTime)
+            }
+        }
+        return nil
     }
 }

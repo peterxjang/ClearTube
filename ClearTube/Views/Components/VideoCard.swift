@@ -1,6 +1,17 @@
 import SwiftUI
 import SwiftData
 
+private extension URL {
+    var removingQueries: URL {
+        if var components = URLComponents(string: absoluteString) {
+            components.query = nil
+            return components.url ?? self
+        } else {
+            return self
+        }
+    }
+}
+
 struct VideoCard: View {
     var video: VideoObject
 
@@ -43,14 +54,12 @@ struct VideoThumbnail: View {
             .aspectRatio(16 / 9, contentMode: .fill)
             .background(Rectangle().foregroundStyle(.background))
             .overlay {
-                if let thumbnailUrl = thumbnail?.url, let url = URL(string: thumbnailUrl) {
-                    CacheAsyncImage(url: url) { image in
-                        image.resizable().scaledToFill()
-                            .frame(maxWidth: width, maxHeight: height)
-                    } placeholder: {}
+                CacheAsyncImage(url: thumbnail?.getURL()) { image in
+                    image.resizable().scaledToFill()
                         .frame(maxWidth: width, maxHeight: height)
-                        .clipped()
-                }
+                } placeholder: {}
+                    .frame(maxWidth: width, maxHeight: height)
+                    .clipped()
             }
             .cornerRadius(radius)
             .clipped()

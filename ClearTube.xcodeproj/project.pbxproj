@@ -44,6 +44,7 @@
 		AC3A3A282C9A60F400861227 /* NextResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A272C9A60F400861227 /* NextResponse.swift */; };
 		AC3A3A2A2C9A611900861227 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A292C9A611900861227 /* SearchResponse.swift */; };
 		AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
+		AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */; };
 		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -86,6 +87,7 @@
 		AC3A3A272C9A60F400861227 /* NextResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextResponse.swift; sourceTree = "<group>"; };
 		AC3A3A292C9A611900861227 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
 		AC3A3A2B2C9A614700861227 /* RequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBody.swift; sourceTree = "<group>"; };
+		AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResponse.swift; sourceTree = "<group>"; };
 		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,6 +169,7 @@
 				AC3A3A252C9A60B100861227 /* PlayerResponse.swift */,
 				AC3A3A272C9A60F400861227 /* NextResponse.swift */,
 				AC3A3A292C9A611900861227 /* SearchResponse.swift */,
+				AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */,
 				AC3A3A2B2C9A614700861227 /* RequestBody.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
 				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
@@ -267,6 +270,7 @@
 				AC0589342C95D1C1001C2C6F /* PlaylistItemView.swift in Sources */,
 				AC0589122C952D84001C2C6F /* CacheAsyncImage.swift in Sources */,
 				AC05893A2C95DF76001C2C6F /* SubscriptionsView.swift in Sources */,
+				AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */,
 				AC0589052C952087001C2C6F /* FeedView.swift in Sources */,
 				AC0589222C95C9E8001C2C6F /* SettingsView.swift in Sources */,
 				AC3A3A262C9A60B100861227 /* PlayerResponse.swift in Sources */,

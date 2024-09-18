@@ -60,5 +60,9 @@ public struct ChannelObject: Decodable {
             self.videos = (try? container.decode([VideoObject].self, forKey: ChannelObject.VideosResponse.CodingKeys.videos))
                 ?? []
         }
+
+        public init(from videos: [VideoObject]) {
+            self.videos = videos
+        }
     }
 }
