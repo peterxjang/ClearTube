@@ -40,6 +40,10 @@
 		AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893F2C963423001C2C6F /* SavedVideosView.swift */; };
 		AC0589422C9641AE001C2C6F /* HistoryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589412C9641AE001C2C6F /* HistoryVideo.swift */; };
 		AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589432C96480F001C2C6F /* RecommendedVideo.swift */; };
+		AC3A3A262C9A60B100861227 /* PlayerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A252C9A60B100861227 /* PlayerResponse.swift */; };
+		AC3A3A282C9A60F400861227 /* NextResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A272C9A60F400861227 /* NextResponse.swift */; };
+		AC3A3A2A2C9A611900861227 /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A292C9A611900861227 /* SearchResponse.swift */; };
+		AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
 		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,6 +82,10 @@
 		AC05893F2C963423001C2C6F /* SavedVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideosView.swift; sourceTree = "<group>"; };
 		AC0589412C9641AE001C2C6F /* HistoryVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryVideo.swift; sourceTree = "<group>"; };
 		AC0589432C96480F001C2C6F /* RecommendedVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedVideo.swift; sourceTree = "<group>"; };
+		AC3A3A252C9A60B100861227 /* PlayerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerResponse.swift; sourceTree = "<group>"; };
+		AC3A3A272C9A60F400861227 /* NextResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextResponse.swift; sourceTree = "<group>"; };
+		AC3A3A292C9A611900861227 /* SearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResponse.swift; sourceTree = "<group>"; };
+		AC3A3A2B2C9A614700861227 /* RequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBody.swift; sourceTree = "<group>"; };
 		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,6 +164,10 @@
 				AC05890A2C952872001C2C6F /* ImageObject.swift */,
 				AC05891F2C95C7CA001C2C6F /* PlaylistObject.swift */,
 				AC0589292C95CEE3001C2C6F /* SearchObject.swift */,
+				AC3A3A252C9A60B100861227 /* PlayerResponse.swift */,
+				AC3A3A272C9A60F400861227 /* NextResponse.swift */,
+				AC3A3A292C9A611900861227 /* SearchResponse.swift */,
+				AC3A3A2B2C9A614700861227 /* RequestBody.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
 				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
 				AC0589432C96480F001C2C6F /* RecommendedVideo.swift */,
@@ -257,6 +269,7 @@
 				AC05893A2C95DF76001C2C6F /* SubscriptionsView.swift in Sources */,
 				AC0589052C952087001C2C6F /* FeedView.swift in Sources */,
 				AC0589222C95C9E8001C2C6F /* SettingsView.swift in Sources */,
+				AC3A3A262C9A60B100861227 /* PlayerResponse.swift in Sources */,
 				AC0589092C95270B001C2C6F /* ChannelObject.swift in Sources */,
 				AC05892C2C95CFAB001C2C6F /* ChannelCard.swift in Sources */,
 				AC0589402C963423001C2C6F /* SavedVideosView.swift in Sources */,
@@ -271,10 +284,13 @@
 				AC05892A2C95CEE3001C2C6F /* SearchObject.swift in Sources */,
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
 				AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */,
+				AC3A3A2A2C9A611900861227 /* SearchResponse.swift in Sources */,
 				AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */,
+				AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */,
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
 				AC0589242C95CC9E001C2C6F /* FollowedChannel.swift in Sources */,
 				AC0588F32C94C3B1001C2C6F /* ClearTubeApp.swift in Sources */,
+				AC3A3A282C9A60F400861227 /* NextResponse.swift in Sources */,
 				AC0589182C954F23001C2C6F /* SponsorBlockAPI.swift in Sources */,
 				AC05891E2C95C605001C2C6F /* OnboardingView.swift in Sources */,
 				AC0589362C95D1DF001C2C6F /* PlaylistView.swift in Sources */,
