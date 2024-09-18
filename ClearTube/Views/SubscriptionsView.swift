@@ -22,7 +22,13 @@ struct SubscriptionsView: View {
                                     PreferredImage(
                                         width: 100,
                                         height: 100,
-                                        images: [ImageObject(url: channel.thumbnailUrl, width: 100, height: 100)]
+                                        images: [
+                                            ImageObject(
+                                                url: channel.thumbnailUrl ?? "",
+                                                width: channel.thumbnailWidth ?? 0,
+                                                height: channel.thumbnailHeight ?? 0
+                                            )
+                                        ]
                                     )
                                     Text(channel.author)
                                         .padding()
