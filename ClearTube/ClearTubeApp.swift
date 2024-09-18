@@ -3,7 +3,7 @@ import SwiftData
 
 @main
 struct ClearTubeApp: App {
-    static var client = InvidiousAPI()
+    static var invidiousClient = InvidiousAPI()
     static var innerTubeClient = InnerTubeAPI()
     var settings = Settings()
     @State var hasValidInstance: Bool? = nil
@@ -48,7 +48,7 @@ struct ClearTubeApp: App {
             let instanceUrl = URL(string: instanceUrlString)
         else {
             await MainActor.run {
-                Self.client.setApiUrl(url: nil)
+                ClearTubeApp.invidiousClient.setApiUrl(url: nil)
                 hasValidInstance = false
             }
             return
@@ -56,7 +56,7 @@ struct ClearTubeApp: App {
         let response = await InvidiousAPI.isValidInstance(url: instanceUrl)
         await MainActor.run {
             if response {
-                Self.client.setApiUrl(url: instanceUrl)
+                ClearTubeApp.invidiousClient.setApiUrl(url: instanceUrl)
             }
             hasValidInstance = response
         }

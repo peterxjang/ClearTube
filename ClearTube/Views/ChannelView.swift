@@ -37,7 +37,7 @@ class ChannelViewModel {
             loading = true
             error = nil
             do {
-                channel = try await ClearTubeApp.client.channel(for: channelId)
+                channel = try await ClearTubeApp.invidiousClient.channel(for: channelId)
             } catch {
                 print(error)
                 self.error = error
@@ -148,11 +148,11 @@ class ChannelVideosViewModel {
         do {
             let response = switch list {
             case .videos:
-                try await ClearTubeApp.client.videos(for: channelId, continuation: continuation)
+                try await ClearTubeApp.invidiousClient.videos(for: channelId, continuation: continuation)
             case .shorts:
-                try await ClearTubeApp.client.shorts(for: channelId, continuation: continuation)
+                try await ClearTubeApp.invidiousClient.shorts(for: channelId, continuation: continuation)
             case .streams:
-                try await ClearTubeApp.client.streams(for: channelId, continuation: continuation)
+                try await ClearTubeApp.invidiousClient.streams(for: channelId, continuation: continuation)
             }
             continuation = response.continuation
 
@@ -218,7 +218,7 @@ class ChannelPlaylistsViewModel {
     func load() async {
         loading = false
         do {
-            let response = try await ClearTubeApp.client.playlists(for: channelId, continuation: continuation)
+            let response = try await ClearTubeApp.invidiousClient.playlists(for: channelId, continuation: continuation)
             continuation = response.continuation
             if let video = playlists.first, response.playlists.firstIndex(of: video) != nil {
                 done = true

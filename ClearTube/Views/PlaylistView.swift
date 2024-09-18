@@ -17,7 +17,7 @@ class PlaylistViewModel {
     func load() async {
         loading = true
         do {
-            let response = try await ClearTubeApp.client.playlist(for: playlistId)
+            let response = try await ClearTubeApp.invidiousClient.playlist(for: playlistId)
             title = response.title
             videos = response.videos
         } catch {
