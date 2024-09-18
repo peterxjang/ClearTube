@@ -17,9 +17,12 @@ public final class InvidiousAPI {
     var session: URLSession
     static var decoder = JSONDecoder()
 
-    public init(apiUrl: URL? = nil, session: URLSession = .shared) {
+    public init(apiUrl: URL? = nil, timeoutIntervalForRequest: TimeInterval = 5, timeoutIntervalForResource: TimeInterval = 60) {
         self.baseUrl = apiUrl
-        self.session = session
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
+        configuration.timeoutIntervalForResource = timeoutIntervalForResource
+        self.session = URLSession(configuration: configuration)
     }
 
     public func setApiUrl(url: URL?) {

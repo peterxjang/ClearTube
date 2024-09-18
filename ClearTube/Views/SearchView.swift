@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import Combine
 
 @Observable
 class SearchResultsViewModel {
@@ -8,14 +9,34 @@ class SearchResultsViewModel {
     var page: Int32 = 0
     var task: Task<Void, Never>?
     var isSearching: Bool = false
+    private var searchSubject = PassthroughSubject<String, Never>()
+    private var searchCancellable: AnyCancellable?
+
+    init() {
+        searchCancellable = searchSubject
+            .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] searchQuery in
+                self?.handleUpdate(query: searchQuery)
+            }
+    }
+
+    func handleChange(query: String) {
+        searchSubject.send(query)
+    }
 
     func handleUpdate(query: String, appending: Bool = false) {
         task?.cancel()
-        isSearching = true // Set to true when the search begins
+        isSearching = true
         task = Task {
             do {
-//                let response = try await ClearTubeApp.innerTubeClient.search(query: query, page: page)
-                let response = try await ClearTubeApp.invidiousClient.search(query: query, page: page)
+                let response: [SearchObject.Result]
+                do {
+                    response = try await ClearTubeApp.invidiousClient.search(query: query, page: page)
+                } catch {
+                    print("InvidiousClient failed, trying InnerTubeClient: \(error)")
+                    response = try await ClearTubeApp.innerTubeClient.search(query: query, page: page)
+                }
                 await MainActor.run {
                     done = response.count == 0
                     if appending {
@@ -85,7 +106,7 @@ struct SearchResultsView: View {
                     }.padding(50)
                 }
                 .onChange(of: query) { _, _ in
-                    model.handleUpdate(query: query)
+                    model.handleChange(query: query)
                 }
             }
         }
