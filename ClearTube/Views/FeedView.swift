@@ -58,8 +58,13 @@ struct FeedView: View {
             try await withThrowingTaskGroup(of: [VideoObject].self) { group in
                 for channel in channels {
                     group.addTask {
-//                        let result = try await ClearTubeApp.innerTubeClient.videos(for: channel.authorId, continuation: nil, channelName: channel.author)
-                        let result = try await ClearTubeApp.invidiousClient.videos(for: channel.authorId, continuation: nil)
+                        let result: ChannelObject.VideosResponse
+                        do {
+                            result = try await ClearTubeApp.invidiousClient.videos(for: channel.authorId, continuation: nil)
+                        } catch {
+                            print("InvidiousClient failed, trying InnerTubeClient: \(error)")
+                            result = try await ClearTubeApp.innerTubeClient.videos(for: channel.authorId, continuation: nil, channelName: channel.author)
+                        }
                         let recentVideos = result.videos.filter { video in
                             let publishedDate = Date(timeIntervalSince1970: TimeInterval(video.published ?? 0))
                             return publishedDate >= oneMonthAgo
