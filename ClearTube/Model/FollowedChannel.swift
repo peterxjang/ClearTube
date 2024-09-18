@@ -7,22 +7,17 @@ class FollowedChannel {
     var author: String
     var authorUrl: String
     var thumbnailUrl: String
-    var subCount: Int
+    var subCount: Int?
+    var subCountText: String?
     var dateFollowed: Date = Date()
 
-    init(
-        authorId: String,
-        author: String,
-        authorUrl: String,
-        thumbnailUrl: String,
-        subCount: Int,
-        dateFollowed: Date
-    ) {
-        self.authorId = authorId
-        self.author = author
-        self.authorUrl = authorUrl
-        self.thumbnailUrl = thumbnailUrl
-        self.subCount = subCount
+    init(channel: ChannelObject) {
+        self.authorId = channel.authorId
+        self.author = channel.author
+        self.authorUrl = channel.authorUrl
+        self.thumbnailUrl = channel.authorThumbnails.preferredThumbnail()?.url ?? ""
+        self.subCount = channel.subCount
+        self.subCountText = channel.subCountText
         self.dateFollowed = dateFollowed
     }
 }

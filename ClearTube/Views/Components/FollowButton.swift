@@ -21,14 +21,7 @@ struct FollowButton: View {
                 } catch {}
             } else {
                 context.insert(
-                    FollowedChannel(
-                        authorId: channel.authorId,
-                        author: channel.author,
-                        authorUrl: channel.authorUrl,
-                        thumbnailUrl: channel.authorThumbnails.preferredThumbnail()?.url ?? "",
-                        subCount: channel.subCount ?? 0,
-                        dateFollowed: Date()
-                    )
+                    FollowedChannel(channel: channel)
                 )
                 self.isFollowed = true
             }
