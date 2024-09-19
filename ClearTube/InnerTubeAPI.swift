@@ -4,6 +4,14 @@ public final class InnerTubeAPI {
     let baseUrl: URL? = URL(string: "https://youtubei.googleapis.com")
     var session: URLSession
     static var decoder = JSONDecoder()
+    let iOSVersions = [
+        "17.5.1",
+        "17.5",
+        "17.4.1",
+        "17.4",
+        "17.3.1",
+        "17.3",
+    ]
     let iOSClientVersions = [
         "19.29.1",
         "19.28.1",
@@ -148,15 +156,20 @@ public final class InnerTubeAPI {
             throw APIError.urlCreation
         }
         let randomClientVersion: String
+        let randomOsVersion: String
+        let userAgent: String
         if clientName == "IOS" {
             randomClientVersion = iOSClientVersions.randomElement()!
+            randomOsVersion = iOSVersions.randomElement()!
+            userAgent = "com.google.ios.youtube/\(randomClientVersion) (iPhone16,2; CPU iOS \(randomOsVersion.replacingOccurrences(of: ".", with: "_")) like Mac OS X; en_US)"
         } else {
             randomClientVersion = clientVersion
+            userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36"
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36", forHTTPHeaderField: "User-Agent")
+        request.addValue(userAgent, forHTTPHeaderField: "User-Agent")
         request.addValue("1", forHTTPHeaderField: "X-YouTube-Client-Name")
         request.addValue(randomClientVersion, forHTTPHeaderField: "X-YouTube-Client-Version")
         request.httpBody = try JSONEncoder().encode(
@@ -168,7 +181,7 @@ public final class InnerTubeAPI {
                         hl: "en",
                         gl: "US",
                         deviceMake: "Apple",
-                        deviceModel: "iPhone",
+                        deviceModel: "iPhone16,2",
                         experimentIds: [],
                         utcOffsetMinutes: 0
                     ),
