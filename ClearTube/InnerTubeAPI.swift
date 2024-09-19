@@ -43,10 +43,16 @@ public final class InnerTubeAPI {
         }
     }
 
-    func searchEndpoint(query: String) async throws -> SearchResponse {
+    func searchEndpoint(query: String, params: String? = nil) async throws -> SearchResponse {
+        let queryItems: [URLQueryItem]
+        if let params = params {
+            queryItems = [URLQueryItem(name: "query", value: query), URLQueryItem(name: "params", value: params)]
+        } else {
+            queryItems = [URLQueryItem(name: "query", value: query)]
+        }
         let (data, _) = try await request(
             for: "/youtubei/v1/search",
-            with: [URLQueryItem(name: "query", value: query)]
+            with: queryItems
         )
         return try Self.decoder.decode(SearchResponse.self.self, from: data)
     }
@@ -264,45 +270,41 @@ public final class InnerTubeAPI {
     private func extractSearchResults(json: SearchResponse) -> [SearchObject.Result] {
         var results: [SearchObject.Result] = []
         for contentJson in json.contents.sectionListRenderer.contents {
-            // CHANNEL
-            if let shelfRenderer = contentJson.shelfRenderer {
-                for item in shelfRenderer.content.verticalListRenderer.items {
-                    if let compactChannelModel = item.elementRenderer.newElement.type.componentType.model.compactChannelModel {
-                        let author = compactChannelModel.compactChannelData.title
-                        let authorId = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.browseId
-                        let authorUrl = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.canonicalBaseUrl
-                        let authorThumbnails = compactChannelModel.compactChannelData.avatar.image.sources
-                        let subCountText = compactChannelModel.compactChannelData.subscriberCount
-                        results.append(
-                            SearchObject.Result(from: ChannelObject(
-                                author: author,
-                                authorId: authorId,
-                                authorUrl: authorUrl,
-                                authorThumbnails: authorThumbnails,
-                                subCountText: subCountText
-                            ))
-                        )
-                    }
-                }
-            }
-            // VIDEO
             if let itemSectionRenderer = contentJson.itemSectionRenderer {
                 for content in itemSectionRenderer.contents {
-                    if let model = content.elementRenderer?.newElement.type.componentType?.model, let compactVideoModel = model.compactVideoModel {
-                        let title = compactVideoModel.compactVideoData.videoData.metadata.title
-                        let videoId = compactVideoModel.compactVideoData.onTap.innertubeCommand.coWatchWatchEndpointWrapperCommand.watchEndpoint.watchEndpoint.videoId
-                        let timestampText = compactVideoModel.compactVideoData.videoData.thumbnail.timestampText ?? "0:0"
-                        let videoThumbnails = compactVideoModel.compactVideoData.videoData.thumbnail.image.sources
-                        let author = compactVideoModel.compactVideoData.videoData.metadata.byline
-                        results.append(
-                            SearchObject.Result(from: VideoObject(
-                                title: title,
-                                videoId: videoId,
-                                lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
-                                videoThumbnails: videoThumbnails,
-                                author: author
-                            ))
-                        )
+                    if let model = content.elementRenderer?.newElement.type.componentType?.model {
+                       if let compactChannelModel = model.compactChannelModel {
+                            let author = compactChannelModel.compactChannelData.title
+                            let authorId = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.browseId
+                            let authorUrl = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.canonicalBaseUrl
+                            let authorThumbnails = compactChannelModel.compactChannelData.avatar.image.sources
+                            let subCountText = compactChannelModel.compactChannelData.subscriberCount
+                            results.append(
+                                SearchObject.Result(from: ChannelObject(
+                                    author: author,
+                                    authorId: authorId,
+                                    authorUrl: authorUrl,
+                                    authorThumbnails: authorThumbnails,
+                                    subCountText: subCountText
+                                ))
+                            )
+                        }
+                        if let compactVideoModel = model.compactVideoModel {
+                            let title = compactVideoModel.compactVideoData.videoData.metadata.title
+                            let videoId = compactVideoModel.compactVideoData.onTap.innertubeCommand.coWatchWatchEndpointWrapperCommand.watchEndpoint.watchEndpoint.videoId
+                            let timestampText = compactVideoModel.compactVideoData.videoData.thumbnail.timestampText ?? "0:0"
+                            let videoThumbnails = compactVideoModel.compactVideoData.videoData.thumbnail.image.sources
+                            let author = compactVideoModel.compactVideoData.videoData.metadata.byline
+                            results.append(
+                                SearchObject.Result(from: VideoObject(
+                                    title: title,
+                                    videoId: videoId,
+                                    lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
+                                    videoThumbnails: videoThumbnails,
+                                    author: author
+                                ))
+                            )
+                        }
                     }
                 }
             }
