@@ -107,37 +107,7 @@ public final class InnerTubeAPI {
         let author = videosTabRenderer.endpoint.browseEndpoint.canonicalBaseUrl
         let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
-        var videos: [VideoObject] = []
-        for tab in json2.contents.twoColumnBrowseResultsRenderer.tabs {
-            if let tabRenderer = tab.tabRenderer {
-                if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
-                    for content in richGridRenderer.contents {
-                        if let richItemRenderer = content.richItemRenderer {
-                            let videoRenderer = richItemRenderer.content.videoRenderer
-                            let videoId = videoRenderer.videoId
-                            let title = videoRenderer.title.runs[0].text
-                            let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
-                            let videoThumbnails = videoRenderer.thumbnail.thumbnails
-                            let publishedText = videoRenderer.publishedTimeText.simpleText
-                            let viewCountText = videoRenderer.viewCountText.simpleText
-                            videos.append(
-                                VideoObject(
-                                    title: title,
-                                    videoId: videoId,
-                                    lengthSeconds: lengthSeconds,
-                                    videoThumbnails: videoThumbnails,
-                                    published: timeAgoStringToUnix(publishedText),
-                                    publishedText: publishedText,
-                                    viewCountText: viewCountText,
-                                    author: channelName ?? author,
-                                    authorId: browseId
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-        }
+        let videos = extractChannelVideos(json: json2, author: channelName ?? author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
     }
 
@@ -226,6 +196,41 @@ public final class InnerTubeAPI {
             }
         }
         return recommendedVideos
+    }
+
+    private func extractChannelVideos(json: BrowseResponse, author: String, authorId: String) -> [VideoObject] {
+        var videos: [VideoObject] = []
+        for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
+            if let tabRenderer = tab.tabRenderer {
+                if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
+                    for content in richGridRenderer.contents {
+                        if let richItemRenderer = content.richItemRenderer {
+                            let videoRenderer = richItemRenderer.content.videoRenderer
+                            let videoId = videoRenderer.videoId
+                            let title = videoRenderer.title.runs[0].text
+                            let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
+                            let videoThumbnails = videoRenderer.thumbnail.thumbnails
+                            let publishedText = videoRenderer.publishedTimeText.simpleText
+                            let viewCountText = videoRenderer.viewCountText.simpleText
+                            videos.append(
+                                VideoObject(
+                                    title: title,
+                                    videoId: videoId,
+                                    lengthSeconds: lengthSeconds,
+                                    videoThumbnails: videoThumbnails,
+                                    published: timeAgoStringToUnix(publishedText),
+                                    publishedText: publishedText,
+                                    viewCountText: viewCountText,
+                                    author: author,
+                                    authorId: authorId
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        return videos
     }
 
     private func extractSearchResults(json: SearchResponse) -> [SearchObject.Result] {
