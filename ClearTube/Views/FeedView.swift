@@ -62,7 +62,7 @@ struct FeedView: View {
                         do {
                             result = try await ClearTubeApp.invidiousClient.videos(for: channel.authorId, continuation: nil)
                         } catch {
-                            print("InvidiousClient failed, trying InnerTubeClient: \(error)")
+                            print("InvidiousClient failed for \(channel.author), trying InnerTubeClient")
                             result = try await ClearTubeApp.innerTubeClient.videos(for: channel.authorId, continuation: nil, channelName: channel.author)
                         }
                         let recentVideos = result.videos.filter { video in

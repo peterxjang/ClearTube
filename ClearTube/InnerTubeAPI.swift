@@ -4,6 +4,15 @@ public final class InnerTubeAPI {
     let baseUrl: URL? = URL(string: "https://youtubei.googleapis.com")
     var session: URLSession
     static var decoder = JSONDecoder()
+    let iOSClientVersions = [
+        "19.29.1",
+        "19.28.1",
+        "19.26.5",
+        "19.25.4",
+        "19.25.3",
+        "19.24.3",
+        "19.24.2",
+    ]
 
     public init(session: URLSession = .shared) {
         self.session = session
@@ -138,18 +147,24 @@ public final class InnerTubeAPI {
         guard let url = requestUrl(for: string, with: queryItems) else {
             throw APIError.urlCreation
         }
+        let randomClientVersion: String
+        if clientName == "IOS" {
+            randomClientVersion = iOSClientVersions.randomElement()!
+        } else {
+            randomClientVersion = clientVersion
+        }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36", forHTTPHeaderField: "User-Agent")
         request.addValue("1", forHTTPHeaderField: "X-YouTube-Client-Name")
-        request.addValue("2.20230728.00.00", forHTTPHeaderField: "X-YouTube-Client-Version")
+        request.addValue(randomClientVersion, forHTTPHeaderField: "X-YouTube-Client-Version")
         request.httpBody = try JSONEncoder().encode(
             RequestBody(
                 context: RequestBody.Context(
                     client: RequestBody.Context.Client(
                         clientName: clientName,
-                        clientVersion: clientVersion,
+                        clientVersion: randomClientVersion,
                         hl: "en",
                         gl: "US",
                         deviceMake: "Apple",
