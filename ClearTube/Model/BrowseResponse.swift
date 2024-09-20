@@ -74,37 +74,6 @@ struct BrowseResponse: Decodable {
                                 struct RichItemRendererResponse: Decodable {
                                     var content: ContentResponse
                                     struct ContentResponse: Decodable {
-                                        // SHORT
-                                        var shortsLockupViewModel: ShortsLockupViewModelResponse?
-                                        struct ShortsLockupViewModelResponse: Decodable {
-                                            var entityId: String
-                                            var thumbnail: ThumbnailResponse
-                                            struct ThumbnailResponse: Decodable {
-                                                var sources: [ImageObject]
-                                            }
-                                            var onTap: OnTapResponse
-                                            struct OnTapResponse: Decodable {
-                                                var innertubeCommand: InnertubeCommandResponse
-                                                struct InnertubeCommandResponse: Decodable {
-                                                    var reelWatchEndpoint: ReelWatchEndpointResponse
-                                                    struct ReelWatchEndpointResponse: Decodable {
-                                                        var videoId: String
-                                                    }
-                                                }
-                                            }
-                                            var overlayMetadata: OverlayMetadataResponse
-                                            struct OverlayMetadataResponse: Decodable {
-                                                var primaryText: PrimaryTextResponse
-                                                struct PrimaryTextResponse: Decodable {
-                                                    var content: String
-                                                }
-                                                var secondaryText: SecondaryTextResponse
-                                                struct SecondaryTextResponse: Decodable {
-                                                    var content: String
-                                                }
-                                            }
-                                        }
-                                        // VIDEO
                                         var videoRenderer: VideoRendererResponse?
                                         struct VideoRendererResponse: Decodable {
                                             var videoId: String
@@ -131,6 +100,35 @@ struct BrowseResponse: Decodable {
                                                 var watchEndpoint: WatchEndpointDecodable
                                                 struct WatchEndpointDecodable: Decodable {
                                                     var videoId: String
+                                                }
+                                            }
+                                        }
+                                        var shortsLockupViewModel: ShortsLockupViewModelResponse?
+                                        struct ShortsLockupViewModelResponse: Decodable {
+                                            var entityId: String
+                                            var thumbnail: ThumbnailResponse
+                                            struct ThumbnailResponse: Decodable {
+                                                var sources: [ImageObject]
+                                            }
+                                            var onTap: OnTapResponse
+                                            struct OnTapResponse: Decodable {
+                                                var innertubeCommand: InnertubeCommandResponse
+                                                struct InnertubeCommandResponse: Decodable {
+                                                    var reelWatchEndpoint: ReelWatchEndpointResponse
+                                                    struct ReelWatchEndpointResponse: Decodable {
+                                                        var videoId: String
+                                                    }
+                                                }
+                                            }
+                                            var overlayMetadata: OverlayMetadataResponse
+                                            struct OverlayMetadataResponse: Decodable {
+                                                var primaryText: PrimaryTextResponse
+                                                struct PrimaryTextResponse: Decodable {
+                                                    var content: String
+                                                }
+                                                var secondaryText: SecondaryTextResponse
+                                                struct SecondaryTextResponse: Decodable {
+                                                    var content: String
                                                 }
                                             }
                                         }

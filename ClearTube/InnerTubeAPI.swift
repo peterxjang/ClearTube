@@ -162,6 +162,23 @@ public final class InnerTubeAPI {
         return ChannelObject.VideosResponse(from: videos)
     }
 
+    func streams(for channelId: String, continuation: String?) async throws -> ChannelObject.VideosResponse {
+        guard let browseId = channelId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: browseId)
+        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
+            .first(where: {$0.tabRenderer?.title == "Live"})?.tabRenderer
+        else {
+            throw APIError.urlCreation
+        }
+        let author = json.header.pageHeaderRenderer.pageTitle
+        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
+        let videos = extractChannelVideos(json: json2, author: author, authorId: browseId)
+        return ChannelObject.VideosResponse(from: videos)
+    }
+
     private func requestUrl(for string: String, with queryItems: [URLQueryItem]? = nil) -> URL? {
         guard var url = URL(string: string, relativeTo: baseUrl) else {
             return nil
