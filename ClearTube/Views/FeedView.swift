@@ -64,7 +64,7 @@ struct FeedView: View {
                         } catch {
                             print("InvidiousClient failed for \(channel.author), trying InnerTubeClient")
                             try await Task.sleep(nanoseconds: UInt64.random(in: 0_000_000_000..<5_000_000_000))
-                            result = try await ClearTubeApp.innerTubeClient.videos(for: channel.authorId, continuation: nil, channelName: channel.author)
+                            result = try await ClearTubeApp.innerTubeClient.videos(for: channel.authorId, continuation: nil)
                         }
                         let recentVideos = result.videos.filter { video in
                             let publishedDate = Date(timeIntervalSince1970: TimeInterval(video.published ?? 0))

@@ -17,7 +17,7 @@ struct SubscriptionsView: View {
                 } else {
                     VStack(alignment: .leading) {
                         ForEach(channels) { channel in
-                            NavigationLink(destination: ChannelView(model: ChannelViewModel(channelId: channel.authorId))) {
+                            NavigationLink(destination: ChannelView(channelId: channel.authorId)) {
                                 HStack {
                                     PreferredImage(
                                         width: 100,

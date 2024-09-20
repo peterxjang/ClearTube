@@ -119,7 +119,16 @@ public final class InnerTubeAPI {
         return extractSearchResults(json: json)
     }
 
-    func videos(for channelId: String, continuation: String?, channelName: String? = nil) async throws -> ChannelObject.VideosResponse {
+    func channel(for id: String) async throws -> ChannelObject {
+        guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: id)
+        let channel = extractChannel(json: json, authorId: id)
+        return channel
+    }
+
+    func videos(for channelId: String, continuation: String?) async throws -> ChannelObject.VideosResponse {
         guard let browseId = channelId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
         }
@@ -127,10 +136,10 @@ public final class InnerTubeAPI {
         guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer else {
             throw APIError.urlCreation
         }
-        let author = videosTabRenderer.endpoint.browseEndpoint.canonicalBaseUrl
+        let author = json.header.pageHeaderRenderer.pageTitle
         let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
-        let videos = extractChannelVideos(json: json2, author: channelName ?? author, authorId: browseId)
+        let videos = extractChannelVideos(json: json2, author: author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
     }
 
@@ -230,6 +239,26 @@ public final class InnerTubeAPI {
             }
         }
         return recommendedVideos
+    }
+
+    private func extractChannel(json: BrowseResponse, authorId: String) -> ChannelObject {
+        let author = json.header.pageHeaderRenderer.pageTitle
+        let authorId = authorId
+        let authorUrl = ""
+        let authorThumbnails = json.header.pageHeaderRenderer.content.pageHeaderViewModel.image.decoratedAvatarViewModel.avatar.avatarViewModel.image.sources
+        var subCountText: String = ""
+        for metadataRow in json.header.pageHeaderRenderer.content.pageHeaderViewModel.metadata.contentMetadataViewModel.metadataRows {
+            if let first = metadataRow.metadataParts.first, first.text.content.hasSuffix(" subscribers") {
+                subCountText = first.text.content
+            }
+        }
+        return ChannelObject(
+            author: author,
+            authorId: authorId,
+            authorUrl: authorUrl,
+            authorThumbnails: authorThumbnails,
+            subCountText: subCountText
+        )
     }
 
     private func extractChannelVideos(json: BrowseResponse, author: String, authorId: String) -> [VideoObject] {

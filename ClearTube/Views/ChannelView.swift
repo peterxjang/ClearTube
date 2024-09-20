@@ -1,87 +1,78 @@
 import SwiftUI
-import Observation
 
-@Observable
-class ChannelViewModel {
-    var channelId: String
-    var loading = true
-    var error: Error?
-    var channel: ChannelObject?
-    var videos: [VideoObject] = []
-    var selectedTab: ChannelTab = .videos(.videos)
-
-    init(channelId: String) {
-        self.channelId = channelId
-    }
-
-    enum ChannelTab: Hashable {
-        case videos(ChannelVideosViewModel.VideosList)
-        case playlists
-
-        var displayName: String {
-            switch self {
-            case .videos(.videos):
-                "Videos"
-            case .videos(.shorts):
-                "Shorts"
-            case .videos(.streams):
-                "Streams"
-            case .playlists:
-                "Playlists"
-            }
-        }
-    }
-
-    func load() async {
-        if loading {
-            loading = true
-            error = nil
-            do {
-                channel = try await ClearTubeApp.invidiousClient.channel(for: channelId)
-            } catch {
-                print(error)
-                self.error = error
-            }
-            loading = false
-        }
-    }
+enum ChannelCategory {
+    case videos
+    case shorts
+    case streams
+    case playlists
 }
 
 struct ChannelView: View {
-    @Bindable var model: ChannelViewModel
-    @Environment(\.dismiss) private var dismiss
+    var channelId: String
+    @FocusState private var isPickerFocused: Bool
+    @State var selection: ChannelCategory = ChannelCategory.videos
+    @State var channel: ChannelObject?
+    @State var channelVideos: [VideoObject]?
+    @State var channelShorts: [VideoObject]?
+    @State var channelStreams: [VideoObject]?
+    @State var channelPlaylists: [PlaylistObject]?
 
     var body: some View {
         ScrollView {
-            if let channel = model.channel {
-                ChannelHeaderView(channel: channel, selection: $model.selectedTab)
-                    .padding(.bottom, 50)
-                switch model.selectedTab {
-                case .videos(let list):
-                    ChannelVideosView(model: ChannelVideosViewModel(list: list, channelId: model.channelId))
-                        .padding()
-                case .playlists:
-                    ChannelPlaylistsView(model: ChannelPlaylistsViewModel(channelId: model.channelId))
-                        .padding(50)
+            if let channel = channel {
+                ChannelHeaderView(channel: channel, selection: $selection)
+                    .padding(.bottom, 100)
+                switch selection {
+                case ChannelCategory.videos:
+                    ChannelVideosView(videos: channelVideos)
+                        .onAppear {
+                            if channelVideos == nil {
+                                Task {
+                                    await fetchChannelVideos()
+                                }
+                            }
+                        }
+                case ChannelCategory.shorts:
+                    ChannelVideosView(videos: channelShorts)
+                case ChannelCategory.streams:
+                    ChannelVideosView(videos: channelStreams)
+                case ChannelCategory.playlists:
+                    ChannelPlaylistsView(playlists: channelPlaylists)
+                }
+            } else {
+                ProgressView()
+            }
+        }
+        .onAppear {
+            if channel == nil {
+                Task {
+                    await fetchChannel()
                 }
             }
         }
-        .asyncTaskOverlay(error: model.error, isLoading: model.loading)
-        .onAppear {
-            Task {
-                await model.load()
-            }
+    }
+
+    private func fetchChannel() async {
+        do {
+            channel = try await ClearTubeApp.innerTubeClient.channel(for: channelId)
+        } catch {
+            print("Error fetching channel: \(error)")
         }
-        .refreshable {
-            await model.load()
+    }
+
+    private func fetchChannelVideos() async {
+        do {
+            let result = try await ClearTubeApp.innerTubeClient.videos(for: channelId, continuation: nil)
+            channelVideos = result.videos
+        } catch {
+            print("Error fetching channel: \(error)")
         }
     }
 }
 
 struct ChannelHeaderView: View {
     var channel: ChannelObject
-    @Binding var selection: ChannelViewModel.ChannelTab
-    @FocusState private var isPickerFocused: Bool
+    @Binding var selection: ChannelCategory
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -99,10 +90,10 @@ struct ChannelHeaderView: View {
 
             GeometryReader { proxy in
                 Picker(selection: $selection) {
-                    Text("Videos").tag(ChannelViewModel.ChannelTab.videos(.videos))
-                    Text("Shorts").tag(ChannelViewModel.ChannelTab.videos(.shorts))
-                    Text("Streams").tag(ChannelViewModel.ChannelTab.videos(.streams))
-                    Text("Playlists").tag(ChannelViewModel.ChannelTab.playlists)
+                    Text("Videos").tag(ChannelCategory.videos)
+                    Text("Shorts").tag(ChannelCategory.shorts)
+                    Text("Streams").tag(ChannelCategory.streams)
+                    Text("Playlists").tag(ChannelCategory.playlists)
                 } label: {}
                 .labelsHidden()
                 .modify {
@@ -112,74 +103,16 @@ struct ChannelHeaderView: View {
                         $0.pickerStyle(.menu)
                     }
                 }
-                .focused($isPickerFocused) // Bind focus state to the picker
-                .onAppear {
-                    isPickerFocused = true // Set focus to the picker when the view appears
-                }
             }
-        }.padding()
-    }
-}
-
-@Observable
-class ChannelVideosViewModel {
-    var channelId: String
-    var list: VideosList
-    var videos: [VideoObject]?
-    var continuation: String?
-    var done = false
-    var loading = true
-    var error: Error?
-
-    enum VideosList {
-        case videos
-        case shorts
-        case streams
-    }
-
-    init(list: VideosList, channelId: String) {
-        self.list = list
-        self.channelId = channelId
-    }
-
-    func load() async {
-        loading = false
-        error = nil
-        do {
-            let response = switch list {
-            case .videos:
-                try await ClearTubeApp.invidiousClient.videos(for: channelId, continuation: continuation)
-            case .shorts:
-                try await ClearTubeApp.invidiousClient.shorts(for: channelId, continuation: continuation)
-            case .streams:
-                try await ClearTubeApp.invidiousClient.streams(for: channelId, continuation: continuation)
-            }
-            continuation = response.continuation
-
-            guard var videos = videos else {
-                self.videos = response.videos
-                return
-            }
-            if let video = videos.first, response.videos.firstIndex(of: video) != nil {
-                done = true
-            } else if response.videos.isEmpty {
-                done = true
-            } else {
-                videos.append(contentsOf: response.videos)
-            }
-        } catch {
-            print(error)
-            self.error = error
         }
-        loading = false
     }
 }
 
 struct ChannelVideosView: View {
-    var model: ChannelVideosViewModel
+    var videos: [VideoObject]?
 
     var body: some View {
-        if let videos = model.videos {
+        if let videos = videos {
             if videos.isEmpty {
                 Text("No Videos")
             } else {
@@ -189,73 +122,36 @@ struct ChannelVideosView: View {
                     }
                 }
             }
-        }
-        if !model.done {
+        } else {
             ProgressView()
-                .task(id: model.list) {
-                    await model.load()
-                }.refreshable {
-                    await model.load()
-                }
         }
-    }
-}
-
-
-@Observable
-class ChannelPlaylistsViewModel {
-    var channelId: String
-    var playlists: [PlaylistObject] = []
-    var continuation: String?
-    var done = false
-    var loading = true
-    var error: Error?
-
-    init(channelId: String) {
-        self.channelId = channelId
-    }
-
-    func load() async {
-        loading = false
-        do {
-            let response = try await ClearTubeApp.invidiousClient.playlists(for: channelId, continuation: continuation)
-            continuation = response.continuation
-            if let video = playlists.first, response.playlists.firstIndex(of: video) != nil {
-                done = true
-            } else {
-                playlists.append(contentsOf: response.playlists)
-            }
-        } catch {
-            self.error = error
-        }
-        loading = false
     }
 }
 
 struct ChannelPlaylistsView: View {
-    var model: ChannelPlaylistsViewModel
+    var playlists: [PlaylistObject]?
 
     var body: some View {
-        LazyVStack {
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
-                ForEach(model.playlists, id: \.playlistId) { playlist in
-                    PlaylistItemView(
-                        id: playlist.playlistId,
-                        title: playlist.title,
-                        thumbnail: playlist.playlistThumbnail,
-                        author: playlist.author,
-                        videoCount: playlist.videoCount
-                    ).padding()
-                }
-            }
-            if !model.done {
-                ProgressView()
-                    .task(id: model.channelId) {
-                        await model.load()
-                    }.refreshable {
-                        await model.load()
+        if let playlists = playlists {
+            if playlists.isEmpty {
+                Text("No Playlists")
+            } else {
+                LazyVStack {
+                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
+                        ForEach(playlists, id: \.playlistId) { playlist in
+                            PlaylistItemView(
+                                id: playlist.playlistId,
+                                title: playlist.title,
+                                thumbnail: playlist.playlistThumbnail,
+                                author: playlist.author,
+                                videoCount: playlist.videoCount
+                            ).padding()
+                        }
                     }
+                }.padding()
             }
-        }.padding().asyncTaskOverlay(error: model.error, isLoading: model.loading)
+        } else {
+            ProgressView()
+        }
     }
 }

@@ -1,6 +1,51 @@
 import Foundation
 
 struct BrowseResponse: Decodable {
+    var header: HeaderResponse
+    struct HeaderResponse: Decodable {
+        var pageHeaderRenderer: PageHeaderRendererResponse
+        struct PageHeaderRendererResponse: Decodable {
+            var pageTitle: String
+            var content: ContentResponse
+            struct ContentResponse: Decodable {
+                var pageHeaderViewModel: PageHeaderViewModelResponse
+                struct PageHeaderViewModelResponse: Decodable {
+                    var image: ImageResponse
+                    struct ImageResponse: Decodable {
+                        var decoratedAvatarViewModel: DecoratedAvatarViewModelResponse
+                        struct DecoratedAvatarViewModelResponse: Decodable {
+                            var avatar: AvatarResponse
+                            struct AvatarResponse: Decodable {
+                                var avatarViewModel: AvatarViewModelResponse
+                                struct AvatarViewModelResponse: Decodable {
+                                    var image: ImageResponse
+                                    struct ImageResponse: Decodable {
+                                        var sources: [ImageObject]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    var metadata: MetadataResponse
+                    struct MetadataResponse: Decodable {
+                        var contentMetadataViewModel: ContentMetadataViewModelResponse
+                        struct ContentMetadataViewModelResponse: Decodable {
+                            var metadataRows: [MetadataRowResponse]
+                            struct MetadataRowResponse: Decodable {
+                                var metadataParts: [MetadataPartResponse]
+                                struct MetadataPartResponse: Decodable {
+                                    var text: TextResponse
+                                    struct TextResponse: Decodable {
+                                        var content: String
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     var contents: ContentsResponse
     struct ContentsResponse: Decodable {
         var twoColumnBrowseResultsRenderer: TwoColumnBrowseResultsRendererResponse

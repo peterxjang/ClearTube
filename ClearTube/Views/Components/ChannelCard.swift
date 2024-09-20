@@ -5,7 +5,7 @@ struct ChannelCard: View {
     @State private var showChannelView = false
 
     var body: some View {
-        NavigationLink(destination: ChannelView(model: ChannelViewModel(channelId: channel.authorId))) {
+        NavigationLink(destination: ChannelView(channelId: channel.authorId)) {
             VStack {
                 PreferredImage(width: 200, height: 200, images: channel.authorThumbnails)
                 Text(channel.author)

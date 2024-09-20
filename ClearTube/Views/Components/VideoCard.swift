@@ -122,7 +122,7 @@ struct VideoContextMenu: View {
 
     var body: some View {
         if let authorId = video.authorId {
-            NavigationLink(destination: ChannelView(model: ChannelViewModel(channelId: authorId))) {
+            NavigationLink(destination: ChannelView(channelId: authorId)) {
                 Label("Go to channel", systemImage: "location.circle")
             }
         }
