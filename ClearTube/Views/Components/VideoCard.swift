@@ -104,7 +104,7 @@ struct VideoThumbnailWatchProgress: View {
 
     var body: some View {
         if let historyVideo = historyVideos.first(where: { $0.videoId == video.videoId }) {
-            let progress = CGFloat(historyVideo.watchedSeconds) / CGFloat(video.lengthSeconds)
+            let progress = video.lengthSeconds > 0 ? CGFloat(historyVideo.watchedSeconds) / CGFloat(video.lengthSeconds) : 1.0
             Rectangle()
                 .fill(Color(UIColor.lightGray))
                 .frame(width: width, height: 5)

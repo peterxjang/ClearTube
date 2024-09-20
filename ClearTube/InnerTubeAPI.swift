@@ -123,8 +123,8 @@ public final class InnerTubeAPI {
         guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
             throw APIError.urlCreation
         }
-        let json = try await browseEndpoint(browseId: id)
-        let channel = extractChannel(json: json, authorId: id)
+        let json = try await browseEndpoint(browseId: idPath)
+        let channel = extractChannel(json: json, authorId: idPath)
         return channel
     }
 
@@ -133,13 +133,32 @@ public final class InnerTubeAPI {
             throw APIError.urlCreation
         }
         let json = try await browseEndpoint(browseId: browseId)
-        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs[1].tabRenderer else {
+        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
+            .first(where: {$0.tabRenderer?.title == "Videos"})?.tabRenderer
+        else {
             throw APIError.urlCreation
         }
         let author = json.header.pageHeaderRenderer.pageTitle
         let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
         let videos = extractChannelVideos(json: json2, author: author, authorId: browseId)
+        return ChannelObject.VideosResponse(from: videos)
+    }
+
+    func shorts(for channelId: String, continuation: String?) async throws -> ChannelObject.VideosResponse {
+        guard let browseId = channelId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: browseId)
+        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
+            .first(where: {$0.tabRenderer?.title == "Shorts"})?.tabRenderer
+        else {
+            throw APIError.urlCreation
+        }
+        let author = json.header.pageHeaderRenderer.pageTitle
+        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
+        let videos = extractChannelShorts(json: json2, author: author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
     }
 
@@ -267,8 +286,7 @@ public final class InnerTubeAPI {
             if let tabRenderer = tab.tabRenderer {
                 if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
                     for content in richGridRenderer.contents {
-                        if let richItemRenderer = content.richItemRenderer {
-                            let videoRenderer = richItemRenderer.content.videoRenderer
+                        if let richItemRenderer = content.richItemRenderer, let videoRenderer = richItemRenderer.content.videoRenderer {
                             let videoId = videoRenderer.videoId
                             let title = videoRenderer.title.runs[0].text
                             let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
@@ -283,6 +301,37 @@ public final class InnerTubeAPI {
                                     videoThumbnails: videoThumbnails,
                                     published: timeAgoStringToUnix(publishedText),
                                     publishedText: publishedText,
+                                    viewCountText: viewCountText,
+                                    author: author,
+                                    authorId: authorId
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        return videos
+    }
+
+    private func extractChannelShorts(json: BrowseResponse, author: String, authorId: String) -> [VideoObject] {
+        var videos: [VideoObject] = []
+        for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
+            if let tabRenderer = tab.tabRenderer {
+                if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
+                    for content in richGridRenderer.contents {
+                        if let richItemRenderer = content.richItemRenderer, let shortsLockupViewModel = richItemRenderer.content.shortsLockupViewModel {
+                            let videoId = shortsLockupViewModel.onTap.innertubeCommand.reelWatchEndpoint.videoId
+                            let title = shortsLockupViewModel.overlayMetadata.primaryText.content
+                            let lengthSeconds = 0
+                            let videoThumbnails = shortsLockupViewModel.thumbnail.sources
+                            let viewCountText = shortsLockupViewModel.overlayMetadata.secondaryText.content
+                            videos.append(
+                                VideoObject(
+                                    title: title,
+                                    videoId: videoId,
+                                    lengthSeconds: lengthSeconds,
+                                    videoThumbnails: videoThumbnails,
                                     viewCountText: viewCountText,
                                     author: author,
                                     authorId: authorId

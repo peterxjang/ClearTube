@@ -34,6 +34,13 @@ struct ChannelView: View {
                         }
                 case ChannelCategory.shorts:
                     ChannelVideosView(videos: channelShorts)
+                        .onAppear {
+                            if channelShorts == nil {
+                                Task {
+                                    await fetchChannelShorts()
+                                }
+                            }
+                        }
                 case ChannelCategory.streams:
                     ChannelVideosView(videos: channelStreams)
                 case ChannelCategory.playlists:
@@ -65,7 +72,16 @@ struct ChannelView: View {
             let result = try await ClearTubeApp.innerTubeClient.videos(for: channelId, continuation: nil)
             channelVideos = result.videos
         } catch {
-            print("Error fetching channel: \(error)")
+            print("Error fetching channel videos: \(error)")
+        }
+    }
+
+    private func fetchChannelShorts() async {
+        do {
+            let result = try await ClearTubeApp.innerTubeClient.shorts(for: channelId, continuation: nil)
+            channelShorts = result.videos
+        } catch {
+            print("Error fetching channel shorts: \(error)")
         }
     }
 }
