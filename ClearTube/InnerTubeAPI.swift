@@ -138,8 +138,8 @@ public final class InnerTubeAPI {
         else {
             throw APIError.urlCreation
         }
-        let author = json.header.pageHeaderRenderer.pageTitle
-        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let author = json.header.pageHeaderRenderer?.pageTitle
+        let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
         let videos = extractChannelVideos(json: json2, author: author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
@@ -155,8 +155,8 @@ public final class InnerTubeAPI {
         else {
             throw APIError.urlCreation
         }
-        let author = json.header.pageHeaderRenderer.pageTitle
-        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let author = json.header.pageHeaderRenderer?.pageTitle
+        let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
         let videos = extractChannelShorts(json: json2, author: author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
@@ -172,8 +172,8 @@ public final class InnerTubeAPI {
         else {
             throw APIError.urlCreation
         }
-        let author = json.header.pageHeaderRenderer.pageTitle
-        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let author = json.header.pageHeaderRenderer?.pageTitle
+        let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
         let videos = extractChannelVideos(json: json2, author: author, authorId: browseId)
         return ChannelObject.VideosResponse(from: videos)
@@ -189,11 +189,20 @@ public final class InnerTubeAPI {
         else {
             throw APIError.urlCreation
         }
-        let author = json.header.pageHeaderRenderer.pageTitle
-        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let author = json.header.pageHeaderRenderer?.pageTitle
+        let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
         let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
         let playlists = extractChannelPlaylists(json: json2, author: author, authorId: browseId)
         return ChannelObject.PlaylistResponse(from: playlists)
+    }
+
+    func playlist(for id: String) async throws -> PlaylistObject {
+        guard let idPath = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: "VL\(idPath)")
+        let playlist = extractPlaylistVideos(json: json, playlistId: id)
+        return playlist
     }
 
     private func requestUrl(for string: String, with queryItems: [URLQueryItem]? = nil) -> URL? {
@@ -295,26 +304,28 @@ public final class InnerTubeAPI {
     }
 
     private func extractChannel(json: BrowseResponse, authorId: String) -> ChannelObject {
-        let author = json.header.pageHeaderRenderer.pageTitle
+        let author = json.header.pageHeaderRenderer?.pageTitle
         let authorId = authorId
         let authorUrl = ""
-        let authorThumbnails = json.header.pageHeaderRenderer.content.pageHeaderViewModel.image.decoratedAvatarViewModel.avatar.avatarViewModel.image.sources
+        let authorThumbnails = json.header.pageHeaderRenderer?.content.pageHeaderViewModel.image?.decoratedAvatarViewModel.avatar.avatarViewModel.image.sources
         var subCountText: String = ""
-        for metadataRow in json.header.pageHeaderRenderer.content.pageHeaderViewModel.metadata.contentMetadataViewModel.metadataRows {
-            if let first = metadataRow.metadataParts.first, first.text.content.hasSuffix(" subscribers") {
-                subCountText = first.text.content
+        if let pageHeaderRenderer = json.header.pageHeaderRenderer {
+            for metadataRow in pageHeaderRenderer.content.pageHeaderViewModel.metadata.contentMetadataViewModel.metadataRows {
+                if let first = metadataRow.metadataParts.first, first.text.content.hasSuffix(" subscribers") {
+                    subCountText = first.text.content
+                }
             }
         }
         return ChannelObject(
-            author: author,
+            author: author ?? "",
             authorId: authorId,
             authorUrl: authorUrl,
-            authorThumbnails: authorThumbnails,
+            authorThumbnails: authorThumbnails ?? [],
             subCountText: subCountText
         )
     }
 
-    private func extractChannelVideos(json: BrowseResponse, author: String, authorId: String) -> [VideoObject] {
+    private func extractChannelVideos(json: BrowseResponse, author: String?, authorId: String) -> [VideoObject] {
         var videos: [VideoObject] = []
         for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
             if let tabRenderer = tab.tabRenderer {
@@ -348,7 +359,7 @@ public final class InnerTubeAPI {
         return videos
     }
 
-    private func extractChannelShorts(json: BrowseResponse, author: String, authorId: String) -> [VideoObject] {
+    private func extractChannelShorts(json: BrowseResponse, author: String?, authorId: String) -> [VideoObject] {
         var videos: [VideoObject] = []
         for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
             if let tabRenderer = tab.tabRenderer {
@@ -379,29 +390,70 @@ public final class InnerTubeAPI {
         return videos
     }
 
-    private func extractChannelPlaylists(json: BrowseResponse, author: String, authorId: String) -> [PlaylistObject] {
+    private func extractChannelPlaylists(json: BrowseResponse, author: String?, authorId: String) -> [PlaylistObject] {
         var playlists: [PlaylistObject] = []
         for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
             if let tabRenderer = tab.tabRenderer {
                 if let content = tabRenderer.content, let sectionListRenderer = content.sectionListRenderer {
                     for content in sectionListRenderer.contents {
-                        for content in content.itemSectionRenderer.contents {
-                            if let gridRenderer = content.gridRenderer {
-                                for item in gridRenderer.items {
-                                    if let gridPlaylistRenderer = item.gridPlaylistRenderer {
-                                        let title = gridPlaylistRenderer.title.runs[0].text
-                                        let playlistId = gridPlaylistRenderer.playlistId
-                                        let thumbnails = gridPlaylistRenderer.thumbnail.thumbnails
-                                        let videoCount = gridPlaylistRenderer.videoCountShortText.simpleText
-                                        playlists.append(
-                                            PlaylistObject(
+                        if let itemSectionRenderer = content.itemSectionRenderer {
+                            for content in itemSectionRenderer.contents {
+                                if let gridRenderer = content.gridRenderer {
+                                    for item in gridRenderer.items {
+                                        if let gridPlaylistRenderer = item.gridPlaylistRenderer {
+                                            let title = gridPlaylistRenderer.title.runs[0].text
+                                            let playlistId = gridPlaylistRenderer.playlistId
+                                            let thumbnails = gridPlaylistRenderer.thumbnail.thumbnails
+                                            let videoCount = gridPlaylistRenderer.videoCountShortText.simpleText
+                                            playlists.append(
+                                                PlaylistObject(
+                                                    title: title,
+                                                    playlistId: playlistId,
+                                                    playlistThumbnail: thumbnails.preferredThumbnail()?.url,
+                                                    author: author ?? "",
+                                                    authorId: authorId,
+                                                    videoCount: Int(videoCount) ?? 0,
+                                                    videos: []
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return playlists
+    }
+
+    private func extractPlaylistVideos(json: BrowseResponse, playlistId: String) -> PlaylistObject {
+        var videos: [VideoObject] = []
+        for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
+            if let contents = tab.tabRenderer?.content?.sectionListRenderer?.contents {
+                for content in contents {
+                    if let itemSectionRenderer = content.itemSectionRenderer {
+                        for content in itemSectionRenderer.contents {
+                            if let playlistVideoListRenderer = content.playlistVideoListRenderer {
+                                for content in playlistVideoListRenderer.contents {
+                                    if let playlistVideoRenderer = content.playlistVideoRenderer {
+                                        let title = playlistVideoRenderer.title.runs.first?.text ?? ""
+                                        let videoId = playlistVideoRenderer.videoId
+                                        let lengthSeconds = Int(playlistVideoRenderer.lengthSeconds) ?? 0
+                                        let videoThumbnails = playlistVideoRenderer.thumbnail.thumbnails
+                                        let viewCountText = playlistVideoRenderer.videoInfo.runs.first?.text
+                                        let author = playlistVideoRenderer.shortBylineText.runs.first?.text
+                                        let authorId = playlistVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint.browseId
+                                        videos.append(
+                                            VideoObject(
                                                 title: title,
-                                                playlistId: playlistId,
-                                                playlistThumbnail: thumbnails.preferredThumbnail()?.url,
+                                                videoId: videoId,
+                                                lengthSeconds: lengthSeconds,
+                                                videoThumbnails: videoThumbnails,
+                                                viewCountText: viewCountText,
                                                 author: author,
-                                                authorId: authorId,
-                                                videoCount: Int(videoCount) ?? 0,
-                                                videos: []
+                                                authorId: authorId
                                             )
                                         )
                                     }
@@ -412,7 +464,19 @@ public final class InnerTubeAPI {
                 }
             }
         }
-        return playlists
+        let title = json.header.playlistHeaderRenderer?.title.simpleText ?? ""
+        let author = json.header.playlistHeaderRenderer?.ownerText.runs.first?.text ?? ""
+        let authorId = json.header.playlistHeaderRenderer?.ownerText.runs.first?.navigationEndpoint.browseEndpoint.browseId ?? ""
+        let videoCountString = json.header.playlistHeaderRenderer?.numVideosText.runs.first?.text ?? "0"
+        let videoCount = Int(videoCountString) ?? 0
+        return PlaylistObject(
+            title: title,
+            playlistId: playlistId,
+            author: author,
+            authorId: authorId,
+            videoCount: videoCount,
+            videos: videos
+        )
     }
 
     private func extractSearchResults(json: SearchResponse) -> [SearchObject.Result] {

@@ -3,14 +3,44 @@ import Foundation
 struct BrowseResponse: Decodable {
     var header: HeaderResponse
     struct HeaderResponse: Decodable {
-        var pageHeaderRenderer: PageHeaderRendererResponse
+        var playlistHeaderRenderer: PlaylistHeaderRendererResponse?
+        struct PlaylistHeaderRendererResponse: Decodable {
+            var playlistId: String
+            var title: TitleResponse
+            struct TitleResponse: Decodable {
+                var simpleText: String
+            }
+            var numVideosText: NumVideosTextResponse
+            struct NumVideosTextResponse: Decodable {
+                var runs: [RunResponse]
+                struct RunResponse: Decodable {
+                    var text: String
+                }
+            }
+            var ownerText: OwnerTextResponse
+            struct OwnerTextResponse: Decodable {
+                var runs: [RunResponse]
+                struct RunResponse: Decodable {
+                    var text: String
+                    var navigationEndpoint: NavigationEndpointResponse
+                    struct NavigationEndpointResponse: Decodable {
+                        var browseEndpoint: BrowseEndpointResponse
+                        struct BrowseEndpointResponse: Decodable {
+                            var browseId: String
+                            var canonicalBaseUrl: String
+                        }
+                    }
+                }
+            }
+        }
+        var pageHeaderRenderer: PageHeaderRendererResponse?
         struct PageHeaderRendererResponse: Decodable {
             var pageTitle: String
             var content: ContentResponse
             struct ContentResponse: Decodable {
                 var pageHeaderViewModel: PageHeaderViewModelResponse
                 struct PageHeaderViewModelResponse: Decodable {
-                    var image: ImageResponse
+                    var image: ImageResponse?
                     struct ImageResponse: Decodable {
                         var decoratedAvatarViewModel: DecoratedAvatarViewModelResponse
                         struct DecoratedAvatarViewModelResponse: Decodable {
@@ -54,7 +84,7 @@ struct BrowseResponse: Decodable {
             struct TabResponse: Decodable {
                 var tabRenderer: TabRendererResponse?
                 struct TabRendererResponse: Decodable {
-                    var endpoint: EndpointResponse
+                    var endpoint: EndpointResponse?
                     struct EndpointResponse: Decodable {
                         var browseEndpoint: BrowseEndpointResponse
                         struct BrowseEndpointResponse: Decodable {
@@ -63,17 +93,63 @@ struct BrowseResponse: Decodable {
                             var canonicalBaseUrl: String
                         }
                     }
-                    var title: String
+                    var title: String?
                     var content: ContentResponse?
                     struct ContentResponse: Decodable {
                         var sectionListRenderer: SectionListRendererResponse?
                         struct SectionListRendererResponse: Decodable {
                             var contents: [ContentResponse]
                             struct ContentResponse: Decodable {
-                                var itemSectionRenderer: ItemSectionRendererResponse
+                                var itemSectionRenderer: ItemSectionRendererResponse?
                                 struct ItemSectionRendererResponse: Decodable {
                                     var contents: [ContentResponse]
                                     struct ContentResponse: Decodable {
+                                        // PLAYLIST
+                                        var playlistVideoListRenderer: PlaylistVideoListRendererResponse?
+                                        struct PlaylistVideoListRendererResponse: Decodable {
+                                            var contents: [ContentResponse]
+                                            struct ContentResponse: Decodable {
+                                                var playlistVideoRenderer: PlaylistVideoRendererResponse?
+                                                struct PlaylistVideoRendererResponse: Decodable {
+                                                    var videoId: String
+                                                    var thumbnail: ThumbnailResponse
+                                                    struct ThumbnailResponse: Decodable {
+                                                        var thumbnails: [ImageObject]
+                                                    }
+                                                    var title: TitleResponse
+                                                    struct TitleResponse: Decodable {
+                                                        var runs: [RunResponse]
+                                                        struct RunResponse: Decodable {
+                                                            var text: String
+                                                        }
+                                                    }
+                                                    var shortBylineText: ShortBylineText
+                                                    struct ShortBylineText: Decodable {
+                                                        var runs: [RunResponse]
+                                                        struct RunResponse: Decodable {
+                                                            var text: String
+                                                            var navigationEndpoint: NavigationEndpointResponse
+                                                            struct NavigationEndpointResponse: Decodable {
+                                                                var browseEndpoint: BrowseEndpointResponse
+                                                                struct BrowseEndpointResponse: Decodable {
+                                                                    var browseId: String
+                                                                    var canonicalBaseUrl: String
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    var lengthSeconds: String
+                                                    var videoInfo: VideoInfoResponse
+                                                    struct VideoInfoResponse: Decodable {
+                                                        var runs: [RunResponse]
+                                                        struct RunResponse: Decodable {
+                                                            var text: String
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        // VIDEO
                                         var gridRenderer: GridRendererResponse?
                                         struct GridRendererResponse: Decodable {
                                             var items: [ItemResponse]
@@ -118,6 +194,7 @@ struct BrowseResponse: Decodable {
                                 }
                             }
                         }
+                        // SHORTS
                         var richGridRenderer: RichGridRendererResponse?
                         struct RichGridRendererResponse: Decodable {
                             var contents: [ContentResponse]
