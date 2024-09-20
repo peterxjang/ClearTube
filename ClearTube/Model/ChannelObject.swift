@@ -39,6 +39,10 @@ public struct ChannelObject: Decodable {
         public static func == (lhs: ChannelObject.PlaylistResponse, rhs: ChannelObject.PlaylistResponse) -> Bool {
             lhs.continuation == rhs.continuation
         }
+
+        public init(from playlists: [PlaylistObject]) {
+            self.playlists = playlists
+        }
     }
 
     public struct VideosResponse: Decodable {

@@ -179,6 +179,24 @@ public final class InnerTubeAPI {
         return ChannelObject.VideosResponse(from: videos)
     }
 
+    func playlists(for channelId: String, continuation: String?) async throws -> ChannelObject.PlaylistResponse {
+        guard let browseId = channelId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else {
+            throw APIError.urlCreation
+        }
+        let json = try await browseEndpoint(browseId: browseId)
+        guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
+            .first(where: {$0.tabRenderer?.title == "Playlists"})?.tabRenderer
+        else {
+            throw APIError.urlCreation
+        }
+        let author = json.header.pageHeaderRenderer.pageTitle
+        let videoParams = videosTabRenderer.endpoint.browseEndpoint.params
+        let json2 = try await browseEndpoint(browseId: browseId, params: videoParams)
+        let playlists = extractChannelPlaylists(json: json2, author: author, authorId: browseId)
+        return ChannelObject.PlaylistResponse(from: playlists)
+    }
+
+
     private func requestUrl(for string: String, with queryItems: [URLQueryItem]? = nil) -> URL? {
         guard var url = URL(string: string, relativeTo: baseUrl) else {
             return nil
@@ -360,6 +378,42 @@ public final class InnerTubeAPI {
             }
         }
         return videos
+    }
+
+    private func extractChannelPlaylists(json: BrowseResponse, author: String, authorId: String) -> [PlaylistObject] {
+        var playlists: [PlaylistObject] = []
+        for tab in json.contents.twoColumnBrowseResultsRenderer.tabs {
+            if let tabRenderer = tab.tabRenderer {
+                if let content = tabRenderer.content, let sectionListRenderer = content.sectionListRenderer {
+                    for content in sectionListRenderer.contents {
+                        for content in content.itemSectionRenderer.contents {
+                            if let gridRenderer = content.gridRenderer {
+                                for item in gridRenderer.items {
+                                    if let gridPlaylistRenderer = item.gridPlaylistRenderer {
+                                        let title = gridPlaylistRenderer.title.runs[0].text
+                                        let playlistId = gridPlaylistRenderer.playlistId
+                                        let thumbnails = gridPlaylistRenderer.thumbnail.thumbnails
+                                        let videoCount = gridPlaylistRenderer.videoCountText.runs[0].text
+                                        playlists.append(
+                                            PlaylistObject(
+                                                title: title,
+                                                playlistId: playlistId,
+                                                playlistThumbnail: thumbnails.preferredThumbnail()?.url,
+                                                author: author,
+                                                authorId: authorId,
+                                                videoCount: Int(videoCount) ?? 0,
+                                                videos: []
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return playlists
     }
 
     private func extractSearchResults(json: SearchResponse) -> [SearchObject.Result] {

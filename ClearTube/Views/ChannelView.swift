@@ -52,6 +52,13 @@ struct ChannelView: View {
                         }
                 case ChannelCategory.playlists:
                     ChannelPlaylistsView(playlists: channelPlaylists)
+                        .onAppear {
+                            if channelPlaylists == nil {
+                                Task {
+                                    await fetchChannelPlaylists()
+                                }
+                            }
+                        }
                 }
             } else {
                 ProgressView()
@@ -98,6 +105,15 @@ struct ChannelView: View {
             channelStreams = result.videos
         } catch {
             print("Error fetching channel streams: \(error)")
+        }
+    }
+
+    private func fetchChannelPlaylists() async {
+        do {
+            let result = try await ClearTubeApp.innerTubeClient.playlists(for: channelId, continuation: nil)
+            channelPlaylists = result.playlists
+        } catch {
+            print("Error fetching channel playlists: \(error)")
         }
     }
 }

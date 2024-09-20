@@ -66,6 +66,54 @@ struct BrowseResponse: Decodable {
                     var title: String
                     var content: ContentResponse?
                     struct ContentResponse: Decodable {
+                        var sectionListRenderer: SectionListRendererResponse?
+                        struct SectionListRendererResponse: Decodable {
+                            var contents: [ContentResponse]
+                            struct ContentResponse: Decodable {
+                                var itemSectionRenderer: ItemSectionRendererResponse
+                                struct ItemSectionRendererResponse: Decodable {
+                                    var contents: [ContentResponse]
+                                    struct ContentResponse: Decodable {
+                                        var gridRenderer: GridRendererResponse?
+                                        struct GridRendererResponse: Decodable {
+                                            var items: [ItemResponse]
+                                            struct ItemResponse: Decodable {
+                                                var gridPlaylistRenderer: GridPlaylistRendererResponse?
+                                                struct GridPlaylistRendererResponse: Decodable {
+                                                    var playlistId: String
+                                                    var thumbnail: ThumbnailResponse
+                                                    struct ThumbnailResponse: Decodable {
+                                                        var thumbnails: [ImageObject]
+                                                    }
+                                                    var title: TitleResponse
+                                                    struct TitleResponse: Decodable {
+                                                        var runs: [RunResponse]
+                                                        struct RunResponse: Decodable {
+                                                            var text: String
+                                                            var navigationEndpoint: NavigationEndpointResponse
+                                                            struct NavigationEndpointResponse: Decodable {
+                                                                var watchEndpoint: WatchEndpointResponse
+                                                                struct WatchEndpointResponse: Decodable {
+                                                                    var videoId: String
+                                                                    var playlistId: String
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    var videoCountText: VideoCountTextResponse
+                                                    struct VideoCountTextResponse: Decodable {
+                                                        var runs: [RunResponse]
+                                                        struct RunResponse: Decodable {
+                                                            var text: String
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                         var richGridRenderer: RichGridRendererResponse?
                         struct RichGridRendererResponse: Decodable {
                             var contents: [ContentResponse]
