@@ -107,6 +107,10 @@ struct BrowseResponse: Decodable {
                                                             var text: String
                                                         }
                                                     }
+                                                    var videoCountShortText: VideoCountShortTextResponse
+                                                    struct VideoCountShortTextResponse: Decodable {
+                                                        var simpleText: String
+                                                    }
                                                 }
                                             }
                                         }

@@ -196,7 +196,6 @@ public final class InnerTubeAPI {
         return ChannelObject.PlaylistResponse(from: playlists)
     }
 
-
     private func requestUrl(for string: String, with queryItems: [URLQueryItem]? = nil) -> URL? {
         guard var url = URL(string: string, relativeTo: baseUrl) else {
             return nil
@@ -393,7 +392,7 @@ public final class InnerTubeAPI {
                                         let title = gridPlaylistRenderer.title.runs[0].text
                                         let playlistId = gridPlaylistRenderer.playlistId
                                         let thumbnails = gridPlaylistRenderer.thumbnail.thumbnails
-                                        let videoCount = gridPlaylistRenderer.videoCountText.runs[0].text
+                                        let videoCount = gridPlaylistRenderer.videoCountShortText.simpleText
                                         playlists.append(
                                             PlaylistObject(
                                                 title: title,
