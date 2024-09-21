@@ -15,13 +15,25 @@ public struct ImageObject: Hashable, Decodable {
         components.query = nil
         return components.url!
     }
+
+    func fixedUrl() -> String {
+        let pattern = "(hqdefault)(.*?)(\\.jpg)"
+        let regex = try! NSRegularExpression(pattern: pattern, options: [])
+        let range = NSRange(location: 0, length: url.utf16.count)
+        return regex.stringByReplacingMatches(in: url, options: [], range: range, withTemplate: "$1$3")
+    }
 }
 
 extension Array where Element == ImageObject {
     func preferredThumbnail(for width: CGFloat = 400) -> ImageObject? {
-        self
+        let fixedImages = self.map { imageObject in
+            var newImageObject = imageObject
+            newImageObject.url = imageObject.fixedUrl()
+            return newImageObject
+        }
+        return fixedImages
             .sorted { $0.width <= $1.width }
             .first { $0.width >= Int(width) }
-            ?? self.max { $0.width < $1.width }
+            ?? fixedImages.max { $0.width < $1.width }
     }
 }

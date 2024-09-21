@@ -1,17 +1,6 @@
 import SwiftUI
 import SwiftData
 
-private extension URL {
-    var removingQueries: URL {
-        if var components = URLComponents(string: absoluteString) {
-            components.query = nil
-            return components.url ?? self
-        } else {
-            return self
-        }
-    }
-}
-
 struct VideoCard: View {
     var video: VideoObject
 
