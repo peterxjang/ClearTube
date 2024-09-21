@@ -278,26 +278,20 @@ public final class InnerTubeAPI {
 
     private func extractRecommendedVideos(json: NextResponse) -> [VideoObject.RecommendedVideoObject] {
         var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
-        for content in json.contents.singleColumnWatchNextResults.results.results.contents {
-            if content.shelfRenderer != nil {
-                for item in content.shelfRenderer!.content.horizontalListRenderer.items {
-                    if let gridVideoRenderer = item.gridVideoRenderer {
-                        var lengthSeconds: Int = 0
-                        if let lengthString = gridVideoRenderer.lengthText.runs.first?.text {
-                            lengthSeconds = timeStringToSeconds(lengthString) ?? 0
-                        }
-                        recommendedVideos.append(
-                            VideoObject.RecommendedVideoObject(
-                                videoId: gridVideoRenderer.videoId,
-                                title: gridVideoRenderer.title.runs.first?.text ?? "",
-                                lengthSeconds: lengthSeconds,
-                                videoThumbnails: gridVideoRenderer.thumbnail.thumbnails
-                            )
-                        )
-                    } else {
-                        print("Missing gridVideoRenderer")
-                    }
-                }
+        for result in json.playerOverlays.playerOverlayRenderer.endScreen.watchNextEndScreenRenderer.results {
+            if let endScreenVideoRenderer = result.endScreenVideoRenderer {
+                recommendedVideos.append(
+                    VideoObject.RecommendedVideoObject(
+                        videoId: endScreenVideoRenderer.videoId,
+                        title: endScreenVideoRenderer.title.runs.first?.text ?? "",
+                        lengthSeconds: endScreenVideoRenderer.lengthInSeconds,
+                        videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
+                        author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
+                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint.browseId,
+                        publishedText: endScreenVideoRenderer.publishedTimeText.runs.first?.text,
+                        viewCountText: endScreenVideoRenderer.shortViewCountText.runs.first?.text
+                    )
+                )
             }
         }
         return recommendedVideos
