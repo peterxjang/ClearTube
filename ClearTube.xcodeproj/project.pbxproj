@@ -46,6 +46,11 @@
 		AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
 		AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */; };
 		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
+		ACCC35212C9F6EDE00180A9B /* iOSClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */; };
+		ACCC35232C9F6EDE00180A9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35222C9F6EDE00180A9B /* ContentView.swift */; };
+		ACCC35252C9F6EDE00180A9B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35242C9F6EDE00180A9B /* Item.swift */; };
+		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
+		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,10 +94,23 @@
 		AC3A3A2B2C9A614700861227 /* RequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBody.swift; sourceTree = "<group>"; };
 		AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResponse.swift; sourceTree = "<group>"; };
 		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
+		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSClearTubeApp.swift; sourceTree = "<group>"; };
+		ACCC35222C9F6EDE00180A9B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		ACCC35242C9F6EDE00180A9B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		AC0588EC2C94C3B1001C2C6F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCC351B2C9F6EDE00180A9B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -106,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				AC0588F12C94C3B1001C2C6F /* ClearTube */,
+				ACCC351F2C9F6EDE00180A9B /* iOSClearTube */,
 				AC0588F02C94C3B1001C2C6F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -114,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				AC0588EF2C94C3B1001C2C6F /* ClearTube.app */,
+				ACCC351E2C9F6EDE00180A9B /* ClearTube.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -196,6 +216,26 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		ACCC351F2C9F6EDE00180A9B /* iOSClearTube */ = {
+			isa = PBXGroup;
+			children = (
+				ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */,
+				ACCC35222C9F6EDE00180A9B /* ContentView.swift */,
+				ACCC35242C9F6EDE00180A9B /* Item.swift */,
+				ACCC35262C9F6EDF00180A9B /* Assets.xcassets */,
+				ACCC35282C9F6EDF00180A9B /* Preview Content */,
+			);
+			path = iOSClearTube;
+			sourceTree = "<group>";
+		};
+		ACCC35282C9F6EDF00180A9B /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -216,6 +256,23 @@
 			productReference = AC0588EF2C94C3B1001C2C6F /* ClearTube.app */;
 			productType = "com.apple.product-type.application";
 		};
+		ACCC351D2C9F6EDE00180A9B /* iOSClearTube */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACCC352D2C9F6EDF00180A9B /* Build configuration list for PBXNativeTarget "iOSClearTube" */;
+			buildPhases = (
+				ACCC351A2C9F6EDE00180A9B /* Sources */,
+				ACCC351B2C9F6EDE00180A9B /* Frameworks */,
+				ACCC351C2C9F6EDE00180A9B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSClearTube;
+			productName = iOSClearTube;
+			productReference = ACCC351E2C9F6EDE00180A9B /* ClearTube.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -227,6 +284,9 @@
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					AC0588EE2C94C3B1001C2C6F = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					ACCC351D2C9F6EDE00180A9B = {
 						CreatedOnToolsVersion = 15.4;
 					};
 				};
@@ -245,6 +305,7 @@
 			projectRoot = "";
 			targets = (
 				AC0588EE2C94C3B1001C2C6F /* ClearTube */,
+				ACCC351D2C9F6EDE00180A9B /* iOSClearTube */,
 			);
 		};
 /* End PBXProject section */
@@ -256,6 +317,15 @@
 			files = (
 				AC0588FC2C94C3B2001C2C6F /* Preview Assets.xcassets in Resources */,
 				AC0588F92C94C3B2001C2C6F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCC351C2C9F6EDE00180A9B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */,
+				ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +373,16 @@
 				AC0589302C95D07C001C2C6F /* ChannelView.swift in Sources */,
 				AC0589322C95D0E5001C2C6F /* FollowButton.swift in Sources */,
 				AC0589202C95C7CA001C2C6F /* PlaylistObject.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACCC351A2C9F6EDE00180A9B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACCC35232C9F6EDE00180A9B /* ContentView.swift in Sources */,
+				ACCC35252C9F6EDE00180A9B /* Item.swift in Sources */,
+				ACCC35212C9F6EDE00180A9B /* iOSClearTubeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +560,70 @@
 			};
 			name = Release;
 		};
+		ACCC352B2C9F6EDF00180A9B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iOSClearTube/Preview Content\"";
+				DEVELOPMENT_TEAM = 3KX6W8KFQP;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClearTube;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = peterxjang.iOSClearTube;
+				PRODUCT_NAME = ClearTube;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ACCC352C2C9F6EDF00180A9B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iOSClearTube/Preview Content\"";
+				DEVELOPMENT_TEAM = 3KX6W8KFQP;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClearTube;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = peterxjang.iOSClearTube;
+				PRODUCT_NAME = ClearTube;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -497,6 +641,15 @@
 			buildConfigurations = (
 				AC0589002C94C3B2001C2C6F /* Debug */,
 				AC0589012C94C3B2001C2C6F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ACCC352D2C9F6EDF00180A9B /* Build configuration list for PBXNativeTarget "iOSClearTube" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACCC352B2C9F6EDF00180A9B /* Debug */,
+				ACCC352C2C9F6EDF00180A9B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
