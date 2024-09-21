@@ -311,8 +311,8 @@ public final class InnerTubeAPI {
         var subCountText: String = ""
         if let pageHeaderRenderer = json.header.pageHeaderRenderer {
             for metadataRow in pageHeaderRenderer.content.pageHeaderViewModel.metadata.contentMetadataViewModel.metadataRows {
-                if let first = metadataRow.metadataParts.first, first.text.content.hasSuffix(" subscribers") {
-                    subCountText = first.text.content
+                if let first = metadataRow.metadataParts.first, let text = first.text, text.content.hasSuffix(" subscribers") {
+                    subCountText = first.text?.content ?? ""
                 }
             }
         }
@@ -442,7 +442,7 @@ public final class InnerTubeAPI {
                                         let videoId = playlistVideoRenderer.videoId
                                         let lengthSeconds = Int(playlistVideoRenderer.lengthSeconds) ?? 0
                                         let videoThumbnails = playlistVideoRenderer.thumbnail.thumbnails
-                                        let viewCountText = playlistVideoRenderer.videoInfo.runs.first?.text
+                                        let viewCountText = playlistVideoRenderer.videoInfo.runs?.first?.text
                                         let author = playlistVideoRenderer.shortBylineText.runs.first?.text
                                         let authorId = playlistVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint.browseId
                                         videos.append(

@@ -64,7 +64,7 @@ struct BrowseResponse: Decodable {
                             struct MetadataRowResponse: Decodable {
                                 var metadataParts: [MetadataPartResponse]
                                 struct MetadataPartResponse: Decodable {
-                                    var text: TextResponse
+                                    var text: TextResponse?
                                     struct TextResponse: Decodable {
                                         var content: String
                                     }
@@ -141,7 +141,7 @@ struct BrowseResponse: Decodable {
                                                     var lengthSeconds: String
                                                     var videoInfo: VideoInfoResponse
                                                     struct VideoInfoResponse: Decodable {
-                                                        var runs: [RunResponse]
+                                                        var runs: [RunResponse]?
                                                         struct RunResponse: Decodable {
                                                             var text: String
                                                         }
