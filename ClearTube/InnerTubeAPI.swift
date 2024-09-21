@@ -90,7 +90,7 @@ public final class InnerTubeAPI {
         return try Self.decoder.decode(BrowseResponse.self.self, from: data)
     }
     
-    func video(for id: String) async throws -> VideoObject {
+    func video(for id: String, viewCountText: String? = nil, publishedText: String? = nil) async throws -> VideoObject {
         async let playerTask = playerEndpoint(for: id)
         async let nextTask = nextEndpoint(for: id)
         do {
@@ -101,7 +101,9 @@ public final class InnerTubeAPI {
                 videoId: json.videoDetails.videoId,
                 lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
                 videoThumbnails: json.videoDetails.thumbnail.thumbnails,
+                publishedText: publishedText,
                 viewCount: Int64(json.videoDetails.viewCount),
+                viewCountText: viewCountText,
                 author: json.videoDetails.author,
                 authorId: json.videoDetails.channelId,
                 hlsUrl: json.streamingData.hlsManifestUrl,

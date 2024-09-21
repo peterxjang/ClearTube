@@ -28,7 +28,7 @@ struct SavedVideosView: View {
                                             height: watchLaterVideo.thumbnailHeight ?? 0
                                         )
                                     ],
-                                    published: watchLaterVideo.published,
+                                    publishedText: watchLaterVideo.publishedText,
                                     viewCountText: watchLaterVideo.viewCountText,
                                     author: watchLaterVideo.author,
                                     authorId: watchLaterVideo.authorId
@@ -56,7 +56,7 @@ struct SavedVideosView: View {
                                             height: recommendedVideo.thumbnailHeight ?? 0
                                         )
                                     ],
-                                    published: recommendedVideo.published,
+                                    publishedText: recommendedVideo.publishedText,
                                     viewCountText: recommendedVideo.viewCountText,
                                     author: recommendedVideo.author,
                                     authorId: recommendedVideo.authorId
@@ -84,7 +84,7 @@ struct SavedVideosView: View {
                                             height: historyVideo.thumbnailHeight ?? 0
                                         )
                                     ],
-                                    published: historyVideo.published,
+                                    publishedText: historyVideo.publishedText,
                                     viewCountText: historyVideo.viewCountText,
                                     author: historyVideo.author,
                                     authorId: historyVideo.authorId
@@ -94,8 +94,6 @@ struct SavedVideosView: View {
                     }.padding(20)
                 }
             }
-            .navigationTitle("Watch Later")
-            .padding(50)
         }
     }
 }

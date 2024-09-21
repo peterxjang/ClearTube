@@ -26,6 +26,8 @@ class RecommendedVideo {
         self.thumbnailHeight = thumbnail?.height
         self.author = recommendedVideo.author
         self.authorId = recommendedVideo.authorId
+        self.published = recommendedVideo.published
+        self.publishedText = recommendedVideo.publishedText
         self.viewCount = recommendedVideo.viewCount
         self.viewCountText = recommendedVideo.viewCountText
     }

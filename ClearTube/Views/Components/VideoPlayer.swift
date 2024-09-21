@@ -16,7 +16,7 @@ struct Chapter {
 }
 
 struct VideoPlayer: View {
-    var videoId: String
+    var video: VideoObject
     @State var currentVideo: VideoObject? = nil
     @State var isLoading: Bool = true
     @State var player: AVPlayer? = nil
@@ -29,8 +29,8 @@ struct VideoPlayer: View {
             ProgressView()
                 .onAppear {
                     Task {
-                        let startTime = historyVideos.first(where: { $0.videoId == videoId })?.watchedSeconds
-                        try? await playVideo(withId: videoId, startTime: startTime)
+                        let startTime = historyVideos.first(where: { $0.videoId == video.videoId })?.watchedSeconds
+                        try? await playVideo(video: video, startTime: startTime)
                     }
                 }
                 .onDisappear {
@@ -39,9 +39,9 @@ struct VideoPlayer: View {
                     }
                 }
         } else {
-            if let player = player, let video = currentVideo {
+            if let player = player, let currentVideo = currentVideo {
                 VideoPlayerView(
-                    video: video,
+                    video: currentVideo,
                     player: player,
                     skippableSegments: skippableSegments
                 )
@@ -64,9 +64,9 @@ struct VideoPlayer: View {
         statusObserver = nil
     }
 
-    private func playVideo(withId id: String, startTime: Double? = nil) async throws {
-        async let videoTask = ClearTubeApp.innerTubeClient.video(for: id)
-        async let sponsorSegmentsTask = SponsorBlockAPI.sponsorSegments(id: id)
+    private func playVideo(video: VideoObject, startTime: Double? = nil) async throws {
+        async let videoTask = ClearTubeApp.innerTubeClient.video(for: video.videoId, viewCountText: video.viewCountText, publishedText: video.publishedText)
+        async let sponsorSegmentsTask = SponsorBlockAPI.sponsorSegments(id: video.videoId)
         do {
             let (video, segments) = try await (videoTask, sponsorSegmentsTask)
             skippableSegments = segments
