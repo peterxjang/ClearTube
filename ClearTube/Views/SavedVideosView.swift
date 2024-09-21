@@ -35,7 +35,7 @@ struct SavedVideosView: View {
                                 )
                             )
                         }
-                    }.padding(20)
+                    }.padding(40)
                 }
 
                 Text("Recommended")
@@ -63,7 +63,7 @@ struct SavedVideosView: View {
                                 )
                             )
                         }
-                    }.padding(20)
+                    }.padding(40)
                 }
 
                 Text("Recent History")
@@ -91,7 +91,7 @@ struct SavedVideosView: View {
                                 )
                             )
                         }
-                    }.padding(20)
+                    }.padding(40)
                 }
             }
         }
