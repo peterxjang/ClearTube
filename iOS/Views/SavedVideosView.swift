@@ -10,11 +10,9 @@ struct SavedVideosView: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let minWidth: CGFloat = 150
             let screenWidth = geometry.size.width
-            let columns = Int(screenWidth / minWidth)
             let spacing: CGFloat = screenWidth / 50.0
-            let width = (screenWidth - CGFloat(columns - 1) * spacing) / CGFloat(columns)
+            let width = screenWidth / 3.0
 
             ScrollView {
                 VStack(alignment: .leading) {
