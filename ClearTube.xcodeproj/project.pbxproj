@@ -55,6 +55,8 @@
 		AC8086672C9FDF690049BAEA /* SearchViewResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086662C9FDF690049BAEA /* SearchViewResults.swift */; };
 		AC8086682CA053190049BAEA /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589312C95D0E5001C2C6F /* FollowButton.swift */; };
 		AC8086692CA0531D0049BAEA /* AsyncOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */; };
+		AC80866B2CA0AA6D0049BAEA /* SavedVideosView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80866A2CA0AA6D0049BAEA /* SavedVideosView.swift */; };
+		AC80866D2CA0AA910049BAEA /* SubscriptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80866C2CA0AA910049BAEA /* SubscriptionsView.swift */; };
 		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
@@ -129,6 +131,8 @@
 		AC8086622C9FDD860049BAEA /* ChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelView.swift; sourceTree = "<group>"; };
 		AC8086642C9FDDC10049BAEA /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		AC8086662C9FDF690049BAEA /* SearchViewResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewResults.swift; sourceTree = "<group>"; };
+		AC80866A2CA0AA6D0049BAEA /* SavedVideosView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedVideosView.swift; sourceTree = "<group>"; };
+		AC80866C2CA0AA910049BAEA /* SubscriptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsView.swift; sourceTree = "<group>"; };
 		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -263,6 +267,8 @@
 			children = (
 				ACCC35412C9FBD9700180A9B /* RootView.swift */,
 				ACCC35432C9FBE4F00180A9B /* FeedView.swift */,
+				AC80866A2CA0AA6D0049BAEA /* SavedVideosView.swift */,
+				AC80866C2CA0AA910049BAEA /* SubscriptionsView.swift */,
 				AC8086622C9FDD860049BAEA /* ChannelView.swift */,
 				AC8086642C9FDDC10049BAEA /* PlaylistView.swift */,
 				AC8086662C9FDF690049BAEA /* SearchViewResults.swift */,
@@ -456,12 +462,14 @@
 				ACCC35352C9FB79000180A9B /* SearchResponse.swift in Sources */,
 				AC8086672C9FDF690049BAEA /* SearchViewResults.swift in Sources */,
 				ACCC35532C9FC92800180A9B /* PreferredImage.swift in Sources */,
+				AC80866D2CA0AA910049BAEA /* SubscriptionsView.swift in Sources */,
 				ACCC35442C9FBE4F00180A9B /* FeedView.swift in Sources */,
 				ACCC35362C9FB79000180A9B /* RecommendedVideo.swift in Sources */,
 				ACCC35522C9FC79A00180A9B /* VideoPlayer.swift in Sources */,
 				ACCC35372C9FB79000180A9B /* SearchObject.swift in Sources */,
 				ACCC35382C9FB79000180A9B /* FollowedChannel.swift in Sources */,
 				ACCC35392C9FB79000180A9B /* HistoryVideo.swift in Sources */,
+				AC80866B2CA0AA6D0049BAEA /* SavedVideosView.swift in Sources */,
 				ACCC35502C9FC48500180A9B /* CacheAsyncImage.swift in Sources */,
 				ACCC353A2C9FB79000180A9B /* PlaylistObject.swift in Sources */,
 				ACCC35512C9FC48800180A9B /* MessageBlock.swift in Sources */,
