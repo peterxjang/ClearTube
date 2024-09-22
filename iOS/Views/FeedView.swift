@@ -31,11 +31,7 @@ struct FeedView: View {
                                 .padding()
                         } else {
                             Button {
-                                loadedChannelsCount = 0
-                                isLoading = true
-                                Task {
-                                    await fetchVideos()
-                                }
+                                refreshVideos()
                             } label: {
                                 Label("Refresh", systemImage: "arrow.clockwise")
                             }
@@ -56,9 +52,20 @@ struct FeedView: View {
                     }
                 }
             }
+            .refreshable {
+                refreshVideos()
+            }
         }
     }
-    
+
+    private func refreshVideos() {
+        loadedChannelsCount = 0
+        isLoading = true
+        Task {
+            await fetchVideos()
+        }
+    }
+
     private func fetchVideos() async {
         do {
             var allVideos: [VideoObject] = []
