@@ -3,9 +3,9 @@ import SwiftData
 
 struct VideoCard: View {
     var video: VideoObject
+    var width: CGFloat = 500.0
 
     var body: some View {
-        let width = 500.0
         let height = width / 1.8
 
         VStack(alignment: .leading) {
@@ -16,7 +16,9 @@ struct VideoCard: View {
                     VideoThumbnailWatchProgress(video: video, width: width)
                 }.frame(width: width, height: height)
             }
+            #if os(tvOS)
             .buttonStyle(.card)
+            #endif
             .frame(width: width)
             .contextMenu {
                 VideoContextMenu(video: video)

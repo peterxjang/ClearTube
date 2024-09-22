@@ -15,6 +15,18 @@ struct ClearTubeApp: App {
                 case .some(true):
                     NavigationStack {
                         RootView()
+                            .toolbar {
+                                ToolbarItem {
+                                    NavigationLink(destination: SearchView()) {
+                                        Label("Search", systemImage: "magnifyingglass")
+                                    }
+                                }
+                                ToolbarItem {
+                                    NavigationLink(destination: SettingsView()) {
+                                        Label("Settings", systemImage: "gear")
+                                    }
+                                }
+                            }
                     }
                 case .some(false):
                     OnboardingView(hasValidInstance: $hasValidInstance)

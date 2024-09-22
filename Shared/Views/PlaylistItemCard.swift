@@ -27,7 +27,9 @@ struct PlaylistItemCard: View {
                 }
                 .frame(width: width, height: height)
             }
+            #if os(tvOS)
             .buttonStyle(.card)
+            #endif
 
             Text(playlist.title).lineLimit(1).font(.callout)
             Text(playlist.author).lineLimit(1).foregroundStyle(.secondary).font(.callout)

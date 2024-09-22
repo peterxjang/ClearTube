@@ -46,6 +46,13 @@
 		AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
 		AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */; };
 		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
+		AC80865D2C9FDBA00049BAEA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589212C95C9E8001C2C6F /* SettingsView.swift */; };
+		AC80865F2C9FDD3A0049BAEA /* ChannelCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05892B2C95CFAB001C2C6F /* ChannelCard.swift */; };
+		AC8086602C9FDD3A0049BAEA /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05890C2C952B9E001C2C6F /* VideoCard.swift */; };
+		AC8086612C9FDD3A0049BAEA /* PlaylistItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */; };
+		AC8086632C9FDD860049BAEA /* ChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086622C9FDD860049BAEA /* ChannelView.swift */; };
+		AC8086652C9FDDC10049BAEA /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086642C9FDDC10049BAEA /* PlaylistView.swift */; };
+		AC8086672C9FDF690049BAEA /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086662C9FDF690049BAEA /* SearchView.swift */; };
 		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
@@ -70,7 +77,6 @@
 		ACCC35402C9FBCCB00180A9B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891D2C95C605001C2C6F /* OnboardingView.swift */; };
 		ACCC35422C9FBD9700180A9B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35412C9FBD9700180A9B /* RootView.swift */; };
 		ACCC35442C9FBE4F00180A9B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35432C9FBE4F00180A9B /* FeedView.swift */; };
-		ACCC354A2C9FBF3900180A9B /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35492C9FBF3900180A9B /* VideoCard.swift */; };
 		ACCC35502C9FC48500180A9B /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */; };
 		ACCC35512C9FC48800180A9B /* MessageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589252C95CDB6001C2C6F /* MessageBlock.swift */; };
 		ACCC35522C9FC79A00180A9B /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589152C954901001C2C6F /* VideoPlayer.swift */; };
@@ -118,13 +124,15 @@
 		AC3A3A2B2C9A614700861227 /* RequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBody.swift; sourceTree = "<group>"; };
 		AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResponse.swift; sourceTree = "<group>"; };
 		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
+		AC8086622C9FDD860049BAEA /* ChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelView.swift; sourceTree = "<group>"; };
+		AC8086642C9FDDC10049BAEA /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
+		AC8086662C9FDF690049BAEA /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		ACCC35412C9FBD9700180A9B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		ACCC35432C9FBE4F00180A9B /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
-		ACCC35492C9FBF3900180A9B /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,15 +194,13 @@
 		AC0589022C95119E001C2C6F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				AC0589102C952D69001C2C6F /* Components */,
 				AC0588F42C94C3B1001C2C6F /* RootView.swift */,
 				AC0589042C952087001C2C6F /* FeedView.swift */,
 				AC05893F2C963423001C2C6F /* SavedVideosView.swift */,
-				AC0589272C95CE53001C2C6F /* SearchView.swift */,
 				AC05892F2C95D07C001C2C6F /* ChannelView.swift */,
+				AC0589272C95CE53001C2C6F /* SearchView.swift */,
 				AC0589352C95D1DF001C2C6F /* PlaylistView.swift */,
 				AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */,
-				AC0589212C95C9E8001C2C6F /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -219,16 +225,6 @@
 				AC0589192C95C3D4001C2C6F /* Settings.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		AC0589102C952D69001C2C6F /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				AC05890C2C952B9E001C2C6F /* VideoCard.swift */,
-				AC05892B2C95CFAB001C2C6F /* ChannelCard.swift */,
-				AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		AC80865C2C9FCAF80049BAEA /* APIs */ = {
@@ -263,19 +259,13 @@
 		ACCC35462C9FBEE200180A9B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				ACCC354B2C9FBF5300180A9B /* Components */,
 				ACCC35412C9FBD9700180A9B /* RootView.swift */,
 				ACCC35432C9FBE4F00180A9B /* FeedView.swift */,
+				AC8086622C9FDD860049BAEA /* ChannelView.swift */,
+				AC8086642C9FDDC10049BAEA /* PlaylistView.swift */,
+				AC8086662C9FDF690049BAEA /* SearchView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		ACCC354B2C9FBF5300180A9B /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				ACCC35492C9FBF3900180A9B /* VideoCard.swift */,
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		ACCC354E2C9FC33800180A9B /* Shared */ = {
@@ -292,6 +282,10 @@
 			isa = PBXGroup;
 			children = (
 				AC05891D2C95C605001C2C6F /* OnboardingView.swift */,
+				AC0589212C95C9E8001C2C6F /* SettingsView.swift */,
+				AC05890C2C952B9E001C2C6F /* VideoCard.swift */,
+				AC05892B2C95CFAB001C2C6F /* ChannelCard.swift */,
+				AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */,
 				AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */,
 				AC0589252C95CDB6001C2C6F /* MessageBlock.swift */,
 				AC0589152C954901001C2C6F /* VideoPlayer.swift */,
@@ -446,12 +440,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC8086632C9FDD860049BAEA /* ChannelView.swift in Sources */,
 				ACCC352E2C9FB74700180A9B /* InvidiousAPI.swift in Sources */,
 				ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */,
 				ACCC35312C9FB75600180A9B /* VideoObject.swift in Sources */,
+				AC80865F2C9FDD3A0049BAEA /* ChannelCard.swift in Sources */,
+				AC8086602C9FDD3A0049BAEA /* VideoCard.swift in Sources */,
+				AC8086612C9FDD3A0049BAEA /* PlaylistItemCard.swift in Sources */,
 				ACCC35332C9FB79000180A9B /* NextResponse.swift in Sources */,
 				ACCC35342C9FB79000180A9B /* BrowseResponse.swift in Sources */,
 				ACCC35352C9FB79000180A9B /* SearchResponse.swift in Sources */,
+				AC8086672C9FDF690049BAEA /* SearchView.swift in Sources */,
 				ACCC35532C9FC92800180A9B /* PreferredImage.swift in Sources */,
 				ACCC35442C9FBE4F00180A9B /* FeedView.swift in Sources */,
 				ACCC35362C9FB79000180A9B /* RecommendedVideo.swift in Sources */,
@@ -467,9 +466,10 @@
 				ACCC353C2C9FB79000180A9B /* RequestBody.swift in Sources */,
 				ACCC353D2C9FB79000180A9B /* PlayerResponse.swift in Sources */,
 				ACCC353E2C9FB79000180A9B /* WatchLaterVideo.swift in Sources */,
+				AC80865D2C9FDBA00049BAEA /* SettingsView.swift in Sources */,
+				AC8086652C9FDDC10049BAEA /* PlaylistView.swift in Sources */,
 				ACCC353F2C9FB79000180A9B /* Settings.swift in Sources */,
 				ACCC352F2C9FB74A00180A9B /* InnerTubeAPI.swift in Sources */,
-				ACCC354A2C9FBF3900180A9B /* VideoCard.swift in Sources */,
 				ACCC35322C9FB75B00180A9B /* ChannelObject.swift in Sources */,
 				ACCC35302C9FB74D00180A9B /* SponsorBlockAPI.swift in Sources */,
 				ACCC35402C9FBCCB00180A9B /* OnboardingView.swift in Sources */,
