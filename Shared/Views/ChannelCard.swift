@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ChannelCard: View {
     var channel: ChannelObject
+    var width: CGFloat = 400.0
     @State private var showChannelView = false
 
     var body: some View {
@@ -13,7 +14,7 @@ struct ChannelCard: View {
                     .font(.callout)
                     .foregroundStyle(.secondary)
             }
-            .frame(maxHeight: 400)
+            .frame(width: width)
         }
     }
 }

@@ -9,41 +9,49 @@ struct FeedView: View {
     @Query(sort: \FollowedChannel.author) var channels: [FollowedChannel]
     
     var body: some View {
-        ScrollView {
-            if channels.isEmpty {
-                MessageBlock(
-                    title: "You aren't following any channels.",
-                    message: "Search for channels you'd like to follow."
-                ).padding(.horizontal)
-            } else {
-                VStack(alignment: .trailing) {
-                    if isLoading {
-                        ProgressView(value: Double(loadedChannelsCount), total: Double(channels.count))
-                            .padding()
-                        Text("Loaded \(loadedChannelsCount) out of \(channels.count) channels")
-                            .padding()
-                    } else {
-                        Button {
-                            loadedChannelsCount = 0
-                            isLoading = true
-                            Task {
-                                await fetchVideos()
+        GeometryReader { geometry in
+            let minWidth: CGFloat = 250
+            let screenWidth = geometry.size.width
+            let columns = Int(screenWidth / minWidth)
+            let spacing: CGFloat = screenWidth / 20.0
+            let width = (screenWidth - CGFloat(columns - 1) * spacing) / CGFloat(columns)
+
+            ScrollView {
+                if channels.isEmpty {
+                    MessageBlock(
+                        title: "You aren't following any channels.",
+                        message: "Search for channels you'd like to follow."
+                    ).padding(.horizontal)
+                } else {
+                    VStack(alignment: .trailing) {
+                        if isLoading {
+                            ProgressView(value: Double(loadedChannelsCount), total: Double(channels.count))
+                                .padding()
+                            Text("Loaded \(loadedChannelsCount) out of \(channels.count) channels")
+                                .padding()
+                        } else {
+                            Button {
+                                loadedChannelsCount = 0
+                                isLoading = true
+                                Task {
+                                    await fetchVideos()
+                                }
+                            } label: {
+                                Label("Refresh", systemImage: "arrow.clockwise")
                             }
-                        } label: {
-                            Label("Refresh", systemImage: "arrow.clockwise")
-                        }
-                        .padding(.trailing, 20)
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 100) {
-                            ForEach(videos, id: \.videoId) { video in
-                                VideoCard(video: video)
+                            .padding(.trailing, 20)
+                            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
+                                ForEach(videos, id: \.videoId) { video in
+                                    VideoCard(video: video, width: width)
+                                }
                             }
                         }
                     }
-                }
-                .onAppear {
-                    if !hasLoadedOnce {
-                        Task {
-                            await fetchVideos()
+                    .onAppear {
+                        if !hasLoadedOnce {
+                            Task {
+                                await fetchVideos()
+                            }
                         }
                     }
                 }

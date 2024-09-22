@@ -18,57 +18,65 @@ struct ChannelView: View {
     @State var channelPlaylists: [PlaylistObject]?
 
     var body: some View {
-        ScrollView {
-            if let channel = channel {
-                ChannelHeaderView(channel: channel, selection: $selection)
-                    .padding(.bottom, 100)
-                switch selection {
-                case ChannelCategory.videos:
-                    ChannelVideosView(videos: channelVideos)
-                        .onAppear {
-                            if channelVideos == nil {
-                                Task {
-                                    await fetchChannelVideos()
+        GeometryReader { geometry in
+            let minWidth: CGFloat = 250
+            let screenWidth = geometry.size.width
+            let columns = Int(screenWidth / minWidth)
+            let spacing: CGFloat = screenWidth / 20.0
+            let width = (screenWidth - CGFloat(columns - 1) * spacing) / CGFloat(columns)
+
+            ScrollView {
+                if let channel = channel {
+                    ChannelHeaderView(channel: channel, selection: $selection)
+                        .padding(.bottom, 100)
+                    switch selection {
+                    case ChannelCategory.videos:
+                        ChannelVideosView(videos: channelVideos, columns: columns, spacing: spacing, width: width)
+                            .onAppear {
+                                if channelVideos == nil {
+                                    Task {
+                                        await fetchChannelVideos()
+                                    }
                                 }
                             }
-                        }
-                case ChannelCategory.shorts:
-                    ChannelVideosView(videos: channelShorts)
-                        .onAppear {
-                            if channelShorts == nil {
-                                Task {
-                                    await fetchChannelShorts()
+                    case ChannelCategory.shorts:
+                        ChannelVideosView(videos: channelShorts, columns: columns, spacing: spacing, width: width)
+                            .onAppear {
+                                if channelShorts == nil {
+                                    Task {
+                                        await fetchChannelShorts()
+                                    }
                                 }
                             }
-                        }
-                case ChannelCategory.streams:
-                    ChannelVideosView(videos: channelStreams)
-                        .onAppear {
-                            if channelStreams == nil {
-                                Task {
-                                    await fetchChannelStreams()
+                    case ChannelCategory.streams:
+                        ChannelVideosView(videos: channelStreams, columns: columns, spacing: spacing, width: width)
+                            .onAppear {
+                                if channelStreams == nil {
+                                    Task {
+                                        await fetchChannelStreams()
+                                    }
                                 }
                             }
-                        }
-                case ChannelCategory.playlists:
-                    ChannelPlaylistsView(playlists: channelPlaylists)
-                        .onAppear {
-                            if channelPlaylists == nil {
-                                Task {
-                                    await fetchChannelPlaylists()
+                    case ChannelCategory.playlists:
+                        ChannelPlaylistsView(playlists: channelPlaylists, columns: columns, spacing: spacing, width: width)
+                            .onAppear {
+                                if channelPlaylists == nil {
+                                    Task {
+                                        await fetchChannelPlaylists()
+                                    }
                                 }
                             }
-                        }
+                    }
+                } else {
+                    ProgressView()
                 }
-            } else {
-                ProgressView()
             }
-        }
-        .padding()
-        .onAppear {
-            if channel == nil {
-                Task {
-                    await fetchChannel()
+            .padding()
+            .onAppear {
+                if channel == nil {
+                    Task {
+                        await fetchChannel()
+                    }
                 }
             }
         }
@@ -159,15 +167,18 @@ struct ChannelHeaderView: View {
 
 struct ChannelVideosView: View {
     var videos: [VideoObject]?
+    var columns: Int
+    var spacing: CGFloat
+    var width: CGFloat
 
     var body: some View {
         if let videos = videos {
             if videos.isEmpty {
                 Text("No Videos")
             } else {
-                LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                     ForEach(videos, id: \.videoId) { video in
-                        VideoCard(video: video)
+                        VideoCard(video: video, width: width)
                     }
                 }
             }
@@ -179,6 +190,9 @@ struct ChannelVideosView: View {
 
 struct ChannelPlaylistsView: View {
     var playlists: [PlaylistObject]?
+    var columns: Int
+    var spacing: CGFloat
+    var width: CGFloat
 
     var body: some View {
         if let playlists = playlists {
@@ -186,9 +200,9 @@ struct ChannelPlaylistsView: View {
                 Text("No Playlists")
             } else {
                 LazyVStack {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                         ForEach(playlists, id: \.playlistId) { playlist in
-                            PlaylistItemCard(playlist: playlist).padding()
+                            PlaylistItemCard(playlist: playlist, width: width).padding()
                         }
                     }
                 }.padding()

@@ -65,34 +65,42 @@ struct SearchResultsView: View {
     var model = SearchResultsViewModel()
 
     var body: some View {
-        VStack {
-            if model.isSearching {
-                ProgressView("Searching...")
-                    .padding(.top, 200)
-            }
+        GeometryReader { geometry in
+            let minWidth: CGFloat = 250
+            let screenWidth = geometry.size.width
+            let columns = Int(screenWidth / minWidth)
+            let spacing: CGFloat = screenWidth / 20.0
+            let padding: CGFloat = 50
+            let width = (screenWidth - (2 * padding) - CGFloat(columns - 1) * spacing) / CGFloat(columns)
 
-            if !query.isEmpty {
-                ScrollView(.vertical) {
-                    LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 20) {
-                        ForEach(model.results) { result in
-                            switch result {
-                            case .video(let video):
-                                VideoCard(video: video)
-                            case .channel(let channel):
-                                ChannelCard(channel: channel)
-                            case .playlist(let playlist):
-                                PlaylistItemCard(playlist: playlist)
-                            }
-                        }
-                    }.padding(50)
+            VStack {
+                if model.isSearching {
+                    ProgressView("Searching...")
+                        .padding(.top, 200)
                 }
-                .onChange(of: query) { _, _ in
-                    model.handleChange(query: query)
+                if !query.isEmpty {
+                    ScrollView(.vertical) {
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
+                            ForEach(model.results) { result in
+                                switch result {
+                                case .video(let video):
+                                    VideoCard(video: video, width: width)
+                                case .channel(let channel):
+                                    ChannelCard(channel: channel, width: width)
+                                case .playlist(let playlist):
+                                    PlaylistItemCard(playlist: playlist, width: width)
+                                }
+                            }
+                        }.padding(padding)
+                    }
+                    .onChange(of: query) { _, _ in
+                        model.handleChange(query: query)
+                    }
                 }
             }
+            .background(
+                Color(uiColor: UIColor.systemBackground)
+            )
         }
-        .background(
-            Color(uiColor: UIColor.systemBackground)
-        )
     }
 }
