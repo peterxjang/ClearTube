@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PlaylistItemView: View {
+struct PlaylistItemCard: View {
     var id: String
     var title: String
     var thumbnail: String?

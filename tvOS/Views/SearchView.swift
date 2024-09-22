@@ -94,7 +94,7 @@ struct SearchResultsView: View {
                             case .channel(let channel):
                                 ChannelCard(channel: channel)
                             case .playlist(let playlist):
-                                PlaylistItemView(
+                                PlaylistItemCard(
                                     id: playlist.playlistId,
                                     title: playlist.title,
                                     thumbnail: playlist.playlistThumbnail,

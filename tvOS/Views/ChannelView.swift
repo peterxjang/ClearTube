@@ -187,7 +187,7 @@ struct ChannelPlaylistsView: View {
                 LazyVStack {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
                         ForEach(playlists, id: \.playlistId) { playlist in
-                            PlaylistItemView(
+                            PlaylistItemCard(
                                 id: playlist.playlistId,
                                 title: playlist.title,
                                 thumbnail: playlist.playlistThumbnail,

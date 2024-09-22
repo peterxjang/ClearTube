@@ -144,14 +144,18 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 action.image = defaultSpeedImage
             }
         }
+        #if os(tvOS)
         videoView.transportBarCustomMenuItems = [rateAction]
+        #endif
         updateNowPlayingInfo(with: video)
         var metadata: [AVMetadataItem] = []
         metadata.append(makeMetadataItem(.commonIdentifierTitle, value: video.title))
         metadata.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: video.author ?? "(no author)"))
         if let item = videoView.player?.currentItem {
             item.externalMetadata = metadata
+            #if os(tvOS)
             item.navigationMarkerGroups = makeNavigationMarkerGroups(video: video)
+            #endif
         }
         context.coordinator.startTrackingTime(playerViewController: videoView, skippableSegments: skippableSegments)
         return videoView
@@ -190,6 +194,8 @@ struct VideoPlayerView: UIViewControllerRepresentable {
             let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
             timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
                 let currentTime = CMTimeGetSeconds(time)
+                self?.watchedSeconds = currentTime
+                #if os(tvOS)
                 for segment in skippableSegments {
                     let startTime = segment[0]
                     let endTime = segment[1]
@@ -206,7 +212,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 if !playerViewController.contextualActions.isEmpty {
                     playerViewController.contextualActions = []
                 }
-                self?.watchedSeconds = currentTime
+                #endif
             }
         }
 
@@ -232,6 +238,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         ]
     }
 
+    #if os(tvOS)
     private func makeNavigationMarkerGroups(video: VideoObject) -> [AVNavigationMarkersGroup] {
         var chapters: [Chapter] = []
         var previousEndTime: TimeInterval = 0.0
@@ -253,6 +260,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         }
         return [AVNavigationMarkersGroup(title: nil, timedNavigationMarkers: metadataGroups)]
     }
+    #endif
 
     private func makeTimedMetadataGroup(for chapter: Chapter) -> AVTimedMetadataGroup {
         var metadata = [AVMetadataItem]()

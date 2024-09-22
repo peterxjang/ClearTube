@@ -32,7 +32,7 @@
 		AC05892E2C95D03D001C2C6F /* PreferredImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05892D2C95D03D001C2C6F /* PreferredImage.swift */; };
 		AC0589302C95D07C001C2C6F /* ChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05892F2C95D07C001C2C6F /* ChannelView.swift */; };
 		AC0589322C95D0E5001C2C6F /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589312C95D0E5001C2C6F /* FollowButton.swift */; };
-		AC0589342C95D1C1001C2C6F /* PlaylistItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589332C95D1C1001C2C6F /* PlaylistItemView.swift */; };
+		AC0589342C95D1C1001C2C6F /* PlaylistItemCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */; };
 		AC0589362C95D1DF001C2C6F /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589352C95D1DF001C2C6F /* PlaylistView.swift */; };
 		AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */; };
 		AC05893A2C95DF76001C2C6F /* SubscriptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */; };
@@ -46,15 +46,39 @@
 		AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
 		AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */; };
 		AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
-		ACCC35212C9F6EDE00180A9B /* iOSClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */; };
-		ACCC35232C9F6EDE00180A9B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35222C9F6EDE00180A9B /* ContentView.swift */; };
-		ACCC35252C9F6EDE00180A9B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35242C9F6EDE00180A9B /* Item.swift */; };
+		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
+		ACCC352E2C9FB74700180A9B /* InvidiousAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */; };
+		ACCC352F2C9FB74A00180A9B /* InnerTubeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC695F992C9758370029FC4E /* InnerTubeAPI.swift */; };
+		ACCC35302C9FB74D00180A9B /* SponsorBlockAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */; };
+		ACCC35312C9FB75600180A9B /* VideoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589062C95251D001C2C6F /* VideoObject.swift */; };
+		ACCC35322C9FB75B00180A9B /* ChannelObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589082C95270B001C2C6F /* ChannelObject.swift */; };
+		ACCC35332C9FB79000180A9B /* NextResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A272C9A60F400861227 /* NextResponse.swift */; };
+		ACCC35342C9FB79000180A9B /* BrowseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */; };
+		ACCC35352C9FB79000180A9B /* SearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A292C9A611900861227 /* SearchResponse.swift */; };
+		ACCC35362C9FB79000180A9B /* RecommendedVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589432C96480F001C2C6F /* RecommendedVideo.swift */; };
+		ACCC35372C9FB79000180A9B /* SearchObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589292C95CEE3001C2C6F /* SearchObject.swift */; };
+		ACCC35382C9FB79000180A9B /* FollowedChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */; };
+		ACCC35392C9FB79000180A9B /* HistoryVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589412C9641AE001C2C6F /* HistoryVideo.swift */; };
+		ACCC353A2C9FB79000180A9B /* PlaylistObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891F2C95C7CA001C2C6F /* PlaylistObject.swift */; };
+		ACCC353B2C9FB79000180A9B /* ImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05890A2C952872001C2C6F /* ImageObject.swift */; };
+		ACCC353C2C9FB79000180A9B /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A2B2C9A614700861227 /* RequestBody.swift */; };
+		ACCC353D2C9FB79000180A9B /* PlayerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3A3A252C9A60B100861227 /* PlayerResponse.swift */; };
+		ACCC353E2C9FB79000180A9B /* WatchLaterVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */; };
+		ACCC353F2C9FB79000180A9B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589192C95C3D4001C2C6F /* Settings.swift */; };
+		ACCC35402C9FBCCB00180A9B /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05891D2C95C605001C2C6F /* OnboardingView.swift */; };
+		ACCC35422C9FBD9700180A9B /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35412C9FBD9700180A9B /* RootView.swift */; };
+		ACCC35442C9FBE4F00180A9B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35432C9FBE4F00180A9B /* FeedView.swift */; };
+		ACCC354A2C9FBF3900180A9B /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35492C9FBF3900180A9B /* VideoCard.swift */; };
+		ACCC35502C9FC48500180A9B /* CacheAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */; };
+		ACCC35512C9FC48800180A9B /* MessageBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589252C95CDB6001C2C6F /* MessageBlock.swift */; };
+		ACCC35522C9FC79A00180A9B /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589152C954901001C2C6F /* VideoPlayer.swift */; };
+		ACCC35532C9FC92800180A9B /* PreferredImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC05892D2C95D03D001C2C6F /* PreferredImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AC0588EF2C94C3B1001C2C6F /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tvOSClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		AC0588F42C94C3B1001C2C6F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		AC0588F82C94C3B2001C2C6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -80,7 +104,7 @@
 		AC05892D2C95D03D001C2C6F /* PreferredImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferredImage.swift; sourceTree = "<group>"; };
 		AC05892F2C95D07C001C2C6F /* ChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelView.swift; sourceTree = "<group>"; };
 		AC0589312C95D0E5001C2C6F /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
-		AC0589332C95D1C1001C2C6F /* PlaylistItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemView.swift; sourceTree = "<group>"; };
+		AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistItemCard.swift; sourceTree = "<group>"; };
 		AC0589352C95D1DF001C2C6F /* PlaylistView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistView.swift; sourceTree = "<group>"; };
 		AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOverlayView.swift; sourceTree = "<group>"; };
 		AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionsView.swift; sourceTree = "<group>"; };
@@ -95,11 +119,12 @@
 		AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseResponse.swift; sourceTree = "<group>"; };
 		AC695F992C9758370029FC4E /* InnerTubeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerTubeAPI.swift; sourceTree = "<group>"; };
 		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSClearTubeApp.swift; sourceTree = "<group>"; };
-		ACCC35222C9F6EDE00180A9B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		ACCC35242C9F6EDE00180A9B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ACCC35412C9FBD9700180A9B /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		ACCC35432C9FBE4F00180A9B /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
+		ACCC35492C9FBF3900180A9B /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,8 +148,9 @@
 		AC0588E62C94C3B1001C2C6F = {
 			isa = PBXGroup;
 			children = (
-				AC0588F12C94C3B1001C2C6F /* ClearTube */,
-				ACCC351F2C9F6EDE00180A9B /* iOSClearTube */,
+				ACCC354E2C9FC33800180A9B /* Shared */,
+				AC0588F12C94C3B1001C2C6F /* tvOS */,
+				ACCC351F2C9F6EDE00180A9B /* iOS */,
 				AC0588F02C94C3B1001C2C6F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,25 +158,21 @@
 		AC0588F02C94C3B1001C2C6F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC0588EF2C94C3B1001C2C6F /* ClearTube.app */,
+				AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */,
 				ACCC351E2C9F6EDE00180A9B /* ClearTube.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AC0588F12C94C3B1001C2C6F /* ClearTube */ = {
+		AC0588F12C94C3B1001C2C6F /* tvOS */ = {
 			isa = PBXGroup;
 			children = (
 				AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */,
-				AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */,
-				AC695F992C9758370029FC4E /* InnerTubeAPI.swift */,
-				AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */,
 				AC0589022C95119E001C2C6F /* Views */,
-				AC0589032C9511AC001C2C6F /* Model */,
 				AC0588F82C94C3B2001C2C6F /* Assets.xcassets */,
 				AC0588FA2C94C3B2001C2C6F /* Preview Content */,
 			);
-			path = ClearTube;
+			path = tvOS;
 			sourceTree = "<group>";
 		};
 		AC0588FA2C94C3B2001C2C6F /* Preview Content */ = {
@@ -173,7 +195,6 @@
 				AC0589352C95D1DF001C2C6F /* PlaylistView.swift */,
 				AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */,
 				AC0589212C95C9E8001C2C6F /* SettingsView.swift */,
-				AC05891D2C95C605001C2C6F /* OnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,28 +225,31 @@
 			isa = PBXGroup;
 			children = (
 				AC05890C2C952B9E001C2C6F /* VideoCard.swift */,
-				AC0589152C954901001C2C6F /* VideoPlayer.swift */,
-				AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */,
-				AC0589252C95CDB6001C2C6F /* MessageBlock.swift */,
 				AC05892B2C95CFAB001C2C6F /* ChannelCard.swift */,
-				AC05892D2C95D03D001C2C6F /* PreferredImage.swift */,
-				AC0589312C95D0E5001C2C6F /* FollowButton.swift */,
-				AC0589332C95D1C1001C2C6F /* PlaylistItemView.swift */,
-				AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */,
+				AC0589332C95D1C1001C2C6F /* PlaylistItemCard.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		ACCC351F2C9F6EDE00180A9B /* iOSClearTube */ = {
+		AC80865C2C9FCAF80049BAEA /* APIs */ = {
 			isa = PBXGroup;
 			children = (
-				ACCC35202C9F6EDE00180A9B /* iOSClearTubeApp.swift */,
-				ACCC35222C9F6EDE00180A9B /* ContentView.swift */,
-				ACCC35242C9F6EDE00180A9B /* Item.swift */,
+				AC05891B2C95C525001C2C6F /* InvidiousAPI.swift */,
+				AC695F992C9758370029FC4E /* InnerTubeAPI.swift */,
+				AC0589172C954F23001C2C6F /* SponsorBlockAPI.swift */,
+			);
+			path = APIs;
+			sourceTree = "<group>";
+		};
+		ACCC351F2C9F6EDE00180A9B /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */,
+				ACCC35462C9FBEE200180A9B /* Views */,
 				ACCC35262C9F6EDF00180A9B /* Assets.xcassets */,
 				ACCC35282C9F6EDF00180A9B /* Preview Content */,
 			);
-			path = iOSClearTube;
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		ACCC35282C9F6EDF00180A9B /* Preview Content */ = {
@@ -236,12 +260,54 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		ACCC35462C9FBEE200180A9B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				ACCC354B2C9FBF5300180A9B /* Components */,
+				ACCC35412C9FBD9700180A9B /* RootView.swift */,
+				ACCC35432C9FBE4F00180A9B /* FeedView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		ACCC354B2C9FBF5300180A9B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				ACCC35492C9FBF3900180A9B /* VideoCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		ACCC354E2C9FC33800180A9B /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AC80865C2C9FCAF80049BAEA /* APIs */,
+				AC0589032C9511AC001C2C6F /* Model */,
+				ACCC354F2C9FC3B000180A9B /* Views */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		ACCC354F2C9FC3B000180A9B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AC05891D2C95C605001C2C6F /* OnboardingView.swift */,
+				AC0589112C952D84001C2C6F /* CacheAsyncImage.swift */,
+				AC0589252C95CDB6001C2C6F /* MessageBlock.swift */,
+				AC0589152C954901001C2C6F /* VideoPlayer.swift */,
+				AC05892D2C95D03D001C2C6F /* PreferredImage.swift */,
+				AC0589312C95D0E5001C2C6F /* FollowButton.swift */,
+				AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AC0588EE2C94C3B1001C2C6F /* ClearTube */ = {
+		AC0588EE2C94C3B1001C2C6F /* tvOSClearTube */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AC0588FF2C94C3B2001C2C6F /* Build configuration list for PBXNativeTarget "ClearTube" */;
+			buildConfigurationList = AC0588FF2C94C3B2001C2C6F /* Build configuration list for PBXNativeTarget "tvOSClearTube" */;
 			buildPhases = (
 				AC0588EB2C94C3B1001C2C6F /* Sources */,
 				AC0588EC2C94C3B1001C2C6F /* Frameworks */,
@@ -251,9 +317,9 @@
 			);
 			dependencies = (
 			);
-			name = ClearTube;
+			name = tvOSClearTube;
 			productName = ClearTube;
-			productReference = AC0588EF2C94C3B1001C2C6F /* ClearTube.app */;
+			productReference = AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ACCC351D2C9F6EDE00180A9B /* iOSClearTube */ = {
@@ -304,7 +370,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AC0588EE2C94C3B1001C2C6F /* ClearTube */,
+				AC0588EE2C94C3B1001C2C6F /* tvOSClearTube */,
 				ACCC351D2C9F6EDE00180A9B /* iOSClearTube */,
 			);
 		};
@@ -337,7 +403,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC05890B2C952872001C2C6F /* ImageObject.swift in Sources */,
-				AC0589342C95D1C1001C2C6F /* PlaylistItemView.swift in Sources */,
+				AC0589342C95D1C1001C2C6F /* PlaylistItemCard.swift in Sources */,
 				AC0589122C952D84001C2C6F /* CacheAsyncImage.swift in Sources */,
 				AC05893A2C95DF76001C2C6F /* SubscriptionsView.swift in Sources */,
 				AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */,
@@ -380,9 +446,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ACCC35232C9F6EDE00180A9B /* ContentView.swift in Sources */,
-				ACCC35252C9F6EDE00180A9B /* Item.swift in Sources */,
-				ACCC35212C9F6EDE00180A9B /* iOSClearTubeApp.swift in Sources */,
+				ACCC352E2C9FB74700180A9B /* InvidiousAPI.swift in Sources */,
+				ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */,
+				ACCC35312C9FB75600180A9B /* VideoObject.swift in Sources */,
+				ACCC35332C9FB79000180A9B /* NextResponse.swift in Sources */,
+				ACCC35342C9FB79000180A9B /* BrowseResponse.swift in Sources */,
+				ACCC35352C9FB79000180A9B /* SearchResponse.swift in Sources */,
+				ACCC35532C9FC92800180A9B /* PreferredImage.swift in Sources */,
+				ACCC35442C9FBE4F00180A9B /* FeedView.swift in Sources */,
+				ACCC35362C9FB79000180A9B /* RecommendedVideo.swift in Sources */,
+				ACCC35522C9FC79A00180A9B /* VideoPlayer.swift in Sources */,
+				ACCC35372C9FB79000180A9B /* SearchObject.swift in Sources */,
+				ACCC35382C9FB79000180A9B /* FollowedChannel.swift in Sources */,
+				ACCC35392C9FB79000180A9B /* HistoryVideo.swift in Sources */,
+				ACCC35502C9FC48500180A9B /* CacheAsyncImage.swift in Sources */,
+				ACCC353A2C9FB79000180A9B /* PlaylistObject.swift in Sources */,
+				ACCC35512C9FC48800180A9B /* MessageBlock.swift in Sources */,
+				ACCC35422C9FBD9700180A9B /* RootView.swift in Sources */,
+				ACCC353B2C9FB79000180A9B /* ImageObject.swift in Sources */,
+				ACCC353C2C9FB79000180A9B /* RequestBody.swift in Sources */,
+				ACCC353D2C9FB79000180A9B /* PlayerResponse.swift in Sources */,
+				ACCC353E2C9FB79000180A9B /* WatchLaterVideo.swift in Sources */,
+				ACCC353F2C9FB79000180A9B /* Settings.swift in Sources */,
+				ACCC352F2C9FB74A00180A9B /* InnerTubeAPI.swift in Sources */,
+				ACCC354A2C9FBF3900180A9B /* VideoCard.swift in Sources */,
+				ACCC35322C9FB75B00180A9B /* ChannelObject.swift in Sources */,
+				ACCC35302C9FB74D00180A9B /* SponsorBlockAPI.swift in Sources */,
+				ACCC35402C9FBCCB00180A9B /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,7 +605,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ClearTube/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"tvOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 3KX6W8KFQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -541,7 +631,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"ClearTube/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"tvOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 3KX6W8KFQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -567,7 +657,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iOSClearTube/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 3KX6W8KFQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -599,7 +689,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"iOSClearTube/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"iOS/Preview Content\"";
 				DEVELOPMENT_TEAM = 3KX6W8KFQP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -636,7 +726,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AC0588FF2C94C3B2001C2C6F /* Build configuration list for PBXNativeTarget "ClearTube" */ = {
+		AC0588FF2C94C3B2001C2C6F /* Build configuration list for PBXNativeTarget "tvOSClearTube" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AC0589002C94C3B2001C2C6F /* Debug */,
