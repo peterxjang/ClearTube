@@ -1,4 +1,6 @@
 import SwiftUI
+import SwiftData
+import Observation
 
 @Observable
 class PlaylistViewModel {
@@ -28,8 +30,29 @@ class PlaylistViewModel {
 
 struct PlaylistView: View {
     var model: PlaylistViewModel
-    
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geometry in
+            let minWidth: CGFloat = 250
+            let screenWidth = geometry.size.width
+            let columns = Int(screenWidth / minWidth)
+            let spacing: CGFloat = screenWidth / 20.0
+            let width = (screenWidth - CGFloat(columns - 1) * spacing) / CGFloat(columns)
+
+            ScrollView {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
+                    ForEach(model.videos, id: \.videoId) { video in
+                        VideoCard(video: video, width: width)
+                    }
+                }.padding(spacing)
+            }
+            .navigationTitle(model.title ?? "Playlist")
+            .asyncTaskOverlay(error: model.error, isLoading: model.loading)
+            .task {
+                await model.load()
+            }.refreshable {
+                await model.load()
+            }
+        }
     }
 }

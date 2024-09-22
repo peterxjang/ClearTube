@@ -203,10 +203,10 @@
 				AC0588F42C94C3B1001C2C6F /* RootView.swift */,
 				AC0589042C952087001C2C6F /* FeedView.swift */,
 				AC05893F2C963423001C2C6F /* SavedVideosView.swift */,
-				AC05892F2C95D07C001C2C6F /* ChannelView.swift */,
-				AC0589272C95CE53001C2C6F /* SearchView.swift */,
-				AC0589352C95D1DF001C2C6F /* PlaylistView.swift */,
 				AC0589392C95DF76001C2C6F /* SubscriptionsView.swift */,
+				AC0589272C95CE53001C2C6F /* SearchView.swift */,
+				AC05892F2C95D07C001C2C6F /* ChannelView.swift */,
+				AC0589352C95D1DF001C2C6F /* PlaylistView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -269,9 +269,9 @@
 				ACCC35432C9FBE4F00180A9B /* FeedView.swift */,
 				AC80866A2CA0AA6D0049BAEA /* SavedVideosView.swift */,
 				AC80866C2CA0AA910049BAEA /* SubscriptionsView.swift */,
+				AC8086662C9FDF690049BAEA /* SearchViewResults.swift */,
 				AC8086622C9FDD860049BAEA /* ChannelView.swift */,
 				AC8086642C9FDDC10049BAEA /* PlaylistView.swift */,
-				AC8086662C9FDF690049BAEA /* SearchViewResults.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
