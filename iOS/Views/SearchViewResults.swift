@@ -60,19 +60,6 @@ class SearchResultsViewModel {
     }
 }
 
-struct SearchView: View {
-    @State var search: String = ""
-    @Query(sort: \FollowedChannel.author) var channels: [FollowedChannel]
-
-    var body: some View {
-        VStack {
-            SearchResultsView(query: $search)
-                .padding(.top, 100)
-                .searchable(text: $search)
-        }
-    }
-}
-
 struct SearchResultsView: View {
     @Binding var query: String
     var model = SearchResultsViewModel()
@@ -104,5 +91,8 @@ struct SearchResultsView: View {
                 }
             }
         }
+        .background(
+            Color(uiColor: UIColor.systemBackground)
+        )
     }
 }
