@@ -26,18 +26,23 @@ struct VideoPlayer: View {
 
     var body: some View {
         if isLoading {
-            ProgressView()
-                .onAppear {
-                    Task {
-                        let startTime = historyVideos.first(where: { $0.videoId == video.videoId })?.watchedSeconds
-                        try? await playVideo(video: video, startTime: startTime)
+            ZStack {
+                Color.black
+                    .ignoresSafeArea()
+                ProgressView()
+                    .tint(.gray)
+                    .onAppear {
+                        Task {
+                            let startTime = historyVideos.first(where: { $0.videoId == video.videoId })?.watchedSeconds
+                            try? await playVideo(video: video, startTime: startTime)
+                        }
                     }
-                }
-                .onDisappear {
-                    if isLoading {
-                        close()
+                    .onDisappear {
+                        if isLoading {
+                            close()
+                        }
                     }
-                }
+            }
         } else {
             if let player = player, let currentVideo = currentVideo {
                 VideoPlayerView(
