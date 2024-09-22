@@ -53,6 +53,8 @@
 		AC8086632C9FDD860049BAEA /* ChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086622C9FDD860049BAEA /* ChannelView.swift */; };
 		AC8086652C9FDDC10049BAEA /* PlaylistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086642C9FDDC10049BAEA /* PlaylistView.swift */; };
 		AC8086672C9FDF690049BAEA /* SearchViewResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086662C9FDF690049BAEA /* SearchViewResults.swift */; };
+		AC8086682CA053190049BAEA /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589312C95D0E5001C2C6F /* FollowButton.swift */; };
+		AC8086692CA0531D0049BAEA /* AsyncOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0589372C95D5DE001C2C6F /* AsyncOverlayView.swift */; };
 		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
@@ -442,9 +444,11 @@
 			files = (
 				AC8086632C9FDD860049BAEA /* ChannelView.swift in Sources */,
 				ACCC352E2C9FB74700180A9B /* InvidiousAPI.swift in Sources */,
+				AC8086682CA053190049BAEA /* FollowButton.swift in Sources */,
 				ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */,
 				ACCC35312C9FB75600180A9B /* VideoObject.swift in Sources */,
 				AC80865F2C9FDD3A0049BAEA /* ChannelCard.swift in Sources */,
+				AC8086692CA0531D0049BAEA /* AsyncOverlayView.swift in Sources */,
 				AC8086602C9FDD3A0049BAEA /* VideoCard.swift in Sources */,
 				AC8086612C9FDD3A0049BAEA /* PlaylistItemCard.swift in Sources */,
 				ACCC35332C9FB79000180A9B /* NextResponse.swift in Sources */,

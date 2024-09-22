@@ -3,9 +3,13 @@ import SwiftData
 
 struct VideoCard: View {
     var video: VideoObject
-    var width: CGFloat = 500.0
 
     var body: some View {
+        #if os(tvOS)
+        let width = 500.0
+        #else
+        let width = 200.0
+        #endif
         let height = width / 1.8
 
         VStack(alignment: .leading) {

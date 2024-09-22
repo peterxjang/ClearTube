@@ -77,7 +77,7 @@ struct SearchResultsView: View {
                         ForEach(model.results) { result in
                             switch result {
                             case .video(let video):
-                                VideoCard(video: video, width: 200)
+                                VideoCard(video: video)
                             case .channel(let channel):
                                 ChannelCard(channel: channel)
                             case .playlist(let playlist):
