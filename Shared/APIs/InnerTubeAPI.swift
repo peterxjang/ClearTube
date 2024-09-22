@@ -333,7 +333,7 @@ public final class InnerTubeAPI {
                             let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
                             let videoThumbnails = videoRenderer.thumbnail.thumbnails
                             let publishedText = videoRenderer.publishedTimeText.simpleText
-                            let viewCountText = videoRenderer.viewCountText.simpleText
+                            let viewCountText = videoRenderer.viewCountText?.simpleText
                             videos.append(
                                 VideoObject(
                                     title: title,

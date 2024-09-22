@@ -223,7 +223,7 @@ struct BrowseResponse: Decodable {
                                                 var simpleText: String
                                             }
                                             var lengthText: SimpleTextResponse
-                                            var viewCountText: SimpleTextResponse
+                                            var viewCountText: SimpleTextResponse?
                                             var navigationEndpoint: NavigationEndpointResponse
                                             struct NavigationEndpointResponse: Decodable {
                                                 var watchEndpoint: WatchEndpointDecodable
