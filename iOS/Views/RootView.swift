@@ -7,22 +7,24 @@ struct RootView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             FeedView()
+                .padding()
                 .tabItem {
                     Label("Feed", systemImage: "star")
                 }
                 .tag(0)
             SavedVideosView()
+                .padding()
                 .tabItem {
                     Label("Saved", systemImage: "paperclip")
                 }
                 .tag(1)
             SubscriptionsView()
+                .padding()
                 .tabItem {
                     Label("Subscriptions", systemImage: "list.bullet")
                 }
                 .tag(2)
         }
-        .padding()
         .searchable(text: $search, placement: .toolbar)
         .overlay {
             SearchResultsView(query: $search)
