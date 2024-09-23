@@ -46,7 +46,7 @@ struct NextResponse: Decodable {
                                     var text: String
                                 }
                             }
-                            var lengthInSeconds: Int
+                            var lengthInSeconds: Int?
                             var shortViewCountText: ShortViewCountTextObject?
                             struct ShortViewCountTextObject: Decodable {
                                 var runs: [RunResponse]

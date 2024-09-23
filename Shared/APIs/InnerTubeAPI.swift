@@ -286,7 +286,7 @@ public final class InnerTubeAPI {
                     VideoObject.RecommendedVideoObject(
                         videoId: endScreenVideoRenderer.videoId,
                         title: endScreenVideoRenderer.title.runs.first?.text ?? "",
-                        lengthSeconds: endScreenVideoRenderer.lengthInSeconds,
+                        lengthSeconds: endScreenVideoRenderer.lengthInSeconds ?? 0,
                         videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
                         author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
                         authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
@@ -327,13 +327,11 @@ public final class InnerTubeAPI {
             if let tabRenderer = tab.tabRenderer {
                 if let content = tabRenderer.content, let richGridRenderer = content.richGridRenderer {
                     for content in richGridRenderer.contents {
-                        if let richItemRenderer = content.richItemRenderer, let videoRenderer = richItemRenderer.content.videoRenderer {
+                        if let richItemRenderer = content.richItemRenderer, let videoRenderer = richItemRenderer.content.videoRenderer, let publishedText = videoRenderer.publishedTimeText?.simpleText, let viewCountText = videoRenderer.viewCountText?.simpleText {
                             let videoId = videoRenderer.videoId
                             let title = videoRenderer.title.runs[0].text
                             let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
                             let videoThumbnails = videoRenderer.thumbnail.thumbnails
-                            let publishedText = videoRenderer.publishedTimeText?.simpleText
-                            let viewCountText = videoRenderer.viewCountText?.simpleText
                             videos.append(
                                 VideoObject(
                                     title: title,
