@@ -12,9 +12,7 @@ class RecommendedVideo {
     var author: String?
     var authorId: String?
     var published: Int64?
-    var publishedText: String?
     var viewCount: Int64?
-    var viewCountText: String?
 
     init(recommendedVideo: VideoObject.RecommendedVideoObject) {
         let thumbnail = recommendedVideo.videoThumbnails.preferredThumbnail()
@@ -27,8 +25,6 @@ class RecommendedVideo {
         self.author = recommendedVideo.author
         self.authorId = recommendedVideo.authorId
         self.published = recommendedVideo.published
-        self.publishedText = recommendedVideo.publishedText
         self.viewCount = recommendedVideo.viewCount
-        self.viewCountText = recommendedVideo.viewCountText
     }
 }

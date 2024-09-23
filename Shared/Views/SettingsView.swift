@@ -22,12 +22,10 @@ struct SettingsView: View {
             }
 
             Section {
-                Button("Unfollow All Channels", action: unfollowAllChannels).tint(.red)
                 Button("Delete all Watch Later", action: deleteAllWatchLater).tint(.red)
                 Button("Delete all Recommended", action: deleteAllRecommended).tint(.red)
                 Button("Delete all History", action: deleteAllHistory).tint(.red)
-                Button("Erase All Content & Settings") {
-                    unfollowAllChannels()
+                Button("Erase All Content & Settings (except followed channels)") {
                     deleteAllWatchLater()
                     deleteAllRecommended()
                     deleteAllHistory()
@@ -38,14 +36,6 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
-    }
-
-    func unfollowAllChannels() {
-        do {
-            try modelContext.delete(model: FollowedChannel.self)
-        } catch {
-            print("Failed to delete followed channels")
-        }
     }
 
     func deleteAllWatchLater() {

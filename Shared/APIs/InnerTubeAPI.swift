@@ -289,9 +289,7 @@ public final class InnerTubeAPI {
                         lengthSeconds: endScreenVideoRenderer.lengthInSeconds ?? 0,
                         videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
                         author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
-                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
-                        publishedText: endScreenVideoRenderer.publishedTimeText.runs.first?.text,
-                        viewCountText: endScreenVideoRenderer.shortViewCountText?.runs.first?.text
+                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId
                     )
                 )
             }
