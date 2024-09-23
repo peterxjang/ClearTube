@@ -478,6 +478,28 @@ public final class InnerTubeAPI {
     private func extractSearchResults(json: SearchResponse) -> [SearchObject.Result] {
         var results: [SearchObject.Result] = []
         for contentJson in json.contents.sectionListRenderer.contents {
+            if let shelfRenderer = contentJson.shelfRenderer {
+                for item in shelfRenderer.content.verticalListRenderer.items {
+                    if let model = item.elementRenderer?.newElement.type.componentType?.model {
+                        if let compactChannelModel = model.compactChannelModel {
+                             let author = compactChannelModel.compactChannelData.title
+                             let authorId = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.browseId
+                             let authorUrl = compactChannelModel.compactChannelData.onTap.innertubeCommand.browseEndpoint.canonicalBaseUrl
+                             let authorThumbnails = compactChannelModel.compactChannelData.avatar.image.sources
+                             let subCountText = compactChannelModel.compactChannelData.subscriberCount
+                             results.append(
+                                 SearchObject.Result(from: ChannelObject(
+                                     author: author,
+                                     authorId: authorId,
+                                     authorUrl: authorUrl,
+                                     authorThumbnails: authorThumbnails,
+                                     subCountText: subCountText
+                                 ))
+                             )
+                         }
+                    }
+                }
+            }
             if let itemSectionRenderer = contentJson.itemSectionRenderer {
                 for content in itemSectionRenderer.contents {
                     if let model = content.elementRenderer?.newElement.type.componentType?.model {
@@ -503,12 +525,24 @@ public final class InnerTubeAPI {
                             let timestampText = compactVideoModel.compactVideoData.videoData.thumbnail.timestampText ?? "0:0"
                             let videoThumbnails = compactVideoModel.compactVideoData.videoData.thumbnail.image.sources
                             let author = compactVideoModel.compactVideoData.videoData.metadata.byline
+                            let details = compactVideoModel.compactVideoData.videoData.metadata.metadataDetails.split(separator: " · ", maxSplits: 1)
+                            let viewCountText: String?
+                            let publishedText: String?
+                            if details.count == 2 {
+                                viewCountText = String(details[0])
+                                publishedText = String(details[1])
+                            } else {
+                                viewCountText = nil
+                                publishedText = nil
+                            }
                             results.append(
                                 SearchObject.Result(from: VideoObject(
                                     title: title,
                                     videoId: videoId,
                                     lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
                                     videoThumbnails: videoThumbnails,
+                                    publishedText: publishedText,
+                                    viewCountText: viewCountText,
                                     author: author
                                 ))
                             )
