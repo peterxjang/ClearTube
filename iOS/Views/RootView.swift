@@ -1,8 +1,21 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var selectedTab = 0
     @State var search: String = ""
+
+    var body: some View {
+        MainView(search: search)
+            .searchable(text: $search, placement: .toolbar)
+            .overlay {
+                SearchResultsView(query: $search)
+            }
+    }
+}
+
+struct MainView: View {
+    let search: String
+    @State private var selectedTab = 0
+    @Environment(\.dismissSearch) var dismissSearch
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -25,12 +38,20 @@ struct RootView: View {
                 }
                 .tag(2)
         }
-        .searchable(text: $search, placement: .toolbar)
-        .overlay {
-            SearchResultsView(query: $search)
-        }
         .toolbar {
-            ToolbarItem {
+            ToolbarItem(placement: .navigationBarLeading) {
+                if !search.isEmpty {
+                    Button(action: {
+                        dismissSearch()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
+                        }
+                    }
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: SettingsView()) {
                     Label("Settings", systemImage: "gear")
                 }
