@@ -34,6 +34,11 @@ struct VideoThumbnailTag: View {
 
     init(_ seconds: Int) {
         self.content = (Date() ..< Date().advanced(by: TimeInterval(seconds))).formatted(.timeDuration)
+        if seconds < 10 {
+            self.content = "0:0\(self.content)"
+        } else if seconds < 60 {
+            self.content = "0:\(self.content)"
+        }
     }
 
     var body: some View {
