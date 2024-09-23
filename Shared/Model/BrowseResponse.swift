@@ -218,7 +218,7 @@ struct BrowseResponse: Decodable {
                                                 }
                                             }
                                             var descriptionSnippet: RunsResponse?
-                                            var publishedTimeText: SimpleTextResponse
+                                            var publishedTimeText: SimpleTextResponse?
                                             struct SimpleTextResponse: Decodable {
                                                 var simpleText: String
                                             }

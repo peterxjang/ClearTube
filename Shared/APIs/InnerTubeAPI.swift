@@ -289,9 +289,9 @@ public final class InnerTubeAPI {
                         lengthSeconds: endScreenVideoRenderer.lengthInSeconds,
                         videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
                         author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
-                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint.browseId,
+                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
                         publishedText: endScreenVideoRenderer.publishedTimeText.runs.first?.text,
-                        viewCountText: endScreenVideoRenderer.shortViewCountText.runs.first?.text
+                        viewCountText: endScreenVideoRenderer.shortViewCountText?.runs.first?.text
                     )
                 )
             }
@@ -332,7 +332,7 @@ public final class InnerTubeAPI {
                             let title = videoRenderer.title.runs[0].text
                             let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
                             let videoThumbnails = videoRenderer.thumbnail.thumbnails
-                            let publishedText = videoRenderer.publishedTimeText.simpleText
+                            let publishedText = videoRenderer.publishedTimeText?.simpleText
                             let viewCountText = videoRenderer.viewCountText?.simpleText
                             videos.append(
                                 VideoObject(
@@ -554,7 +554,10 @@ public final class InnerTubeAPI {
         return results
     }
 
-    private func timeStringToSeconds(_ timeString: String) -> Int? {
+    private func timeStringToSeconds(_ timeString: String?) -> Int? {
+        guard let timeString = timeString else {
+            return nil
+        }
         let components = timeString.split(separator: ":").map { Int($0) }
         guard components.allSatisfy({ $0 != nil }) else {
             return nil
@@ -575,7 +578,10 @@ public final class InnerTubeAPI {
         }
     }
 
-    private func timeAgoStringToUnix(_ timeAgo: String) -> Int64? {
+    private func timeAgoStringToUnix(_ timeAgo: String?) -> Int64? {
+        guard let timeAgo = timeAgo else {
+            return nil
+        }
         let now = Date()
         let calendar = Calendar.current
         let regex = try! NSRegularExpression(pattern: #"(\d+)\s(\w+)\sago"#, options: [])

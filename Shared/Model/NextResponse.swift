@@ -32,14 +32,14 @@ struct NextResponse: Decodable {
                                     var text: String
                                     var navigationEndpoint: NavigationEndpointResponse
                                     struct NavigationEndpointResponse: Decodable {
-                                        var browseEndpoint: BrowseEndpointResponse
+                                        var browseEndpoint: BrowseEndpointResponse?
                                         struct BrowseEndpointResponse: Decodable {
                                             var browseId: String
                                         }
                                     }
                                 }
                             }
-                            var lengthText: LengthTextObject
+                            var lengthText: LengthTextObject?
                             struct LengthTextObject: Decodable {
                                 var runs: [RunResponse]
                                 struct RunResponse: Decodable {
@@ -47,7 +47,7 @@ struct NextResponse: Decodable {
                                 }
                             }
                             var lengthInSeconds: Int
-                            var shortViewCountText: ShortViewCountTextObject
+                            var shortViewCountText: ShortViewCountTextObject?
                             struct ShortViewCountTextObject: Decodable {
                                 var runs: [RunResponse]
                                 struct RunResponse: Decodable {
