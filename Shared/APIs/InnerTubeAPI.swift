@@ -279,19 +279,22 @@ public final class InnerTubeAPI {
 
     private func extractRecommendedVideos(json: NextResponse) -> [VideoObject.RecommendedVideoObject] {
         var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
-        for result in json.playerOverlays.playerOverlayRenderer.endScreen.watchNextEndScreenRenderer.results {
-            if let endScreenVideoRenderer = result.endScreenVideoRenderer {
-                recommendedVideos.append(
-                    VideoObject.RecommendedVideoObject(
-                        videoId: endScreenVideoRenderer.videoId,
-                        title: endScreenVideoRenderer.title.runs.first?.text ?? "",
-                        lengthSeconds: endScreenVideoRenderer.lengthInSeconds ?? 0,
-                        videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
-                        author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
-                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
-                        published: Helper.timeAgoStringToUnix(endScreenVideoRenderer.publishedTimeText.runs.first?.text)
+        for content in json.contents.singleColumnWatchNextResults.results.results.contents {
+            if let shelfRenderer = content.shelfRenderer {
+                for item in shelfRenderer.content.horizontalListRenderer.items {
+                    recommendedVideos.append(
+                        VideoObject.RecommendedVideoObject(
+                            videoId: item.gridVideoRenderer.videoId,
+                            title: item.gridVideoRenderer.title.runs.first?.text ?? "",
+                            lengthSeconds: timeStringToSeconds(item.gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
+                            videoThumbnails: item.gridVideoRenderer.thumbnail.thumbnails,
+                            author: item.gridVideoRenderer.shortBylineText.runs.first?.text,
+                            authorId: item.gridVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
+                            published: Helper.timeAgoStringToUnix(item.gridVideoRenderer.publishedTimeText.runs.first?.text),
+                            viewCountText: item.gridVideoRenderer.viewCountText.runs.first?.text
+                        )
                     )
-                )
+                }
             }
         }
         return recommendedVideos

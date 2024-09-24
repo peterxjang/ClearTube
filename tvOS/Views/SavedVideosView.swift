@@ -28,6 +28,8 @@ struct SavedVideosView: View {
                                             height: watchLaterVideo.thumbnailHeight ?? 0
                                         )
                                     ],
+                                    published: watchLaterVideo.published,
+                                    viewCountText: watchLaterVideo.viewCountText,
                                     author: watchLaterVideo.author,
                                     authorId: watchLaterVideo.authorId
                                 )
@@ -54,6 +56,8 @@ struct SavedVideosView: View {
                                             height: recommendedVideo.thumbnailHeight ?? 0
                                         )
                                     ],
+                                    published: recommendedVideo.published,
+                                    viewCountText: recommendedVideo.viewCountText,
                                     author: recommendedVideo.author,
                                     authorId: recommendedVideo.authorId
                                 )
