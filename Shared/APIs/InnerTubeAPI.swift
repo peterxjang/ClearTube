@@ -339,7 +339,6 @@ public final class InnerTubeAPI {
                 for initialSegment in updateEngagementPanelAction.content.transcriptRenderer.content.transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer.initialSegments {
                     if let transcriptSectionHeaderRenderer = initialSegment.transcriptSectionHeaderRenderer {
                         let title = transcriptSectionHeaderRenderer.sectionHeader.sectionHeaderViewModel.headline.content
-                        let imageName = title
                         let startMs = Int(transcriptSectionHeaderRenderer.startMs)
                         let endMs = Int(transcriptSectionHeaderRenderer.endMs)
                         if let startMs = startMs, let endMs = endMs {
@@ -348,7 +347,7 @@ public final class InnerTubeAPI {
                             chapters.append(
                                 VideoObject.ChapterObject(
                                     title: title,
-                                    imageName: transcriptSectionHeaderRenderer.sectionHeader.sectionHeaderViewModel.headline.content,
+                                    imageName: title,
                                     startTime: startTime,
                                     endTime: endTime
                                 )
