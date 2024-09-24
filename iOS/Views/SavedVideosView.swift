@@ -21,24 +21,9 @@ struct SavedVideosView: View {
                     ScrollView(.horizontal) {
                         LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: spacing) {
                             ForEach(watchLaterVideos.reversed()) { watchLaterVideo in
-                                VideoCard(video:
-                                            VideoObject(
-                                                title: watchLaterVideo.title,
-                                                videoId: watchLaterVideo.videoId,
-                                                lengthSeconds: watchLaterVideo.lengthSeconds,
-                                                videoThumbnails: [
-                                                    ImageObject(
-                                                        url: watchLaterVideo.thumbnailUrl ?? "",
-                                                        width: watchLaterVideo.thumbnailWidth ?? 0,
-                                                        height: watchLaterVideo.thumbnailHeight ?? 0
-                                                    )
-                                                ],
-                                                published: watchLaterVideo.published,
-                                                viewCountText: watchLaterVideo.viewCountText,
-                                                author: watchLaterVideo.author,
-                                                authorId: watchLaterVideo.authorId
-                                            ),
-                                          width: width
+                                VideoCard(
+                                    video: VideoObject(for: watchLaterVideo),
+                                    width: width
                                 )
                             }
                         }.padding(spacing)
@@ -50,24 +35,9 @@ struct SavedVideosView: View {
                     ScrollView(.horizontal) {
                         LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: spacing) {
                             ForEach(recommendedVideos.shuffled()) { recommendedVideo in
-                                VideoCard(video:
-                                            VideoObject(
-                                                title: recommendedVideo.title,
-                                                videoId: recommendedVideo.videoId,
-                                                lengthSeconds: recommendedVideo.lengthSeconds,
-                                                videoThumbnails: [
-                                                    ImageObject(
-                                                        url: recommendedVideo.thumbnailUrl ?? "",
-                                                        width: recommendedVideo.thumbnailWidth ?? 0,
-                                                        height: recommendedVideo.thumbnailHeight ?? 0
-                                                    )
-                                                ],
-                                                published: recommendedVideo.published,
-                                                viewCountText: recommendedVideo.viewCountText,
-                                                author: recommendedVideo.author,
-                                                authorId: recommendedVideo.authorId
-                                            ),
-                                          width: width
+                                VideoCard(
+                                    video: VideoObject(for: recommendedVideo),
+                                    width: width
                                 )
                             }
                         }.padding(spacing)
@@ -79,24 +49,9 @@ struct SavedVideosView: View {
                     ScrollView(.horizontal) {
                         LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: spacing) {
                             ForEach(historyVideos.reversed()) { historyVideo in
-                                VideoCard(video:
-                                            VideoObject(
-                                                title: historyVideo.title,
-                                                videoId: historyVideo.videoId,
-                                                lengthSeconds: historyVideo.lengthSeconds,
-                                                videoThumbnails: [
-                                                    ImageObject(
-                                                        url: historyVideo.thumbnailUrl ?? "",
-                                                        width: historyVideo.thumbnailWidth ?? 0,
-                                                        height: historyVideo.thumbnailHeight ?? 0
-                                                    )
-                                                ],
-                                                published: historyVideo.published,
-                                                viewCountText: historyVideo.viewCountText,
-                                                author: historyVideo.author,
-                                                authorId: historyVideo.authorId
-                                            ),
-                                          width: width
+                                VideoCard(
+                                    video: VideoObject(for: historyVideo),
+                                    width: width
                                 )
                             }
                         }.padding(spacing)

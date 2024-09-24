@@ -16,24 +16,7 @@ struct SavedVideosView: View {
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                         ForEach(watchLaterVideos.reversed()) { watchLaterVideo in
-                            VideoCard(video:
-                                VideoObject(
-                                    title: watchLaterVideo.title,
-                                    videoId: watchLaterVideo.videoId,
-                                    lengthSeconds: watchLaterVideo.lengthSeconds,
-                                    videoThumbnails: [
-                                        ImageObject(
-                                            url: watchLaterVideo.thumbnailUrl ?? "",
-                                            width: watchLaterVideo.thumbnailWidth ?? 0,
-                                            height: watchLaterVideo.thumbnailHeight ?? 0
-                                        )
-                                    ],
-                                    published: watchLaterVideo.published,
-                                    viewCountText: watchLaterVideo.viewCountText,
-                                    author: watchLaterVideo.author,
-                                    authorId: watchLaterVideo.authorId
-                                )
-                            )
+                            VideoCard(video: VideoObject(for: watchLaterVideo))
                         }
                     }.padding(40)
                 }
@@ -44,24 +27,7 @@ struct SavedVideosView: View {
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                         ForEach(recommendedVideos.shuffled()) { recommendedVideo in
-                            VideoCard(video:
-                                VideoObject(
-                                    title: recommendedVideo.title,
-                                    videoId: recommendedVideo.videoId,
-                                    lengthSeconds: recommendedVideo.lengthSeconds,
-                                    videoThumbnails: [
-                                        ImageObject(
-                                            url: recommendedVideo.thumbnailUrl ?? "",
-                                            width: recommendedVideo.thumbnailWidth ?? 0,
-                                            height: recommendedVideo.thumbnailHeight ?? 0
-                                        )
-                                    ],
-                                    published: recommendedVideo.published,
-                                    viewCountText: recommendedVideo.viewCountText,
-                                    author: recommendedVideo.author,
-                                    authorId: recommendedVideo.authorId
-                                )
-                            )
+                            VideoCard(video: VideoObject(for: recommendedVideo))
                         }
                     }.padding(40)
                 }
@@ -72,24 +38,7 @@ struct SavedVideosView: View {
                 ScrollView(.horizontal) {
                     LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                         ForEach(historyVideos.reversed()) { historyVideo in
-                            VideoCard(video:
-                                VideoObject(
-                                    title: historyVideo.title,
-                                    videoId: historyVideo.videoId,
-                                    lengthSeconds: historyVideo.lengthSeconds,
-                                    videoThumbnails: [
-                                        ImageObject(
-                                            url: historyVideo.thumbnailUrl ?? "",
-                                            width: historyVideo.thumbnailWidth ?? 0,
-                                            height: historyVideo.thumbnailHeight ?? 0
-                                        )
-                                    ],
-                                    published: historyVideo.published,
-                                    viewCountText: historyVideo.viewCountText,
-                                    author: historyVideo.author,
-                                    authorId: historyVideo.authorId
-                                )
-                            )
+                            VideoCard(video: VideoObject(for: historyVideo))
                         }
                     }.padding(40)
                 }

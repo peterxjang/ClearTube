@@ -65,4 +65,89 @@ public struct VideoObject: Equatable, Decodable {
     public static func == (lhs: VideoObject, rhs: VideoObject) -> Bool {
         lhs.videoId == rhs.videoId
     }
+
+    init(
+        title: String,
+        videoId: String,
+        lengthSeconds: Int,
+        videoThumbnails: [ImageObject],
+        description: String? = nil,
+        published: Int64? = nil,
+        viewCountText: String? = nil,
+        author: String? = nil,
+        authorId: String? = nil,
+        authorUrl: String? = nil,
+        hlsUrl: String? = nil,
+        adaptiveFormats: [AdaptiveFormatObject]? = nil,
+        formatStreams: [FormatStreamObject]? = nil,
+        captions: [CaptionObject]? = nil,
+        recommendedVideos: [RecommendedVideoObject]? = nil
+    ) {
+        self.title = title
+        self.videoId = videoId
+        self.lengthSeconds = lengthSeconds
+        self.videoThumbnails = videoThumbnails
+        self.description = description
+        self.published = published
+        self.viewCountText = viewCountText
+        self.author = author
+        self.authorId = authorId
+        self.authorUrl = authorUrl
+        self.hlsUrl = hlsUrl
+        self.adaptiveFormats = adaptiveFormats
+        self.formatStreams = formatStreams
+        self.captions = captions
+        self.recommendedVideos = recommendedVideos
+    }
+
+    init(for watchLaterVideo: WatchLaterVideo) {
+        self.title = watchLaterVideo.title
+        self.videoId = watchLaterVideo.videoId
+        self.lengthSeconds = watchLaterVideo.lengthSeconds
+        self.videoThumbnails = [
+            ImageObject(
+                url: watchLaterVideo.thumbnailUrl ?? "",
+                width: watchLaterVideo.thumbnailWidth ?? 0,
+                height: watchLaterVideo.thumbnailHeight ?? 0
+            )
+        ]
+        self.published = watchLaterVideo.published
+        self.viewCountText = watchLaterVideo.viewCountText
+        self.author = watchLaterVideo.author
+        self.authorId = watchLaterVideo.authorId
+    }
+
+    init(for recommendedVideo: RecommendedVideo) {
+        self.title = recommendedVideo.title
+        self.videoId = recommendedVideo.videoId
+        self.lengthSeconds = recommendedVideo.lengthSeconds
+        self.videoThumbnails = [
+            ImageObject(
+                url: recommendedVideo.thumbnailUrl ?? "",
+                width: recommendedVideo.thumbnailWidth ?? 0,
+                height: recommendedVideo.thumbnailHeight ?? 0
+            )
+        ]
+        self.published = recommendedVideo.published
+        self.viewCountText = recommendedVideo.viewCountText
+        self.author = recommendedVideo.author
+        self.authorId = recommendedVideo.authorId
+    }
+
+    init(for historyVideo: HistoryVideo) {
+        self.title = historyVideo.title
+        self.videoId = historyVideo.videoId
+        self.lengthSeconds = historyVideo.lengthSeconds
+        self.videoThumbnails = [
+            ImageObject(
+                url: historyVideo.thumbnailUrl ?? "",
+                width: historyVideo.thumbnailWidth ?? 0,
+                height: historyVideo.thumbnailHeight ?? 0
+            )
+        ]
+        self.published = historyVideo.published
+        self.viewCountText = historyVideo.viewCountText
+        self.author = historyVideo.author
+        self.authorId = historyVideo.authorId
+    }
 }
