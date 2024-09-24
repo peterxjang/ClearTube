@@ -80,6 +80,8 @@ struct SavedVideosView: View {
                                             height: historyVideo.thumbnailHeight ?? 0
                                         )
                                     ],
+                                    published: historyVideo.published,
+                                    viewCountText: historyVideo.viewCountText,
                                     author: historyVideo.author,
                                     authorId: historyVideo.authorId
                                 )

@@ -24,8 +24,8 @@ struct VideoCard: View {
 
             Text(video.title).lineLimit(2, reservesSpace: true).font(.headline)
             Text(video.author ?? "").lineLimit(1).foregroundStyle(.secondary).font(.caption)
-            if let publishedText = video.publishedText, let viewCountText = video.viewCountText {
-                Text("\(publishedText)  |  \(viewCountText)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
+            if let published = video.published, let viewCountText = video.viewCountText {
+                Text("\(Helper.timeAgo(from: published))  |  \(viewCountText)").lineLimit(1).foregroundStyle(.secondary).font(.caption)
             }
         }.frame(width: width)
     }

@@ -7,8 +7,6 @@ public struct VideoObject: Equatable, Decodable {
     public var videoThumbnails: [ImageObject]
     public var description: String?
     public var published: Int64?
-    public var publishedText: String?
-    public var viewCount: Int64?
     public var viewCountText: String?
     public var author: String?
     public var authorId: String?
@@ -61,8 +59,6 @@ public struct VideoObject: Equatable, Decodable {
         public var author: String?
         public var authorId: String?
         public var published: Int64?
-        public var publishedText: String?
-        public var viewCount: Int64?
         public var viewCountText: String?
     }
 

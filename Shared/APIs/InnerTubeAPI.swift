@@ -90,7 +90,7 @@ public final class InnerTubeAPI {
         return try Self.decoder.decode(BrowseResponse.self.self, from: data)
     }
     
-    func video(for id: String, viewCountText: String? = nil, publishedText: String? = nil) async throws -> VideoObject {
+    func video(for id: String, viewCountText: String? = nil, published: Int64? = nil) async throws -> VideoObject {
         async let playerTask = playerEndpoint(for: id)
         async let nextTask = nextEndpoint(for: id)
         do {
@@ -101,8 +101,7 @@ public final class InnerTubeAPI {
                 videoId: json.videoDetails.videoId,
                 lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
                 videoThumbnails: json.videoDetails.thumbnail.thumbnails,
-                publishedText: publishedText,
-                viewCount: Int64(json.videoDetails.viewCount),
+                published: published,
                 viewCountText: viewCountText,
                 author: json.videoDetails.author,
                 authorId: json.videoDetails.channelId,
@@ -289,7 +288,8 @@ public final class InnerTubeAPI {
                         lengthSeconds: endScreenVideoRenderer.lengthInSeconds ?? 0,
                         videoThumbnails: endScreenVideoRenderer.thumbnail.thumbnails,
                         author: endScreenVideoRenderer.shortBylineText.runs.first?.text,
-                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId
+                        authorId: endScreenVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
+                        published: Helper.timeAgoStringToUnix(endScreenVideoRenderer.publishedTimeText.runs.first?.text)
                     )
                 )
             }
@@ -336,8 +336,7 @@ public final class InnerTubeAPI {
                                     videoId: videoId,
                                     lengthSeconds: lengthSeconds,
                                     videoThumbnails: videoThumbnails,
-                                    published: timeAgoStringToUnix(publishedText),
-                                    publishedText: publishedText,
+                                    published: Helper.timeAgoStringToUnix(publishedText),
                                     viewCountText: viewCountText,
                                     author: author,
                                     authorId: authorId
@@ -537,7 +536,7 @@ public final class InnerTubeAPI {
                                     videoId: videoId,
                                     lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
                                     videoThumbnails: videoThumbnails,
-                                    publishedText: publishedText,
+                                    published: Helper.timeAgoStringToUnix(publishedText),
                                     viewCountText: viewCountText,
                                     author: author
                                 ))
@@ -572,48 +571,5 @@ public final class InnerTubeAPI {
         default: // Invalid format
             return nil
         }
-    }
-
-    private func timeAgoStringToUnix(_ timeAgo: String?) -> Int64? {
-        guard let timeAgo = timeAgo else {
-            return nil
-        }
-        let now = Date()
-        let calendar = Calendar.current
-        let regex = try! NSRegularExpression(pattern: #"(\d+)\s(\w+)\sago"#, options: [])
-        let nsRange = NSRange(timeAgo.startIndex..<timeAgo.endIndex, in: timeAgo)
-        if let match = regex.firstMatch(in: timeAgo, options: [], range: nsRange) {
-            let numberRange = Range(match.range(at: 1), in: timeAgo)
-            let unitRange = Range(match.range(at: 2), in: timeAgo)
-            guard let numberRange = numberRange, let unitRange = unitRange,
-                  let number = Int(timeAgo[numberRange]) else {
-                return nil
-            }
-            let unit = String(timeAgo[unitRange]).lowercased()
-            var dateComponent = DateComponents()
-            switch unit {
-            case "second", "seconds":
-                dateComponent.second = -number
-            case "minute", "minutes":
-                dateComponent.minute = -number
-            case "hour", "hours":
-                dateComponent.hour = -number
-            case "day", "days":
-                dateComponent.day = -number
-            case "week", "weeks":
-                dateComponent.day = -number * 7
-            case "month", "months":
-                dateComponent.month = -number
-            case "year", "years":
-                dateComponent.year = -number
-            default:
-                return nil
-            }
-            if let pastDate = calendar.date(byAdding: dateComponent, to: now) {
-                let unixTime = Int(pastDate.timeIntervalSince1970)
-                return Int64(unixTime)
-            }
-        }
-        return nil
     }
 }

@@ -61,6 +61,8 @@
 		AC8086722CA0DC110049BAEA /* VideoThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086702CA0DC110049BAEA /* VideoThumbnail.swift */; };
 		AC8086742CA0DC6F0049BAEA /* VideoContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086732CA0DC6F0049BAEA /* VideoContextMenu.swift */; };
 		AC8086752CA0DC6F0049BAEA /* VideoContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086732CA0DC6F0049BAEA /* VideoContextMenu.swift */; };
+		AC8086772CA25A3C0049BAEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086762CA25A3C0049BAEA /* Helper.swift */; };
+		AC8086782CA25A3C0049BAEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086762CA25A3C0049BAEA /* Helper.swift */; };
 		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
@@ -140,6 +142,7 @@
 		AC80866E2CA0D3A40049BAEA /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
 		AC8086702CA0DC110049BAEA /* VideoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoThumbnail.swift; sourceTree = "<group>"; };
 		AC8086732CA0DC6F0049BAEA /* VideoContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContextMenu.swift; sourceTree = "<group>"; };
+		AC8086762CA25A3C0049BAEA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -291,6 +294,7 @@
 				AC80865C2C9FCAF80049BAEA /* APIs */,
 				AC0589032C9511AC001C2C6F /* Model */,
 				ACCC354F2C9FC3B000180A9B /* Views */,
+				AC8086762CA25A3C0049BAEA /* Helper.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -421,6 +425,7 @@
 				AC3A3A2E2C9A753400861227 /* BrowseResponse.swift in Sources */,
 				AC0589052C952087001C2C6F /* FeedView.swift in Sources */,
 				AC0589222C95C9E8001C2C6F /* SettingsView.swift in Sources */,
+				AC8086772CA25A3C0049BAEA /* Helper.swift in Sources */,
 				AC3A3A262C9A60B100861227 /* PlayerResponse.swift in Sources */,
 				AC0589092C95270B001C2C6F /* ChannelObject.swift in Sources */,
 				AC05892C2C95CFAB001C2C6F /* ChannelCard.swift in Sources */,
@@ -467,6 +472,7 @@
 				ACCC35312C9FB75600180A9B /* VideoObject.swift in Sources */,
 				AC80865F2C9FDD3A0049BAEA /* ChannelCard.swift in Sources */,
 				AC8086692CA0531D0049BAEA /* AsyncOverlayView.swift in Sources */,
+				AC8086782CA25A3C0049BAEA /* Helper.swift in Sources */,
 				AC8086612C9FDD3A0049BAEA /* PlaylistItemCard.swift in Sources */,
 				ACCC35332C9FB79000180A9B /* NextResponse.swift in Sources */,
 				ACCC35342C9FB79000180A9B /* BrowseResponse.swift in Sources */,

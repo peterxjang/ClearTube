@@ -33,7 +33,7 @@ struct SavedVideosView: View {
                                                         height: watchLaterVideo.thumbnailHeight ?? 0
                                                     )
                                                 ],
-                                                publishedText: watchLaterVideo.publishedText,
+                                                published: watchLaterVideo.published,
                                                 viewCountText: watchLaterVideo.viewCountText,
                                                 author: watchLaterVideo.author,
                                                 authorId: watchLaterVideo.authorId
@@ -62,7 +62,7 @@ struct SavedVideosView: View {
                                                         height: recommendedVideo.thumbnailHeight ?? 0
                                                     )
                                                 ],
-                                                publishedText: recommendedVideo.publishedText,
+                                                published: recommendedVideo.published,
                                                 viewCountText: recommendedVideo.viewCountText,
                                                 author: recommendedVideo.author,
                                                 authorId: recommendedVideo.authorId
@@ -91,7 +91,7 @@ struct SavedVideosView: View {
                                                         height: historyVideo.thumbnailHeight ?? 0
                                                     )
                                                 ],
-                                                publishedText: historyVideo.publishedText,
+                                                published: historyVideo.published,
                                                 viewCountText: historyVideo.viewCountText,
                                                 author: historyVideo.author,
                                                 authorId: historyVideo.authorId
