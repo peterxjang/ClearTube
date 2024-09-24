@@ -21,6 +21,7 @@ struct PlayerResponse: Decodable {
         var viewCount: String
         var author: String
         var channelId: String
+        var shortDescription: String?
         var thumbnail: Thumbnail
         struct Thumbnail: Decodable {
             var thumbnails: [ImageObject]

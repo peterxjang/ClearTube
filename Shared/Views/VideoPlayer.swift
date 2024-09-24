@@ -153,6 +153,9 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         var metadata: [AVMetadataItem] = []
         metadata.append(makeMetadataItem(.commonIdentifierTitle, value: video.title))
         metadata.append(makeMetadataItem(.iTunesMetadataTrackSubTitle, value: video.author ?? "(no author)"))
+        if let description = video.description {
+            metadata.append(makeMetadataItem(.commonIdentifierDescription, value: description))
+        }
         if let item = videoView.player?.currentItem {
             item.externalMetadata = metadata
             #if os(tvOS)

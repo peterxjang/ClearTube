@@ -118,6 +118,7 @@ public final class InnerTubeAPI {
                 videoId: json.videoDetails.videoId,
                 lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0,
                 videoThumbnails: json.videoDetails.thumbnail.thumbnails,
+                description: json.videoDetails.shortDescription,
                 published: published,
                 viewCountText: viewCountText,
                 author: json.videoDetails.author,
