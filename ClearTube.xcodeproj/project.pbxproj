@@ -96,7 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tvOSClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC0588EF2C94C3B1001C2C6F /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC0588F22C94C3B1001C2C6F /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		AC0588F42C94C3B1001C2C6F /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		AC0588F82C94C3B2001C2C6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		AC0588F02C94C3B1001C2C6F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */,
+				AC0588EF2C94C3B1001C2C6F /* ClearTube.app */,
 				ACCC351E2C9F6EDE00180A9B /* ClearTube.app */,
 			);
 			name = Products;
@@ -339,7 +339,7 @@
 			);
 			name = tvOSClearTube;
 			productName = ClearTube;
-			productReference = AC0588EF2C94C3B1001C2C6F /* tvOSClearTube.app */;
+			productReference = AC0588EF2C94C3B1001C2C6F /* ClearTube.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ACCC351D2C9F6EDE00180A9B /* iOSClearTube */ = {
@@ -655,7 +655,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = peterxjang.ClearTube;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ClearTube;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
@@ -681,7 +681,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = peterxjang.ClearTube;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ClearTube;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
