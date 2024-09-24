@@ -78,4 +78,38 @@ struct NextResponse: Decodable {
             }
         }
     }
+    var engagementPanels: [EngagementPanel]?
+    struct EngagementPanel: Decodable {
+        var engagementPanelSectionListRenderer: EngagementPanelSectionListRenderer
+        struct EngagementPanelSectionListRenderer: Decodable {
+            var content: Content
+            struct Content: Decodable {
+                var transcriptRenderer: TranscriptRenderer?
+                struct TranscriptRenderer: Decodable {
+                    var content: Content
+                    struct Content: Decodable {
+                        var elementRenderer: ElementRenderer
+                        struct ElementRenderer: Decodable {
+                            var newElement: NewElement
+                            struct NewElement: Decodable {
+                                var type: TypeResponse
+                                struct TypeResponse: Decodable {
+                                    var componentType: ComponentType
+                                    struct ComponentType: Decodable {
+                                        var model: Model
+                                        struct Model: Decodable {
+                                            var transcriptPanelModel: TranscriptPanelModel
+                                            struct TranscriptPanelModel: Decodable {
+                                                var serializedTranscriptRequestParams: String
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

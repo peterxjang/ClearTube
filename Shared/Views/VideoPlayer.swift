@@ -8,13 +8,6 @@ enum VideoPlaybackError: LocalizedError {
     case missingUrl
 }
 
-struct Chapter {
-    let title: String
-    let imageName: String
-    let startTime: TimeInterval
-    let endTime: TimeInterval
-}
-
 struct VideoPlayer: View {
     var video: VideoObject
     @State var currentVideo: VideoObject? = nil
@@ -249,29 +242,17 @@ struct VideoPlayerView: UIViewControllerRepresentable {
 
     #if os(tvOS)
     private func makeNavigationMarkerGroups(video: VideoObject) -> [AVNavigationMarkersGroup] {
-        var chapters: [Chapter] = []
-        var previousEndTime: TimeInterval = 0.0
-        for (index, segment) in skippableSegments.enumerated() {
-            let startTime = TimeInterval(segment[0])
-            let endTime = TimeInterval(segment[1])
-            if previousEndTime < startTime {
-                chapters.append(Chapter(title: "Chapter \(chapters.count + 1)", imageName: "chapter\(chapters.count + 1)", startTime: previousEndTime, endTime: startTime))
-            }
-            chapters.append(Chapter(title: "Advertisement \(index + 1)", imageName: "ad", startTime: startTime, endTime: endTime))
-            previousEndTime = endTime
-        }
-        if previousEndTime < TimeInterval(video.lengthSeconds) {
-            chapters.append(Chapter(title: "Chapter \(chapters.count + 1)", imageName: "chapter\(chapters.count + 1)", startTime: previousEndTime, endTime: TimeInterval(video.lengthSeconds)))
-        }
         var metadataGroups = [AVTimedMetadataGroup]()
-        chapters.forEach { chapter in
-            metadataGroups.append(makeTimedMetadataGroup(for: chapter))
+        if let chapters = video.chapters {
+            chapters.forEach { chapter in
+                metadataGroups.append(makeTimedMetadataGroup(for: chapter))
+            }
         }
         return [AVNavigationMarkersGroup(title: nil, timedNavigationMarkers: metadataGroups)]
     }
     #endif
 
-    private func makeTimedMetadataGroup(for chapter: Chapter) -> AVTimedMetadataGroup {
+    private func makeTimedMetadataGroup(for chapter: VideoObject.ChapterObject) -> AVTimedMetadataGroup {
         var metadata = [AVMetadataItem]()
         let titleItem = makeMetadataItem(.commonIdentifierTitle, value: chapter.title)
         metadata.append(titleItem)

@@ -63,6 +63,8 @@
 		AC8086752CA0DC6F0049BAEA /* VideoContextMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086732CA0DC6F0049BAEA /* VideoContextMenu.swift */; };
 		AC8086772CA25A3C0049BAEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086762CA25A3C0049BAEA /* Helper.swift */; };
 		AC8086782CA25A3C0049BAEA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8086762CA25A3C0049BAEA /* Helper.swift */; };
+		AC80867B2CA30A010049BAEA /* GetTranscriptResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80867A2CA30A010049BAEA /* GetTranscriptResponse.swift */; };
+		AC80867C2CA30A010049BAEA /* GetTranscriptResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC80867A2CA30A010049BAEA /* GetTranscriptResponse.swift */; };
 		ACCC35212C9F6EDE00180A9B /* ClearTubeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */; };
 		ACCC35272C9F6EDF00180A9B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35262C9F6EDF00180A9B /* Assets.xcassets */; };
 		ACCC352A2C9F6EDF00180A9B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACCC35292C9F6EDF00180A9B /* Preview Assets.xcassets */; };
@@ -143,6 +145,7 @@
 		AC8086702CA0DC110049BAEA /* VideoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoThumbnail.swift; sourceTree = "<group>"; };
 		AC8086732CA0DC6F0049BAEA /* VideoContextMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoContextMenu.swift; sourceTree = "<group>"; };
 		AC8086762CA25A3C0049BAEA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		AC80867A2CA30A010049BAEA /* GetTranscriptResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTranscriptResponse.swift; sourceTree = "<group>"; };
 		ACCC351E2C9F6EDE00180A9B /* ClearTube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearTube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCC35202C9F6EDE00180A9B /* ClearTubeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTubeApp.swift; sourceTree = "<group>"; };
 		ACCC35262C9F6EDF00180A9B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -234,6 +237,7 @@
 				AC3A3A272C9A60F400861227 /* NextResponse.swift */,
 				AC3A3A292C9A611900861227 /* SearchResponse.swift */,
 				AC3A3A2D2C9A753400861227 /* BrowseResponse.swift */,
+				AC80867A2CA30A010049BAEA /* GetTranscriptResponse.swift */,
 				AC3A3A2B2C9A614700861227 /* RequestBody.swift */,
 				AC0589232C95CC9E001C2C6F /* FollowedChannel.swift */,
 				AC05893B2C962D3D001C2C6F /* WatchLaterVideo.swift */,
@@ -444,6 +448,7 @@
 				AC0589162C954901001C2C6F /* VideoPlayer.swift in Sources */,
 				AC695F9A2C9758370029FC4E /* InnerTubeAPI.swift in Sources */,
 				AC3A3A2A2C9A611900861227 /* SearchResponse.swift in Sources */,
+				AC80867B2CA30A010049BAEA /* GetTranscriptResponse.swift in Sources */,
 				AC0589442C96480F001C2C6F /* RecommendedVideo.swift in Sources */,
 				AC3A3A2C2C9A614700861227 /* RequestBody.swift in Sources */,
 				AC0589382C95D5DE001C2C6F /* AsyncOverlayView.swift in Sources */,
@@ -491,6 +496,7 @@
 				AC80866B2CA0AA6D0049BAEA /* SavedVideosView.swift in Sources */,
 				ACCC35502C9FC48500180A9B /* CacheAsyncImage.swift in Sources */,
 				ACCC353A2C9FB79000180A9B /* PlaylistObject.swift in Sources */,
+				AC80867C2CA30A010049BAEA /* GetTranscriptResponse.swift in Sources */,
 				ACCC35512C9FC48800180A9B /* MessageBlock.swift in Sources */,
 				ACCC35422C9FBD9700180A9B /* RootView.swift in Sources */,
 				ACCC353B2C9FB79000180A9B /* ImageObject.swift in Sources */,

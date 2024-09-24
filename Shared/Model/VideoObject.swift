@@ -16,6 +16,7 @@ public struct VideoObject: Equatable, Decodable {
     public var formatStreams: [FormatStreamObject]?
     public var captions: [CaptionObject]?
     public var recommendedVideos: [RecommendedVideoObject]?
+    public var chapters: [ChapterObject]?
 
     public struct AdaptiveFormatObject: Decodable {
         public var index: String
@@ -62,6 +63,13 @@ public struct VideoObject: Equatable, Decodable {
         public var viewCountText: String?
     }
 
+    public struct ChapterObject: Decodable {
+        public var title: String
+        public var imageName: String
+        public var startTime: TimeInterval
+        public var endTime: TimeInterval
+    }
+
     public static func == (lhs: VideoObject, rhs: VideoObject) -> Bool {
         lhs.videoId == rhs.videoId
     }
@@ -81,7 +89,8 @@ public struct VideoObject: Equatable, Decodable {
         adaptiveFormats: [AdaptiveFormatObject]? = nil,
         formatStreams: [FormatStreamObject]? = nil,
         captions: [CaptionObject]? = nil,
-        recommendedVideos: [RecommendedVideoObject]? = nil
+        recommendedVideos: [RecommendedVideoObject]? = nil,
+        chapters: [ChapterObject]? = nil
     ) {
         self.title = title
         self.videoId = videoId
@@ -98,6 +107,7 @@ public struct VideoObject: Equatable, Decodable {
         self.formatStreams = formatStreams
         self.captions = captions
         self.recommendedVideos = recommendedVideos
+        self.chapters = chapters
     }
 
     init(for watchLaterVideo: WatchLaterVideo) {

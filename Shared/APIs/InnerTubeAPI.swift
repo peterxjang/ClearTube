@@ -74,6 +74,17 @@ public final class InnerTubeAPI {
         }
     }
 
+    func getTranscriptEndpoint(params: String) async throws -> GetTranscriptResponse {
+        let queryItems: [URLQueryItem] = [URLQueryItem(name: "params", value: params)]
+        let (data, _) = try await request(
+            clientName: "WEB",
+            clientVersion: "2.20230728.00.00",
+            for: "/youtubei/v1/get_transcript",
+            with: queryItems
+        )
+        return try Self.decoder.decode(GetTranscriptResponse.self.self, from: data)
+    }
+
     func browseEndpoint(browseId: String, params: String? = nil) async throws -> BrowseResponse {
         var queryParams: [URLQueryItem]
         if let params = params {
@@ -96,6 +107,12 @@ public final class InnerTubeAPI {
         do {
             let (json, nextJson) = try await(playerTask, nextTask)
             let recommendedVideos = extractRecommendedVideos(json: nextJson)
+            let transcriptParams = extractTranscriptParams(json: nextJson)
+            var chapters: [VideoObject.ChapterObject]? = nil
+            if let transcriptParams = transcriptParams {
+                let json2 = try await getTranscriptEndpoint(params: transcriptParams)
+                chapters = extractChapters(json: json2)
+            }
             return VideoObject(
                 title: json.videoDetails.title,
                 videoId: json.videoDetails.videoId,
@@ -106,7 +123,8 @@ public final class InnerTubeAPI {
                 author: json.videoDetails.author,
                 authorId: json.videoDetails.channelId,
                 hlsUrl: json.streamingData.hlsManifestUrl,
-                recommendedVideos: recommendedVideos
+                recommendedVideos: recommendedVideos,
+                chapters: chapters
             )
         } catch {
             print("An error occurred: \(error.localizedDescription)")
@@ -300,6 +318,50 @@ public final class InnerTubeAPI {
             }
         }
         return recommendedVideos
+    }
+
+    private func extractTranscriptParams(json: NextResponse) -> String? {
+        if let engagementPanels = json.engagementPanels {
+            for engagementPanel in engagementPanels {
+                if let transcriptRenderer = engagementPanel.engagementPanelSectionListRenderer.content.transcriptRenderer {
+                    let serializedTranscriptRequestParams = transcriptRenderer.content.elementRenderer.newElement.type.componentType.model.transcriptPanelModel.serializedTranscriptRequestParams
+                    return serializedTranscriptRequestParams
+                }
+            }
+        }
+        return nil
+    }
+
+    private func extractChapters(json: GetTranscriptResponse) -> [VideoObject.ChapterObject]? {
+        var chapters: [VideoObject.ChapterObject] = []
+        for action in json.actions {
+            if let updateEngagementPanelAction = action.updateEngagementPanelAction {
+                for initialSegment in updateEngagementPanelAction.content.transcriptRenderer.content.transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer.initialSegments {
+                    if let transcriptSectionHeaderRenderer = initialSegment.transcriptSectionHeaderRenderer {
+                        let title = transcriptSectionHeaderRenderer.sectionHeader.sectionHeaderViewModel.headline.content
+                        let imageName = title
+                        let startMs = Int(transcriptSectionHeaderRenderer.startMs)
+                        let endMs = Int(transcriptSectionHeaderRenderer.endMs)
+                        if let startMs = startMs, let endMs = endMs {
+                            let startTime = TimeInterval(Double(startMs) / 1000.0)
+                            let endTime = TimeInterval(Double(endMs) / 1000.0)
+                            chapters.append(
+                                VideoObject.ChapterObject(
+                                    title: title,
+                                    imageName: transcriptSectionHeaderRenderer.sectionHeader.sectionHeaderViewModel.headline.content,
+                                    startTime: startTime,
+                                    endTime: endTime
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+        if chapters.isEmpty {
+            return nil
+        }
+        return chapters
     }
 
     private func extractChannel(json: BrowseResponse, authorId: String) -> ChannelObject {
