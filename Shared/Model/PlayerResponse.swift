@@ -1,11 +1,11 @@
 import Foundation
 
 struct PlayerResponse: Decodable {
-    var streamingData: StreamingDataResponse
-    struct StreamingDataResponse: Decodable {
+    var streamingData: StreamingData
+    struct StreamingData: Decodable {
         var hlsManifestUrl: String
-        var adaptiveFormats: [StreamingDataAdaptiveFormatObject]
-        struct StreamingDataAdaptiveFormatObject: Decodable {
+        var adaptiveFormats: [AdaptiveFormats]
+        struct AdaptiveFormats: Decodable {
             var url: String
             var mimeType: String
             var bitrate: Int
@@ -13,16 +13,16 @@ struct PlayerResponse: Decodable {
             var height: Int?
         }
     }
-    var videoDetails: VideoDetailsResponse
-    struct VideoDetailsResponse: Decodable {
+    var videoDetails: VideoDetails
+    struct VideoDetails: Decodable {
         var videoId: String
         var title: String
         var lengthSeconds: String
         var viewCount: String
         var author: String
         var channelId: String
-        var thumbnail: ThumbnailsResponse
-        struct ThumbnailsResponse: Decodable {
+        var thumbnail: Thumbnail
+        struct Thumbnail: Decodable {
             var thumbnails: [ImageObject]
         }
     }

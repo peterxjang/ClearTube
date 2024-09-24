@@ -2,30 +2,30 @@ import Foundation
 
 struct SearchResponse: Decodable {
     var estimatedResults: String
-    var contents: ContentsResponse
-    struct ContentsResponse: Decodable {
-        var sectionListRenderer: SectionListRendererResponse
-        struct SectionListRendererResponse: Decodable {
-            var contents: [ContentResponse]
-            struct ContentResponse: Decodable {
-                var shelfRenderer: ShelfRendererResponse?
-                struct ShelfRendererResponse: Decodable {
+    var contents: Contents
+    struct Contents: Decodable {
+        var sectionListRenderer: SectionListRenderer
+        struct SectionListRenderer: Decodable {
+            var contents: [Content]
+            struct Content: Decodable {
+                var shelfRenderer: ShelfRenderer?
+                struct ShelfRenderer: Decodable {
                     var content: ContentRenderer
                     struct ContentRenderer: Decodable {
-                        var verticalListRenderer: VerticalListRendererResponse
-                        struct VerticalListRendererResponse: Decodable {
-                            var items: [ItemResponse]
-                            struct ItemResponse: Decodable {
-                                var elementRenderer: ElementRendererResponse?
+                        var verticalListRenderer: VerticalListRenderer
+                        struct VerticalListRenderer: Decodable {
+                            var items: [Item]
+                            struct Item: Decodable {
+                                var elementRenderer: ElementRenderer?
                             }
                         }
                     }
                 }
-                var itemSectionRenderer: ItemSectionRendererResponse?
-                struct ItemSectionRendererResponse: Decodable {
-                    var contents: [ContentResponse]
-                    struct ContentResponse: Decodable {
-                        var elementRenderer: ElementRendererResponse?
+                var itemSectionRenderer: ItemSectionRenderer?
+                struct ItemSectionRenderer: Decodable {
+                    var contents: [Content]
+                    struct Content: Decodable {
+                        var elementRenderer: ElementRenderer?
                     }
                 }
             }
@@ -33,35 +33,35 @@ struct SearchResponse: Decodable {
     }
 }
 
-struct ElementRendererResponse: Decodable {
-    var newElement: NewElementResponse
-    struct NewElementResponse: Decodable {
-        var type: TypeResponse
-        struct TypeResponse: Decodable {
-            var componentType: ComponentTypeResponse?
-            struct ComponentTypeResponse: Decodable {
-                var model: ModelResponse
-                struct ModelResponse: Decodable {
-                    var compactChannelModel: CompactChannelModelResponse?
-                    struct CompactChannelModelResponse: Decodable {
-                        var compactChannelData: CompactChannelDataResponse
-                        struct CompactChannelDataResponse: Decodable {
-                            var avatar: AvatarResponse
-                            struct AvatarResponse: Decodable {
-                                var image: ImageResponse
-                                struct ImageResponse: Decodable {
+struct ElementRenderer: Decodable {
+    var newElement: NewElement
+    struct NewElement: Decodable {
+        var type: TypeStruct
+        struct TypeStruct: Decodable {
+            var componentType: ComponentType?
+            struct ComponentType: Decodable {
+                var model: Model
+                struct Model: Decodable {
+                    var compactChannelModel: CompactChannelModel?
+                    struct CompactChannelModel: Decodable {
+                        var compactChannelData: CompactChannelData
+                        struct CompactChannelData: Decodable {
+                            var avatar: Avatar
+                            struct Avatar: Decodable {
+                                var image: Image
+                                struct Image: Decodable {
                                     var sources: [ImageObject]
                                 }
                             }
                             var title: String
                             var subscriberCount: String
                             var videoCount: String
-                            var onTap: OnTapResponse
-                            struct OnTapResponse: Decodable {
-                                var innertubeCommand: InnertubeCommandResponse
-                                struct InnertubeCommandResponse: Decodable {
-                                    var browseEndpoint: BrowseEndpointResponse
-                                    struct BrowseEndpointResponse: Decodable {
+                            var onTap: OnTap
+                            struct OnTap: Decodable {
+                                var innertubeCommand: InnertubeCommand
+                                struct InnertubeCommand: Decodable {
+                                    var browseEndpoint: BrowseEndpoint
+                                    struct BrowseEndpoint: Decodable {
                                         var browseId: String
                                         var canonicalBaseUrl: String
                                     }
@@ -70,33 +70,33 @@ struct ElementRendererResponse: Decodable {
                             var handle: String
                         }
                     }
-                    var compactVideoModel: CompactVideoModelResponse?
-                    struct CompactVideoModelResponse: Decodable {
-                        var compactVideoData: CompactVideoDataResponse
-                        struct CompactVideoDataResponse: Decodable {
-                            var videoData: VideoDataResponse
-                            struct VideoDataResponse: Decodable {
-                                var thumbnail: ThumbnailResponse
-                                struct ThumbnailResponse: Decodable {
-                                    var image: ImageResponse
-                                    struct ImageResponse: Decodable {
+                    var compactVideoModel: CompactVideoModel?
+                    struct CompactVideoModel: Decodable {
+                        var compactVideoData: CompactVideoData
+                        struct CompactVideoData: Decodable {
+                            var videoData: VideoData
+                            struct VideoData: Decodable {
+                                var thumbnail: Thumbnail
+                                struct Thumbnail: Decodable {
+                                    var image: Image
+                                    struct Image: Decodable {
                                         var sources: [ImageObject]
                                     }
                                     var timestampText: String?
                                 }
-                                var metadata: MetadataResponse
-                                struct MetadataResponse: Decodable {
+                                var metadata: Metadata
+                                struct Metadata: Decodable {
                                     var title: String
                                     var byline: String
                                     var metadataDetails: String
                                 }
                             }
-                            var onTap: OnTapResponse
-                            struct OnTapResponse: Decodable {
-                                var innertubeCommand: InnertubeCommandResponse
-                                struct InnertubeCommandResponse: Decodable {
-                                    var coWatchWatchEndpointWrapperCommand: CoWatchWatchEndpointWrapperCommandResponse
-                                    struct CoWatchWatchEndpointWrapperCommandResponse: Decodable {
+                            var onTap: OnTap
+                            struct OnTap: Decodable {
+                                var innertubeCommand: InnertubeCommand
+                                struct InnertubeCommand: Decodable {
+                                    var coWatchWatchEndpointWrapperCommand: CoWatchWatchEndpointWrapperCommand
+                                    struct CoWatchWatchEndpointWrapperCommand: Decodable {
                                         var watchEndpoint: WatchEndpoint
                                         struct WatchEndpoint: Decodable {
                                             var watchEndpoint: WatchEndpoint
