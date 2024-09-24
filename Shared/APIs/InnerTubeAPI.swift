@@ -282,18 +282,20 @@ public final class InnerTubeAPI {
         for content in json.contents.singleColumnWatchNextResults.results.results.contents {
             if let shelfRenderer = content.shelfRenderer {
                 for item in shelfRenderer.content.horizontalListRenderer.items {
-                    recommendedVideos.append(
-                        VideoObject.RecommendedVideoObject(
-                            videoId: item.gridVideoRenderer.videoId,
-                            title: item.gridVideoRenderer.title.runs.first?.text ?? "",
-                            lengthSeconds: Helper.timeStringToSeconds(item.gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
-                            videoThumbnails: item.gridVideoRenderer.thumbnail.thumbnails,
-                            author: item.gridVideoRenderer.shortBylineText.runs.first?.text,
-                            authorId: item.gridVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
-                            published: Helper.timeAgoStringToUnix(item.gridVideoRenderer.publishedTimeText.runs.first?.text),
-                            viewCountText: item.gridVideoRenderer.viewCountText.runs.first?.text
+                    if let gridVideoRenderer = item.gridVideoRenderer {
+                        recommendedVideos.append(
+                            VideoObject.RecommendedVideoObject(
+                                videoId: gridVideoRenderer.videoId,
+                                title: gridVideoRenderer.title.runs.first?.text ?? "",
+                                lengthSeconds: Helper.timeStringToSeconds(gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
+                                videoThumbnails: gridVideoRenderer.thumbnail.thumbnails,
+                                author: gridVideoRenderer.shortBylineText.runs.first?.text,
+                                authorId: gridVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
+                                published: Helper.timeAgoStringToUnix(gridVideoRenderer.publishedTimeText.runs.first?.text),
+                                viewCountText: gridVideoRenderer.viewCountText.runs.first?.text
+                            )
                         )
-                    )
+                    }
                 }
             }
         }

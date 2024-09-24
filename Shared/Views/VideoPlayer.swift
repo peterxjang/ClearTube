@@ -23,6 +23,7 @@ struct VideoPlayer: View {
     @State var statusObserver: AnyCancellable?
     @State var skippableSegments: [[Float]] = []
     @Query var historyVideos: [HistoryVideo]
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         if isLoading {
@@ -58,6 +59,9 @@ struct VideoPlayer: View {
                 Text("Error: could not load the video")
                     .font(.headline)
                     .fontWeight(.medium)
+                Button("Go back") {
+                    dismiss()
+                }
             }
         }
     }

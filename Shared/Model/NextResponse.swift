@@ -19,7 +19,7 @@ struct NextResponse: Decodable {
                                 struct HorizontalListRendererResponse: Decodable {
                                     var items: [ItemResponse]
                                     struct ItemResponse: Decodable {
-                                        var gridVideoRenderer: GridVideoRendererResponse
+                                        var gridVideoRenderer: GridVideoRendererResponse?
                                         struct GridVideoRendererResponse: Decodable {
                                             var videoId: String
                                             var thumbnail: ThumbnailResponse
