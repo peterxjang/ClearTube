@@ -72,4 +72,28 @@ class Helper {
         }
         return "Just now"
     }
+
+    static func timeStringToSeconds(_ timeString: String?) -> Int? {
+        guard let timeString = timeString else {
+            return nil
+        }
+        let components = timeString.split(separator: ":").map { Int($0) }
+        guard components.allSatisfy({ $0 != nil }) else {
+            return nil
+        }
+        let timeComponents = components.compactMap { $0 }
+        switch timeComponents.count {
+        case 2: // Format is "MM:SS"
+            let minutes = timeComponents[0]
+            let seconds = timeComponents[1]
+            return (minutes * 60) + seconds
+        case 3: // Format is "HH:MM:SS"
+            let hours = timeComponents[0]
+            let minutes = timeComponents[1]
+            let seconds = timeComponents[2]
+            return (hours * 3600) + (minutes * 60) + seconds
+        default: // Invalid format
+            return nil
+        }
+    }
 }

@@ -286,7 +286,7 @@ public final class InnerTubeAPI {
                         VideoObject.RecommendedVideoObject(
                             videoId: item.gridVideoRenderer.videoId,
                             title: item.gridVideoRenderer.title.runs.first?.text ?? "",
-                            lengthSeconds: timeStringToSeconds(item.gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
+                            lengthSeconds: Helper.timeStringToSeconds(item.gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
                             videoThumbnails: item.gridVideoRenderer.thumbnail.thumbnails,
                             author: item.gridVideoRenderer.shortBylineText.runs.first?.text,
                             authorId: item.gridVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
@@ -331,7 +331,7 @@ public final class InnerTubeAPI {
                         if let richItemRenderer = content.richItemRenderer, let videoRenderer = richItemRenderer.content.videoRenderer, let publishedText = videoRenderer.publishedTimeText?.simpleText, let viewCountText = videoRenderer.viewCountText?.simpleText {
                             let videoId = videoRenderer.videoId
                             let title = videoRenderer.title.runs[0].text
-                            let lengthSeconds = timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
+                            let lengthSeconds = Helper.timeStringToSeconds(videoRenderer.lengthText.simpleText) ?? 0
                             let videoThumbnails = videoRenderer.thumbnail.thumbnails
                             videos.append(
                                 VideoObject(
@@ -537,7 +537,7 @@ public final class InnerTubeAPI {
                                 SearchObject.Result(from: VideoObject(
                                     title: title,
                                     videoId: videoId,
-                                    lengthSeconds: timeStringToSeconds(timestampText) ?? 0,
+                                    lengthSeconds: Helper.timeStringToSeconds(timestampText) ?? 0,
                                     videoThumbnails: videoThumbnails,
                                     published: Helper.timeAgoStringToUnix(publishedText),
                                     viewCountText: viewCountText,
@@ -550,29 +550,5 @@ public final class InnerTubeAPI {
             }
         }
         return results
-    }
-
-    private func timeStringToSeconds(_ timeString: String?) -> Int? {
-        guard let timeString = timeString else {
-            return nil
-        }
-        let components = timeString.split(separator: ":").map { Int($0) }
-        guard components.allSatisfy({ $0 != nil }) else {
-            return nil
-        }
-        let timeComponents = components.compactMap { $0 }
-        switch timeComponents.count {
-        case 2: // Format is "MM:SS"
-            let minutes = timeComponents[0]
-            let seconds = timeComponents[1]
-            return (minutes * 60) + seconds
-        case 3: // Format is "HH:MM:SS"
-            let hours = timeComponents[0]
-            let minutes = timeComponents[1]
-            let seconds = timeComponents[2]
-            return (hours * 3600) + (minutes * 60) + seconds
-        default: // Invalid format
-            return nil
-        }
     }
 }
