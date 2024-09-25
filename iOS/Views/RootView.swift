@@ -22,7 +22,7 @@ struct MainView: View {
             FeedView()
                 .padding()
                 .tabItem {
-                    Label("Feed", systemImage: "star")
+                    Label("Recent", systemImage: "list.bullet")
                 }
                 .tag(0)
             SavedVideosView()
@@ -34,7 +34,7 @@ struct MainView: View {
             SubscriptionsView()
                 .padding()
                 .tabItem {
-                    Label("Subscriptions", systemImage: "list.bullet")
+                    Label("Channels", systemImage: "star")
                 }
                 .tag(2)
         }
