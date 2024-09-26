@@ -304,7 +304,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     private func saveRecommendedVideos(video: VideoObject) {
         guard let currentRecommendedVideos = video.recommendedVideos else { return }
         let context = databaseContext
-        for recommendedVideo in currentRecommendedVideos.prefix(3) {
+        for recommendedVideo in currentRecommendedVideos.prefix(5) {
             if recommendedVideos.first(where: { $0.videoId == recommendedVideo.videoId }) == nil {
                 let item = RecommendedVideo(recommendedVideo: recommendedVideo)
                 context.insert(item)

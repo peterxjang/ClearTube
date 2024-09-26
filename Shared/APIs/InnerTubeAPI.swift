@@ -63,6 +63,8 @@ public final class InnerTubeAPI {
         }
         do {
             let (data, _) = try await request(
+                clientName: "WEB",
+                clientVersion: "2.20230728.00.00",
                 for: "/youtubei/v1/next",
                 with: [URLQueryItem(name: "videoId", value: idPath)]
             )
@@ -107,12 +109,7 @@ public final class InnerTubeAPI {
         do {
             let (json, nextJson) = try await(playerTask, nextTask)
             let recommendedVideos = extractRecommendedVideos(json: nextJson)
-            let transcriptParams = extractTranscriptParams(json: nextJson)
-            var chapters: [VideoObject.ChapterObject]? = nil
-            if let transcriptParams = transcriptParams {
-                let json2 = try await getTranscriptEndpoint(params: transcriptParams)
-                chapters = extractChapters(json: json2)
-            }
+            let chapters = extractChapters(json: nextJson, lengthSeconds: Int(json.videoDetails.lengthSeconds) ?? 0)
             return VideoObject(
                 title: json.videoDetails.title,
                 videoId: json.videoDetails.videoId,
@@ -298,66 +295,74 @@ public final class InnerTubeAPI {
 
     private func extractRecommendedVideos(json: NextResponse) -> [VideoObject.RecommendedVideoObject] {
         var recommendedVideos: [VideoObject.RecommendedVideoObject] = []
-        for content in json.contents.singleColumnWatchNextResults.results.results.contents {
-            if let shelfRenderer = content.shelfRenderer {
-                for item in shelfRenderer.content.horizontalListRenderer.items {
-                    if let gridVideoRenderer = item.gridVideoRenderer {
-                        recommendedVideos.append(
-                            VideoObject.RecommendedVideoObject(
-                                videoId: gridVideoRenderer.videoId,
-                                title: gridVideoRenderer.title.runs.first?.text ?? "",
-                                lengthSeconds: Helper.timeStringToSeconds(gridVideoRenderer.lengthText.runs.first?.text) ?? 0,
-                                videoThumbnails: gridVideoRenderer.thumbnail.thumbnails,
-                                author: gridVideoRenderer.shortBylineText.runs.first?.text,
-                                authorId: gridVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
-                                published: Helper.timeAgoStringToUnix(gridVideoRenderer.publishedTimeText.runs.first?.text),
-                                viewCountText: gridVideoRenderer.viewCountText.runs.first?.text
-                            )
+        if let twoColumnWatchNextResults = json.contents.twoColumnWatchNextResults {
+            for result in twoColumnWatchNextResults.secondaryResults.secondaryResults.results {
+                if let compactVideoRenderer = result.compactVideoRenderer {
+                    recommendedVideos.append(
+                        VideoObject.RecommendedVideoObject(
+                            videoId: compactVideoRenderer.videoId,
+                            title: compactVideoRenderer.title.simpleText,
+                            lengthSeconds: Helper.timeStringToSeconds(compactVideoRenderer.lengthText.simpleText) ?? 0,
+                            videoThumbnails: compactVideoRenderer.thumbnail.thumbnails,
+                            author: compactVideoRenderer.shortBylineText.runs.first?.text,
+                            authorId: compactVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
+                            published: Helper.timeAgoStringToUnix(compactVideoRenderer.publishedTimeText?.simpleText),
+                            viewCountText: compactVideoRenderer.viewCountText?.simpleText
                         )
-                    }
+                    )
                 }
             }
         }
         return recommendedVideos
     }
 
-    private func extractTranscriptParams(json: NextResponse) -> String? {
-        if let engagementPanels = json.engagementPanels {
-            for engagementPanel in engagementPanels {
-                if let transcriptRenderer = engagementPanel.engagementPanelSectionListRenderer.content.transcriptRenderer {
-                    let serializedTranscriptRequestParams = transcriptRenderer.content.elementRenderer.newElement.type.componentType.model.transcriptPanelModel.serializedTranscriptRequestParams
-                    return serializedTranscriptRequestParams
-                }
-            }
-        }
-        return nil
-    }
-
-    private func extractChapters(json: GetTranscriptResponse) -> [VideoObject.ChapterObject]? {
+    private func extractChapters(json: NextResponse, lengthSeconds: Int) -> [VideoObject.ChapterObject]? {
         var chapters: [VideoObject.ChapterObject] = []
-        for action in json.actions {
-            if let updateEngagementPanelAction = action.updateEngagementPanelAction {
-                for initialSegment in updateEngagementPanelAction.content.transcriptRenderer.content.transcriptSearchPanelRenderer.body.transcriptSegmentListRenderer.initialSegments {
-                    if let transcriptSectionHeaderRenderer = initialSegment.transcriptSectionHeaderRenderer {
-                        let title = transcriptSectionHeaderRenderer.sectionHeader.sectionHeaderViewModel.headline.content
-                        let startMs = Int(transcriptSectionHeaderRenderer.startMs)
-                        let endMs = Int(transcriptSectionHeaderRenderer.endMs)
-                        if let startMs = startMs, let endMs = endMs {
-                            let startTime = TimeInterval(Double(startMs) / 1000.0)
-                            let endTime = TimeInterval(Double(endMs) / 1000.0)
-                            chapters.append(
-                                VideoObject.ChapterObject(
-                                    title: title,
-                                    imageName: title,
-                                    startTime: startTime,
-                                    endTime: endTime
-                                )
-                            )
+        var titlesAndStarts: [(String, Int64)] = []
+        if let playerOverlays = json.playerOverlays {
+            if let decoratedPlayerBarRenderer = playerOverlays.playerOverlayRenderer.decoratedPlayerBarRenderer {
+                if let markersMap = decoratedPlayerBarRenderer.decoratedPlayerBarRenderer.playerBar.multiMarkersPlayerBarRenderer.markersMap {
+                    for markersMapItem in markersMap {
+                        if let chapters = markersMapItem.value.chapters {
+                            for chapter in chapters {
+                                let title = chapter.chapterRenderer.title.simpleText
+                                let startMs = chapter.chapterRenderer.timeRangeStartMillis
+                                titlesAndStarts.append((title, startMs))
+                            }
                         }
                     }
                 }
             }
         }
+        if titlesAndStarts.isEmpty {
+            return nil
+        }
+        var i = 0;
+        while i < titlesAndStarts.count - 1 {
+            let title = titlesAndStarts[i].0
+            let startTime = TimeInterval(Double(titlesAndStarts[i].1) / 1000.0)
+            let endTime = TimeInterval(Double(titlesAndStarts[i + 1].1) / 1000.0)
+            chapters.append(
+                VideoObject.ChapterObject(
+                    title: title,
+                    imageName: title,
+                    startTime: startTime,
+                    endTime: endTime
+                )
+            )
+            i += 1;
+        }
+        let title = titlesAndStarts[i].0
+        let startTime = TimeInterval(Double(titlesAndStarts[i].1) / 1000.0)
+        let endTime = TimeInterval(lengthSeconds)
+        chapters.append(
+            VideoObject.ChapterObject(
+                title: title,
+                imageName: title,
+                startTime: startTime,
+                endTime: endTime
+            )
+        )
         if chapters.isEmpty {
             return nil
         }

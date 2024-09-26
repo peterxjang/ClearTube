@@ -1,9 +1,98 @@
 import Foundation
 
 struct NextResponse: Decodable {
+    var playerOverlays: PlayerOverlays?
+    struct PlayerOverlays: Decodable {
+        var playerOverlayRenderer: PlayerOverlayRenderer
+        struct PlayerOverlayRenderer: Decodable {
+            var decoratedPlayerBarRenderer: DecoratedPlayerBarRenderer?
+            struct DecoratedPlayerBarRenderer: Decodable {
+                var decoratedPlayerBarRenderer: DecoratedPlayerBarRenderer
+                struct DecoratedPlayerBarRenderer: Decodable {
+                    var playerBar: PlayerBar
+                    struct PlayerBar: Decodable {
+                        var multiMarkersPlayerBarRenderer: MultiMarkersPlayerBarRenderer
+                        struct MultiMarkersPlayerBarRenderer: Decodable {
+                            var markersMap: [MarkerMap]?
+                            struct MarkerMap: Decodable {
+                                var value: Value
+                                struct Value: Decodable {
+                                    var chapters: [Chapter]?
+                                    struct Chapter: Decodable {
+                                        var chapterRenderer: ChapterRenderer
+                                        struct ChapterRenderer: Decodable {
+                                            var title: Title
+                                            struct Title: Decodable {
+                                                var simpleText: String
+                                            }
+                                            var timeRangeStartMillis: Int64
+                                            var thumbnail: Thumbnail
+                                            struct Thumbnail: Decodable {
+                                                var thumbnails: [ImageObject]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     var contents: Contents
     struct Contents: Decodable {
-        var singleColumnWatchNextResults: SingleColumnWatchNextResults
+        var twoColumnWatchNextResults: TwoColumnWatchNextResults?
+        struct TwoColumnWatchNextResults: Decodable {
+            var secondaryResults: SecondaryResults
+            struct SecondaryResults: Decodable {
+                var secondaryResults: SecondaryResults
+                struct SecondaryResults: Decodable {
+                    var results: [Result]
+                    struct Result: Decodable {
+                        var compactVideoRenderer: CompactVideoRenderer?
+                        struct CompactVideoRenderer: Decodable {
+                            var videoId: String
+                            var thumbnail: Thumbnail
+                            struct Thumbnail: Decodable {
+                                var thumbnails: [ImageObject]
+                            }
+                            var title: TitleObject
+                            struct TitleObject: Decodable {
+                                var simpleText: String
+                            }
+                            var publishedTimeText: PublishedTimeTextObject?
+                            struct PublishedTimeTextObject: Decodable {
+                                var simpleText: String
+                            }
+                            var viewCountText: ViewCountTextObject?
+                            struct ViewCountTextObject: Decodable {
+                                var simpleText: String
+                            }
+                            var lengthText: LengthTextObject
+                            struct LengthTextObject: Decodable {
+                                var simpleText: String
+                            }
+                            var shortBylineText: ShortBylineText
+                            struct ShortBylineText: Decodable {
+                                var runs: [Run]
+                                struct Run: Decodable {
+                                    var text: String
+                                    var navigationEndpoint: NavigationEndpoint
+                                    struct NavigationEndpoint: Decodable {
+                                        var browseEndpoint: BrowseEndpoint?
+                                        struct BrowseEndpoint: Decodable {
+                                            var browseId: String
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        var singleColumnWatchNextResults: SingleColumnWatchNextResults?
         struct SingleColumnWatchNextResults: Decodable {
             var results: Results
             struct Results: Decodable {
