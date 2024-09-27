@@ -26,36 +26,42 @@ struct VideoThumbnail: View {
 }
 
 struct VideoThumbnailTag: View {
-    var content: String
+    var content: String?
 
     init(_ content: String) {
         self.content = content
     }
 
     init(_ seconds: Int) {
-        self.content = (Date() ..< Date().advanced(by: TimeInterval(seconds))).formatted(.timeDuration)
-        if seconds < 10 {
-            self.content = "0:0\(self.content)"
+        let formattedTime = (Date() ..< Date().advanced(by: TimeInterval(seconds))).formatted(.timeDuration)
+        if seconds <= 0 {
+            return
+        } else if seconds < 10 {
+           self.content = "0:0\(formattedTime)"
         } else if seconds < 60 {
-            self.content = "0:\(self.content)"
+            self.content = "0:\(formattedTime)"
+        } else {
+            self.content = formattedTime
         }
     }
 
     var body: some View {
         VStack {
-            Spacer()
-            HStack {
+            if let content = content {
                 Spacer()
-                Group {
-                    Text(content)
-                        .padding(.horizontal, 6.0)
-                        .padding(.vertical, 2.0)
-                        .font(.caption2)
+                HStack {
+                    Spacer()
+                    Group {
+                        Text(content)
+                            .padding(.horizontal, 6.0)
+                            .padding(.vertical, 2.0)
+                            .font(.caption2)
+                    }
+                    .background(.black)
+                    .foregroundStyle(.white)
+                    .cornerRadius(4.0)
+                    .padding([.bottom, .trailing], 4.0)
                 }
-                .background(.black)
-                .foregroundStyle(.white)
-                .cornerRadius(4.0)
-                .padding([.bottom, .trailing], 4.0)
             }
         }
     }
