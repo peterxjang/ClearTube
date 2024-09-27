@@ -2,6 +2,7 @@ import Foundation
 
 public enum APIError: LocalizedError {
     case urlCreation
+    case missingJSON
 }
 
 private struct Stats: Decodable {

@@ -153,7 +153,7 @@ public final class InnerTubeAPI {
         guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
             .first(where: {$0.tabRenderer?.title == "Videos"})?.tabRenderer
         else {
-            throw APIError.urlCreation
+            throw APIError.missingJSON
         }
         let author = json.header.pageHeaderRenderer?.pageTitle
         let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
@@ -170,7 +170,7 @@ public final class InnerTubeAPI {
         guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
             .first(where: {$0.tabRenderer?.title == "Shorts"})?.tabRenderer
         else {
-            throw APIError.urlCreation
+            throw APIError.missingJSON
         }
         let author = json.header.pageHeaderRenderer?.pageTitle
         let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
@@ -187,7 +187,7 @@ public final class InnerTubeAPI {
         guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
             .first(where: {$0.tabRenderer?.title == "Live"})?.tabRenderer
         else {
-            throw APIError.urlCreation
+            throw APIError.missingJSON
         }
         let author = json.header.pageHeaderRenderer?.pageTitle
         let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params
@@ -204,7 +204,7 @@ public final class InnerTubeAPI {
         guard let videosTabRenderer = json.contents.twoColumnBrowseResultsRenderer.tabs
             .first(where: {$0.tabRenderer?.title == "Playlists"})?.tabRenderer
         else {
-            throw APIError.urlCreation
+            throw APIError.missingJSON
         }
         let author = json.header.pageHeaderRenderer?.pageTitle
         let videoParams = videosTabRenderer.endpoint!.browseEndpoint.params

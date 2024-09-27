@@ -87,6 +87,7 @@ struct ChannelView: View {
             channelVideos = result.videos
         } catch {
             print("Error fetching channel videos: \(error)")
+            channelVideos = []
         }
     }
 
@@ -96,6 +97,7 @@ struct ChannelView: View {
             channelShorts = result.videos
         } catch {
             print("Error fetching channel shorts: \(error)")
+            channelShorts = []
         }
     }
 
@@ -105,6 +107,7 @@ struct ChannelView: View {
             channelStreams = result.videos
         } catch {
             print("Error fetching channel streams: \(error)")
+            channelStreams = []
         }
     }
 
@@ -114,6 +117,7 @@ struct ChannelView: View {
             channelPlaylists = result.playlists
         } catch {
             print("Error fetching channel playlists: \(error)")
+            channelPlaylists = []
         }
     }
 }
