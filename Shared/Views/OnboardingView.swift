@@ -22,7 +22,7 @@ final class OnboardingViewModel {
             }
             let response = await InvidiousAPI.isValidInstance(url: url)
             if response {
-                ClearTubeApp.invidiousClient.setApiUrl(url: url)
+                await ClearTubeApp.invidiousClient.setApiUrl(url: url)
             }
             await MainActor.run {
                 isInvalid = !response
