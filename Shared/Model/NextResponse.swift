@@ -69,7 +69,7 @@ struct NextResponse: Decodable {
                             struct ViewCountTextObject: Decodable {
                                 var simpleText: String?
                             }
-                            var lengthText: LengthTextObject
+                            var lengthText: LengthTextObject?
                             struct LengthTextObject: Decodable {
                                 var simpleText: String
                             }

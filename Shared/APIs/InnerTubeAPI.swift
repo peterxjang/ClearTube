@@ -302,7 +302,7 @@ public final class InnerTubeAPI {
                         VideoObject.RecommendedVideoObject(
                             videoId: compactVideoRenderer.videoId,
                             title: compactVideoRenderer.title.simpleText,
-                            lengthSeconds: Helper.timeStringToSeconds(compactVideoRenderer.lengthText.simpleText) ?? 0,
+                            lengthSeconds: Helper.timeStringToSeconds(compactVideoRenderer.lengthText?.simpleText) ?? 0,
                             videoThumbnails: compactVideoRenderer.thumbnail.thumbnails,
                             author: compactVideoRenderer.shortBylineText.runs.first?.text,
                             authorId: compactVideoRenderer.shortBylineText.runs.first?.navigationEndpoint.browseEndpoint?.browseId,
