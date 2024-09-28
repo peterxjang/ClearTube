@@ -131,6 +131,8 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         videoView.player?.play()
         videoView.allowsPictureInPicturePlayback = false
         videoView.player?.rate = 1.0
+        #if os(tvOS)
+        videoView.appliesPreferredDisplayCriteriaAutomatically = false
         let defaultSpeedImage = UIImage(systemName: "forward.circle")
         let fasterSpeedImage = UIImage(systemName: "forward.circle.fill")
         let fastestSpeedImage = UIImage(systemName: "forward.fill")
@@ -146,7 +148,6 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 action.image = defaultSpeedImage
             }
         }
-        #if os(tvOS)
         videoView.transportBarCustomMenuItems = [rateAction]
         #endif
         updateNowPlayingInfo(with: video)
