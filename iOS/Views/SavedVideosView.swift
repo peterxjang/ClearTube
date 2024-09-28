@@ -6,6 +6,7 @@ struct SavedVideosView: View {
     @Query var watchLaterVideos: [WatchLaterVideo]
     @Query var recommendedVideos: [RecommendedVideo]
     @Query var historyVideos: [HistoryVideo]
+    @State private var reloadTrigger = false
     var settings = Settings()
 
     var body: some View {
@@ -56,6 +57,12 @@ struct SavedVideosView: View {
                             }
                         }.padding(spacing)
                     }
+                }
+            }
+            .id(reloadTrigger)
+            .onAppear {
+                DispatchQueue.main.async {
+                    reloadTrigger.toggle()
                 }
             }
         }
