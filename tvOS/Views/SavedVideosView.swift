@@ -6,7 +6,6 @@ struct SavedVideosView: View {
     @Query var watchLaterVideos: [WatchLaterVideo]
     @Query var recommendedVideos: [RecommendedVideo]
     @Query var historyVideos: [HistoryVideo]
-    @Binding var reloadTrigger: Bool
     var settings = Settings()
 
     var body: some View {
@@ -45,6 +44,5 @@ struct SavedVideosView: View {
                 }
             }
         }
-        .id(reloadTrigger)
     }
 }

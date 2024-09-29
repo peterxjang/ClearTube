@@ -15,7 +15,6 @@ struct RootView: View {
 struct MainView: View {
     let search: String
     @State private var selectedTab = 0
-    @State private var savedViewReloadTrigger = false
     @Environment(\.dismissSearch) var dismissSearch
 
     var body: some View {
@@ -26,7 +25,7 @@ struct MainView: View {
                     Label("Recent", systemImage: "list.bullet")
                 }
                 .tag(0)
-            SavedVideosView(reloadTrigger: $savedViewReloadTrigger)
+            SavedVideosView()
                 .padding()
                 .tabItem {
                     Label("Saved", systemImage: "paperclip")
@@ -38,13 +37,6 @@ struct MainView: View {
                     Label("Channels", systemImage: "star")
                 }
                 .tag(2)
-        }
-        .onChange(of: selectedTab) { oldValue, newValue in
-            if newValue == 1 && oldValue != 1 {
-                DispatchQueue.main.async {
-                    savedViewReloadTrigger.toggle()
-                }
-            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {

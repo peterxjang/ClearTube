@@ -3,7 +3,6 @@ import SwiftData
 
 struct RootView: View {
     @State private var selectedTab = 0
-    @State private var savedViewReloadTrigger = false
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -12,7 +11,7 @@ struct RootView: View {
                     Text("Recent")
                 }
                 .tag(0)
-            SavedVideosView(reloadTrigger: $savedViewReloadTrigger)
+            SavedVideosView()
                 .tabItem {
                     Text("Saved")
                 }
@@ -32,13 +31,6 @@ struct RootView: View {
                     Text("Settings")
                 }
                 .tag(4)
-        }
-        .onChange(of: selectedTab) { oldValue, newValue in
-            if newValue == 1 && oldValue != 1 {
-                DispatchQueue.main.async {
-                    savedViewReloadTrigger.toggle()
-                }
-            }
         }
     }
 }
