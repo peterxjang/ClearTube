@@ -6,6 +6,8 @@ struct SavedVideosView: View {
     @Query var watchLaterVideos: [WatchLaterVideo]
     @Query var recommendedVideos: [RecommendedVideo]
     @Query var historyVideos: [HistoryVideo]
+    @State private var displayedRecommendedVideos: [RecommendedVideo] = []
+    @FocusState private var isFirstVideoFocused: Bool
     var settings = Settings()
 
     var body: some View {
@@ -25,11 +27,31 @@ struct SavedVideosView: View {
                     .font(.subheadline)
                     .padding(.top, 50)
                 ScrollView(.horizontal) {
-                    LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
-                        ForEach(recommendedVideos.shuffled()) { recommendedVideo in
-                            VideoCard(video: VideoObject(for: recommendedVideo))
+                    ScrollViewReader { scrollViewProxy in
+                        LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
+                            ForEach(displayedRecommendedVideos) { recommendedVideo in
+                                VideoCard(video: VideoObject(for: recommendedVideo))
+                                    .focused($isFirstVideoFocused, equals: recommendedVideo.id == displayedRecommendedVideos.first?.id)
+                                    .id(recommendedVideo.id)
+                            }
+                            Button(action: {
+                                loadRandomVideos()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                    if let firstVideoId = displayedRecommendedVideos.first?.id {
+                                        scrollViewProxy.scrollTo(firstVideoId, anchor: .leading)
+                                    }
+                                }
+                            }) {
+                                Text("More")
+                                    .foregroundColor(.blue)
+                                    .padding(.vertical, 10)
+                                    .padding(.horizontal, 20)
+                                    .background(Color.gray.opacity(0.2))
+                                    .cornerRadius(10)
+                            }
                         }
-                    }.padding(40)
+                        .padding(40)
+                    }
                 }
 
                 Text("Recent History")
@@ -44,5 +66,14 @@ struct SavedVideosView: View {
                 }
             }
         }
+        .onAppear {
+            loadRandomVideos()
+        }
+    }
+
+    private func loadRandomVideos() {
+        let randomBatch = recommendedVideos.shuffled().prefix(10)
+        displayedRecommendedVideos = Array(randomBatch)
+        isFirstVideoFocused = true
     }
 }
