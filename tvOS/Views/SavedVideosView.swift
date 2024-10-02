@@ -36,11 +36,6 @@ struct SavedVideosView: View {
                             }
                             Button(action: {
                                 loadRandomVideos()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    if let firstVideoId = displayedRecommendedVideos.first?.id {
-                                        scrollViewProxy.scrollTo(firstVideoId, anchor: .leading)
-                                    }
-                                }
                             }) {
                                 Text("More")
                                     .foregroundColor(.blue)
@@ -51,6 +46,11 @@ struct SavedVideosView: View {
                             }
                         }
                         .padding(40)
+                        .onChange(of: displayedRecommendedVideos) {
+                            if let firstVideoId = displayedRecommendedVideos.first?.id {
+                                scrollViewProxy.scrollTo(firstVideoId, anchor: .leading)
+                            }
+                        }
                     }
                 }
 
