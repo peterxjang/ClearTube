@@ -37,24 +37,20 @@ struct RecommendedView: View {
     var body: some View {
         Text("Recommended")
             .font(.subheadline)
-            .padding(.top, 50)
+            .padding(.top, 20)
         ScrollView(.horizontal) {
             ScrollViewReader { scrollViewProxy in
                 LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                     ForEach(displayedRecommendedVideos) { recommendedVideo in
                         VideoCard(video: VideoObject(for: recommendedVideo))
                     }
-                    Button(action: {
+                    Button {
                         loadRandomVideos()
                         reloaded = true
-                    }) {
+                    } label: {
                         Text("More")
-                            .foregroundColor(.blue)
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
                     }
+                    .frame(width: 250, height: 500 / 1.8)
                 }
                 .padding(40)
                 .onChange(of: displayedRecommendedVideos) {
@@ -81,7 +77,7 @@ struct HistoryView: View {
     var body: some View {
         Text("Recent History")
             .font(.subheadline)
-            .padding(.top, 50)
+            .padding(.top, 20)
         ScrollView(.horizontal) {
             LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                 ForEach(historyVideos.reversed()) { historyVideo in
