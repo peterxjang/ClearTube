@@ -234,8 +234,8 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 player.removeTimeObserver(timeObserverToken)
             }
             timeObserverToken = nil
-            parent.saveVideoToHistory(video: video, watchedSeconds: watchedSeconds)
             parent.saveRecommendedVideos(video: video)
+            parent.saveVideoToHistory(video: video, watchedSeconds: watchedSeconds)
         }
     }
 
@@ -308,6 +308,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     private func saveRecommendedVideos(video: VideoObject) {
         guard saveRecommendations else { return }
         guard let currentRecommendedVideos = video.recommendedVideos else { return }
+        guard !historyVideos.contains(where: { $0.videoId == video.videoId }) else { return }
         let context = databaseContext
         if let existingRecommendedVideo = recommendedVideos.first(where: { $0.videoId == video.videoId }) {
             context.delete(existingRecommendedVideo)
