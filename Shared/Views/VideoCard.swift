@@ -4,6 +4,7 @@ import SwiftData
 struct VideoCard: View {
     var video: VideoObject
     var width: CGFloat = 500.0
+    var saveRecommendations: Bool = false
     @State private var showPlayer = false
 
     var body: some View {
@@ -22,7 +23,7 @@ struct VideoCard: View {
             .fullScreenCover(isPresented: $showPlayer) {
                 showPlayer = false
             } content: {
-                VideoPlayer(video: video)
+                VideoPlayer(video: video, saveRecommendations: saveRecommendations)
             }
             #if os(tvOS)
             .buttonStyle(.card)

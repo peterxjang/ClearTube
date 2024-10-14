@@ -22,7 +22,7 @@ struct WatchLaterView: View {
         ScrollView(.horizontal) {
             LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                 ForEach(watchLaterVideos.reversed()) { watchLaterVideo in
-                    VideoCard(video: VideoObject(for: watchLaterVideo))
+                    VideoCard(video: VideoObject(for: watchLaterVideo), saveRecommendations: true)
                 }
             }.padding(40)
         }
@@ -42,7 +42,7 @@ struct RecommendedView: View {
             ScrollViewReader { scrollViewProxy in
                 LazyHGrid(rows: [.init(.flexible())], alignment: .top, spacing: 70.0) {
                     ForEach(displayedRecommendedVideos) { recommendedVideo in
-                        VideoCard(video: VideoObject(for: recommendedVideo))
+                        VideoCard(video: VideoObject(for: recommendedVideo), saveRecommendations: true)
                     }
                     Button {
                         loadRandomVideos()

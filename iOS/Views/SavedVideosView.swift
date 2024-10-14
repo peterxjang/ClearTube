@@ -23,7 +23,8 @@ struct SavedVideosView: View {
                             ForEach(watchLaterVideos.reversed()) { watchLaterVideo in
                                 VideoCard(
                                     video: VideoObject(for: watchLaterVideo),
-                                    width: width
+                                    width: width,
+                                    saveRecommendations: true
                                 )
                             }
                         }.padding(spacing)
@@ -37,7 +38,8 @@ struct SavedVideosView: View {
                             ForEach(recommendedVideos.shuffled()) { recommendedVideo in
                                 VideoCard(
                                     video: VideoObject(for: recommendedVideo),
-                                    width: width
+                                    width: width,
+                                    saveRecommendations: true
                                 )
                             }
                         }.padding(spacing)

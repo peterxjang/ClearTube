@@ -10,6 +10,7 @@ enum VideoPlaybackError: LocalizedError {
 
 struct VideoPlayer: View {
     var video: VideoObject
+    var saveRecommendations: Bool = false
     @State var currentVideo: VideoObject? = nil
     @State var isLoading: Bool = true
     @State var player: AVPlayer? = nil
@@ -42,7 +43,8 @@ struct VideoPlayer: View {
                 VideoPlayerView(
                     video: currentVideo,
                     player: player,
-                    skippableSegments: skippableSegments
+                    skippableSegments: skippableSegments,
+                    saveRecommendations: saveRecommendations
                 )
                     .ignoresSafeArea()
                     .onDisappear {
@@ -118,6 +120,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     var video: VideoObject
     var player: AVPlayer
     var skippableSegments: [[Float]]
+    var saveRecommendations: Bool = false
     @Environment(\.modelContext) private var databaseContext
     @Environment(\.presentationMode) var presentationMode
     @Query var historyVideos: [HistoryVideo]
@@ -303,6 +306,9 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     }
 
     private func saveRecommendedVideos(video: VideoObject) {
+        if !saveRecommendations {
+            return
+        }
         guard let currentRecommendedVideos = video.recommendedVideos else { return }
         let context = databaseContext
         for recommendedVideo in currentRecommendedVideos.prefix(5) {

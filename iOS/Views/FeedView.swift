@@ -38,7 +38,7 @@ struct FeedView: View {
                             .padding(.trailing, 20)
                             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                                 ForEach(videos, id: \.videoId) { video in
-                                    VideoCard(video: video, width: width)
+                                    VideoCard(video: video, width: width, saveRecommendations: true)
                                 }
                             }
                         }
