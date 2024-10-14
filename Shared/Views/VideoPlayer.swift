@@ -306,20 +306,28 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     }
 
     private func saveRecommendedVideos(video: VideoObject) {
-        if !saveRecommendations {
-            return
-        }
+        guard saveRecommendations else { return }
         guard let currentRecommendedVideos = video.recommendedVideos else { return }
         let context = databaseContext
-        for recommendedVideo in currentRecommendedVideos.prefix(5) {
-            if recommendedVideos.first(where: { $0.videoId == recommendedVideo.videoId }) == nil {
+        if let existingRecommendedVideo = recommendedVideos.first(where: { $0.videoId == video.videoId }) {
+            context.delete(existingRecommendedVideo)
+        }
+        var numInserted = 0
+        for recommendedVideo in currentRecommendedVideos {
+            let isInRecommendations = recommendedVideos.contains(where: { $0.videoId == recommendedVideo.videoId })
+            let isInHistory = historyVideos.contains(where: { $0.videoId == recommendedVideo.videoId })
+            if !isInRecommendations && !isInHistory {
                 let item = RecommendedVideo(recommendedVideo: recommendedVideo)
                 context.insert(item)
                 do {
                     try context.save()
+                    numInserted += 1
                 } catch {
                     print("Failed to save recommended video: \(error)")
                 }
+            }
+            if numInserted >= 5 {
+                break
             }
         }
 
