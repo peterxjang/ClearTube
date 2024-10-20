@@ -32,7 +32,6 @@ struct WatchLaterView: View {
 struct RecommendedView: View {
     @Query var recommendedVideos: [RecommendedVideo]
     @State private var displayedRecommendedVideos: [RecommendedVideo] = []
-    @State var reloaded: Bool = false
     
     var body: some View {
         Text("Recommended")
@@ -44,17 +43,10 @@ struct RecommendedView: View {
                     ForEach(displayedRecommendedVideos) { recommendedVideo in
                         VideoCard(video: VideoObject(for: recommendedVideo), saveRecommendations: true)
                     }
-                    Button {
-                        loadRandomVideos()
-                        reloaded = true
-                    } label: {
-                        Text("More")
-                    }
-                    .frame(width: 250, height: 500 / 1.8)
                 }
                 .padding(40)
                 .onChange(of: displayedRecommendedVideos) {
-                    if let firstVideoId = displayedRecommendedVideos.first?.id, reloaded {
+                    if let firstVideoId = displayedRecommendedVideos.first?.id {
                         scrollViewProxy.scrollTo(firstVideoId, anchor: .leading)
                     }
                 }
@@ -66,7 +58,7 @@ struct RecommendedView: View {
     }
 
     private func loadRandomVideos() {
-        let randomBatch = recommendedVideos.shuffled().prefix(10)
+        let randomBatch = recommendedVideos.shuffled()
         displayedRecommendedVideos = Array(randomBatch)
     }
 }
