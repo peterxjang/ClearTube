@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 enum ChannelCategory {
     case videos
@@ -16,6 +17,7 @@ struct ChannelView: View {
     @State var channelShorts: [VideoObject]?
     @State var channelStreams: [VideoObject]?
     @State var channelPlaylists: [PlaylistObject]?
+    @Query var followedChannels: [FollowedChannel]
 
     var body: some View {
         GeometryReader { geometry in
@@ -27,11 +29,12 @@ struct ChannelView: View {
 
             ScrollView {
                 if let channel = channel {
+                    let saveRecommendations = followedChannels.contains(where: { $0.authorId == channel.authorId })
                     ChannelHeaderView(channel: channel, selection: $selection)
                         .padding(.bottom, 100)
                     switch selection {
                     case ChannelCategory.videos:
-                        ChannelVideosView(videos: channelVideos, columns: columns, spacing: spacing, width: width)
+                        ChannelVideosView(videos: channelVideos, columns: columns, spacing: spacing, width: width, saveRecommendations: saveRecommendations)
                             .onAppear {
                                 if channelVideos == nil {
                                     Task {
@@ -40,7 +43,7 @@ struct ChannelView: View {
                                 }
                             }
                     case ChannelCategory.shorts:
-                        ChannelVideosView(videos: channelShorts, columns: columns, spacing: spacing, width: width)
+                        ChannelVideosView(videos: channelShorts, columns: columns, spacing: spacing, width: width, saveRecommendations: saveRecommendations)
                             .onAppear {
                                 if channelShorts == nil {
                                     Task {
@@ -49,7 +52,7 @@ struct ChannelView: View {
                                 }
                             }
                     case ChannelCategory.streams:
-                        ChannelVideosView(videos: channelStreams, columns: columns, spacing: spacing, width: width)
+                        ChannelVideosView(videos: channelStreams, columns: columns, spacing: spacing, width: width, saveRecommendations: saveRecommendations)
                             .onAppear {
                                 if channelStreams == nil {
                                     Task {
@@ -58,7 +61,7 @@ struct ChannelView: View {
                                 }
                             }
                     case ChannelCategory.playlists:
-                        ChannelPlaylistsView(playlists: channelPlaylists, columns: columns, spacing: spacing, width: width)
+                        ChannelPlaylistsView(playlists: channelPlaylists, columns: columns, spacing: spacing, width: width, saveRecommendations: saveRecommendations)
                             .onAppear {
                                 if channelPlaylists == nil {
                                     Task {
@@ -170,6 +173,7 @@ struct ChannelVideosView: View {
     var columns: Int
     var spacing: CGFloat
     var width: CGFloat
+    var saveRecommendations: Bool = false
 
     var body: some View {
         if let videos = videos {
@@ -178,7 +182,7 @@ struct ChannelVideosView: View {
             } else {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                     ForEach(videos, id: \.videoId) { video in
-                        VideoCard(video: video, width: width)
+                        VideoCard(video: video, width: width, saveRecommendations: saveRecommendations)
                     }
                 }
             }
@@ -193,6 +197,7 @@ struct ChannelPlaylistsView: View {
     var columns: Int
     var spacing: CGFloat
     var width: CGFloat
+    var saveRecommendations: Bool = false
 
     var body: some View {
         if let playlists = playlists {
@@ -202,7 +207,8 @@ struct ChannelPlaylistsView: View {
                 LazyVStack {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                         ForEach(playlists, id: \.playlistId) { playlist in
-                            PlaylistItemCard(playlist: playlist, width: width).padding()
+                            PlaylistItemCard(playlist: playlist, width: width, saveRecommendations: saveRecommendations)
+                                .padding()
                         }
                     }
                 }.padding()

@@ -30,6 +30,7 @@ class PlaylistViewModel {
 
 struct PlaylistView: View {
     var model: PlaylistViewModel
+    var saveRecommendations: Bool = false
 
     var body: some View {
         GeometryReader { geometry in
@@ -42,7 +43,7 @@ struct PlaylistView: View {
             ScrollView {
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: spacing), count: columns), spacing: spacing) {
                     ForEach(model.videos, id: \.videoId) { video in
-                        VideoCard(video: video, width: width)
+                        VideoCard(video: video, width: width, saveRecommendations: saveRecommendations)
                     }
                 }.padding(spacing)
             }

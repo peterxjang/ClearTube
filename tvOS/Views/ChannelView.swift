@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 enum ChannelCategory {
     case videos
@@ -16,15 +17,17 @@ struct ChannelView: View {
     @State var channelShorts: [VideoObject]?
     @State var channelStreams: [VideoObject]?
     @State var channelPlaylists: [PlaylistObject]?
+    @Query var followedChannels: [FollowedChannel]
 
     var body: some View {
         ScrollView {
             if let channel = channel {
+                let saveRecommendations = followedChannels.contains(where: { $0.authorId == channel.authorId })
                 ChannelHeaderView(channel: channel, selection: $selection)
                     .padding(.bottom, 100)
                 switch selection {
                 case ChannelCategory.videos:
-                    ChannelVideosView(videos: channelVideos)
+                    ChannelVideosView(videos: channelVideos, saveRecommendations: saveRecommendations)
                         .onAppear {
                             if channelVideos == nil {
                                 Task {
@@ -33,7 +36,7 @@ struct ChannelView: View {
                             }
                         }
                 case ChannelCategory.shorts:
-                    ChannelVideosView(videos: channelShorts)
+                    ChannelVideosView(videos: channelShorts, saveRecommendations: saveRecommendations)
                         .onAppear {
                             if channelShorts == nil {
                                 Task {
@@ -42,7 +45,7 @@ struct ChannelView: View {
                             }
                         }
                 case ChannelCategory.streams:
-                    ChannelVideosView(videos: channelStreams)
+                    ChannelVideosView(videos: channelStreams, saveRecommendations: saveRecommendations)
                         .onAppear {
                             if channelStreams == nil {
                                 Task {
@@ -51,7 +54,7 @@ struct ChannelView: View {
                             }
                         }
                 case ChannelCategory.playlists:
-                    ChannelPlaylistsView(playlists: channelPlaylists)
+                    ChannelPlaylistsView(playlists: channelPlaylists, saveRecommendations: saveRecommendations)
                         .onAppear {
                             if channelPlaylists == nil {
                                 Task {
@@ -162,6 +165,7 @@ struct ChannelHeaderView: View {
 
 struct ChannelVideosView: View {
     var videos: [VideoObject]?
+    var saveRecommendations: Bool = false
 
     var body: some View {
         if let videos = videos {
@@ -170,7 +174,7 @@ struct ChannelVideosView: View {
             } else {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
                     ForEach(videos, id: \.videoId) { video in
-                        VideoCard(video: video)
+                        VideoCard(video: video, saveRecommendations: saveRecommendations)
                     }
                 }
             }
@@ -182,6 +186,7 @@ struct ChannelVideosView: View {
 
 struct ChannelPlaylistsView: View {
     var playlists: [PlaylistObject]?
+    var saveRecommendations: Bool = false
 
     var body: some View {
         if let playlists = playlists {
@@ -191,7 +196,8 @@ struct ChannelPlaylistsView: View {
                 LazyVStack {
                     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
                         ForEach(playlists, id: \.playlistId) { playlist in
-                            PlaylistItemCard(playlist: playlist).padding()
+                            PlaylistItemCard(playlist: playlist, saveRecommendations: saveRecommendations)
+                                .padding()
                         }
                     }
                 }.padding()

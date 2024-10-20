@@ -3,6 +3,7 @@ import SwiftUI
 struct PlaylistItemCard: View {
     var playlist: PlaylistObject
     var width: CGFloat = 500.0
+    var saveRecommendations: Bool = false
 
     var body: some View {
         let height = width / 1.8
@@ -10,7 +11,8 @@ struct PlaylistItemCard: View {
         VStack(alignment: .leading) {
             NavigationLink(
                 destination: PlaylistView(
-                    model: PlaylistViewModel(playlistId: playlist.playlistId)
+                    model: PlaylistViewModel(playlistId: playlist.playlistId),
+                    saveRecommendations: saveRecommendations
                 )
             ) {
                 ZStack {

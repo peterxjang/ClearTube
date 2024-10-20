@@ -30,12 +30,13 @@ class PlaylistViewModel {
 
 struct PlaylistView: View {
     var model: PlaylistViewModel
+    var saveRecommendations: Bool = false
 
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 50) {
                 ForEach(model.videos, id: \.videoId) { video in
-                    VideoCard(video: video)
+                    VideoCard(video: video, saveRecommendations: saveRecommendations)
                     .padding(30)
                 }
             }.padding(50)
