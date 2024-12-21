@@ -150,6 +150,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 player.rate = 1.0
                 action.image = defaultSpeedImage
             }
+            context.coordinator.lastRate = player.rate
         }
         videoView.transportBarCustomMenuItems = [rateAction]
         #endif
@@ -182,6 +183,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         var video: VideoObject
         private var timeObserverToken: Any?
         private var watchedSeconds: Double = 0.0
+        var lastRate: Float = 1.0
 
         init(_ parent: VideoPlayerView, player: AVPlayer, video: VideoObject) {
             self.parent = parent
@@ -194,6 +196,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 name: .AVPlayerItemDidPlayToEndTime,
                 object: self.player.currentItem
             )
+            player.addObserver(self, forKeyPath: "timeControlStatus", options: [.new, .old], context: nil)
         }
 
         func startTrackingTime(playerViewController: AVPlayerViewController, skippableSegments: [[Float]]) {
@@ -225,6 +228,19 @@ struct VideoPlayerView: UIViewControllerRepresentable {
             }
         }
 
+        override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+            guard keyPath == "timeControlStatus",
+                  let player = object as? AVPlayer,
+                  let newValue = change?[.newKey] as? Int,
+                  let oldValue = change?[.oldKey] as? Int
+            else { return }
+            if newValue != oldValue && player.timeControlStatus == .playing {
+                if player.rate == 1.0 && lastRate > 1.0 {
+                    player.rate = lastRate
+                }
+            }
+        }
+
         @objc func playerDidFinishPlaying() {
             parent.presentationMode.wrappedValue.dismiss()
         }
@@ -234,6 +250,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 player.removeTimeObserver(timeObserverToken)
             }
             timeObserverToken = nil
+            player.removeObserver(self, forKeyPath: "timeControlStatus")
             parent.saveRecommendedVideos(video: video)
             parent.saveVideoToHistory(video: video, watchedSeconds: watchedSeconds)
         }
