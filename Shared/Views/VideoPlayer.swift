@@ -121,6 +121,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
     var player: AVPlayer
     var skippableSegments: [[Float]]
     var saveRecommendations: Bool = false
+    @State private var lastRate: Float = 1.0
     @Environment(\.modelContext) private var databaseContext
     @Environment(\.presentationMode) var presentationMode
     @Query var historyVideos: [HistoryVideo]
@@ -150,7 +151,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 player.rate = 1.0
                 action.image = defaultSpeedImage
             }
-            context.coordinator.lastRate = player.rate
+            lastRate = player.rate
         }
         videoView.transportBarCustomMenuItems = [rateAction]
         #endif
@@ -183,7 +184,6 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         var video: VideoObject
         private var timeObserverToken: Any?
         private var watchedSeconds: Double = 0.0
-        var lastRate: Float = 1.0
 
         init(_ parent: VideoPlayerView, player: AVPlayer, video: VideoObject) {
             self.parent = parent
@@ -235,8 +235,8 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                   let oldValue = change?[.oldKey] as? Int
             else { return }
             if newValue != oldValue && player.timeControlStatus == .playing {
-                if player.rate == 1.0 && lastRate > 1.0 {
-                    player.rate = lastRate
+                if player.rate == 1.0 && parent.lastRate > 1.0 {
+                    player.rate = parent.lastRate
                 }
             }
         }
