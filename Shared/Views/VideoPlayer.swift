@@ -196,7 +196,7 @@ struct VideoPlayerView: UIViewControllerRepresentable {
                 name: .AVPlayerItemDidPlayToEndTime,
                 object: self.player.currentItem
             )
-            player.addObserver(self, forKeyPath: "timeControlStatus", options: [.initial, .new], context: nil)
+            player.addObserver(self, forKeyPath: "timeControlStatus", options: [.new, .old], context: nil)
         }
 
         func startTrackingTime(playerViewController: AVPlayerViewController, skippableSegments: [[Float]]) {
@@ -231,10 +231,13 @@ struct VideoPlayerView: UIViewControllerRepresentable {
         override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
             guard keyPath == "timeControlStatus",
                   let player = object as? AVPlayer,
-                  player.timeControlStatus == .playing
+                  let newValue = change?[.newKey] as? Int,
+                  let oldValue = change?[.oldKey] as? Int
             else { return }
-            if player.rate == 1.0 && parent.lastRate > 1.0 {
-                player.rate = parent.lastRate
+            if newValue != oldValue && player.timeControlStatus == .playing {
+                if player.rate == 1.0 && parent.lastRate > 1.0 {
+                    player.rate = parent.lastRate
+                }
             }
         }
 
