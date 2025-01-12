@@ -1,8 +1,9 @@
 # ClearTube
 
-![Screenshot of ClearTube running on an Apple TV simulator](ClearTube.jpg)
+[![Screenshot of ClearTube running on an Apple TV simulator](ClearTube.jpg)](https://www.youtube.com/watch?v=BLldvm0WObA)
+[Watch demo video](https://www.youtube.com/watch?v=BLldvm0WObA)
 
-ClearTube is a cross-platform video streaming app built for **iOS**, **macOS**, and **tvOS**, designed to search, browse, and play YouTube videos. I never used Swift before starting this project, so I used AI (specifically ChatGPT) heavily to help write the majority of the code. (as well as the majority of this readme, based on this [prompt](https://chatgpt.com/share/6774cabd-cd9c-8013-ac32-c14dc273ef8a))
+ClearTube is a cross-platform video streaming app built for **iOS**, **macOS**, and **tvOS**, designed to search, browse, and play YouTube videos. I never used Swift before starting this project, so I used AI (specifically ChatGPT) heavily to help write the majority of the code (as well as the majority of this readme, based on this [prompt](https://chatgpt.com/share/6774cabd-cd9c-8013-ac32-c14dc273ef8a))
 
 ## 📱 **Platforms Supported**
 
